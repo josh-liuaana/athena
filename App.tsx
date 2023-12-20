@@ -1,6 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native'
 import { initializeApp } from 'firebase/app'
-import Books from './components/Books'
+import Home from './components/Home'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAC4In-oSxGzp738krP-KSOOaXEjvxL0Ls',
@@ -15,19 +14,5 @@ const firebaseConfig = {
 initializeApp(firebaseConfig)
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Home screen</Text>
-      <Books />
-    </View>
-  )
+  return <Home />
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
