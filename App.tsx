@@ -4,7 +4,11 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import Home from './components/Home'
-import Input from './components/Lore'
+import Lore from './components/Lore'
+import Tomes from './components/Tome'
+import People from './components/People'
+import Places from './components/Places'
+import Books from './components/Books'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAC4In-oSxGzp738krP-KSOOaXEjvxL0Ls',
@@ -19,6 +23,8 @@ const firebaseConfig = {
 initializeApp(firebaseConfig)
 
 const Stack = createNativeStackNavigator()
+
+// ! SET UP REDUX FOR FRONT END STATE MANAGEMENT
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -40,9 +46,41 @@ export default function App() {
         />
         <Stack.Screen
           name="Lore"
-          component={Input}
+          component={Lore}
           options={{
             title: 'Lore',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Tomes"
+          component={Tomes}
+          options={{
+            title: 'Tomes',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Books"
+          component={Books}
+          options={{
+            title: 'Books',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="People"
+          component={People}
+          options={{
+            title: 'People',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Places"
+          component={Places}
+          options={{
+            title: 'Places',
             headerShown: false,
           }}
         />
