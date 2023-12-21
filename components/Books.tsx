@@ -1,20 +1,26 @@
-import { Button, StyleSheet, Text, View } from 'react-native'
+import { Text, StyleSheet, View } from 'react-native'
 import { getFirestore, collection, getDocs } from 'firebase/firestore'
+import { useEffect } from 'react'
 
 export default function Books() {
-  async function getBooks() {
-    const db = getFirestore()
-    const booksCol = collection(db, 'books')
-    const bookSnapshot = await getDocs(booksCol)
-    const bookList = []
+  useEffect(() => {
+    async function getDb() {
+      const db = getFirestore()
+      const booksCol = collection(db, 'books')
+      const booksSnapshot = await getDocs(booksCol)
+      const booksList = []
 
-    bookSnapshot.docs.map((doc) => bookList.push({ ...doc.data(), id: doc.id }))
-    console.log(bookList)
-  }
+      booksSnapshot.docs.map((doc) =>
+        booksList.push({ ...doc.data(), id: doc.id })
+      )
+      console.log(booksList)
+    }
+    getDb()
+  }, [])
 
   return (
     <View style={styles.container}>
-      <Button onPress={getBooks} title="get firebase data" />
+      <Text> BOOKS </Text>
     </View>
   )
 }
