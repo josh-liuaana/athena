@@ -28,3 +28,10 @@ Palette
 
 Font
 - Caveat-Regular
+
+## To-do list of features
+- Implement redux, and separate concerns into API folder / files, reducer and actions files
+  - Setup an intuitive flow when implementing CRUD operations
+- Animate between screen for smoother UI
+- Icons for tomes, add, people, place etc - buttons
+  - react-native-vector-icons
