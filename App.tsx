@@ -1,5 +1,10 @@
 import { initializeApp } from 'firebase/app'
+import { useFonts } from 'expo-font'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+
 import Home from './components/Home'
+import Input from './components/Lore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAC4In-oSxGzp738krP-KSOOaXEjvxL0Ls',
@@ -13,6 +18,35 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig)
 
+const Stack = createNativeStackNavigator()
+
 export default function App() {
-  return <Home />
+  const [fontsLoaded] = useFonts({
+    'Caveat-Regular': require('./assets/fonts/Caveat-Regular.ttf'),
+  })
+
+  if (!fontsLoaded) return null
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            title: 'Home',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Lore"
+          component={Input}
+          options={{
+            title: 'Lore',
+            headerShown: false,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
