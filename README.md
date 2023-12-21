@@ -1,36 +1,30 @@
-# TypeScript Example
+# Athena 
 
-<p>
-  <!-- iOS -->
-  <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/iOS-4630EB.svg?style=flat-square&logo=APPLE&labelColor=999999&logoColor=fff" />
-  <!-- Android -->
-  <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-4630EB.svg?style=flat-square&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
-  <!-- Web -->
-  <img alt="Supports Expo Web" longdesc="Supports Expo Web" src="https://img.shields.io/badge/web-4630EB.svg?style=flat-square&logo=GOOGLE-CHROME&labelColor=4285F4&logoColor=fff" />
-</p>
+<img src="./assets/images/logo-color.png" width=150 height=150>
 
-```sh
-npx create-react-native-app -t with-typescript
-```
+## Project Description
 
-TypeScript is a superset of JavaScript which gives you static types and powerful tooling in Visual Studio Code including autocompletion and useful inline warnings for type errors.
+An application for keeping track of people and places in lore heavy novels
 
-## 🚀 How to use
+Do you ever get a little bit confused or overwhelmed when reading fantasy or science fiction and there is a thousand different characters, from hundreds of different species or realms? The goal of this app is provide a one stop shop for managing these relationships. A way to to keep track of who is from where, what they are, or who the are related to.
 
-#### Creating a new project
+Simple input will allow the readers to input information they deem necessary
 
-- Install the CLI: `npm i -g expo-cli`
-- Create a project: `npx create-react-native-app -t with-typescript`
-- `cd` into the project
+The peruse through the tomes of knowledge when some extra information is needed for understanding a certain person or relationship
 
-### Adding TypeScript to existing projects
+## Technologies implemented
 
-- Create a blank TypeScript config: `touch tsconfig.json`
-- Run `yarn start` or `npm run start` to automatically configure TypeScript
-- Rename files to TypeScript, `.tsx` for React components and `.ts` for plain typescript files
+- TypeScript
+- react-native
+- Firebase
+- Expo
 
-> 💡 You can disable the TypeScript setup in Expo CLI with the environment variable `EXPO_NO_TYPESCRIPT_SETUP=1 expo start`
+## Styling features
 
-## 📝 Notes
+Palette
+- Primary: #5a712c
+- Background: #DBE2CC
+- Dark:#171D0B
 
-- [Expo TypeScript guide](https://docs.expo.dev/versions/latest/guides/typescript/)
+Font
+- Caveat-Regular
