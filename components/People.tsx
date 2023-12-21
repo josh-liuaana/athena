@@ -1,8 +1,12 @@
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, TextInput, Alert } from 'react-native'
 import { getFirestore, collection, getDocs } from 'firebase/firestore'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import * as convert from '../models/data-functions'
+import { Person } from '../models/types'
 
 export default function People() {
+  const [people, setPeople] = useState<Person[]>()
+
   useEffect(() => {
     async function getDb() {
       const db = getFirestore()
@@ -13,14 +17,27 @@ export default function People() {
       peopleSnapshot.docs.map((doc) =>
         peopleList.push({ ...doc.data(), id: doc.id })
       )
-      console.log(peopleList)
+      setPeople(peopleList)
     }
     getDb()
   }, [])
 
   return (
     <View style={styles.container}>
-      <Text> PEEPS </Text>
+      <Text style={styles.title}>Characters</Text>
+      <TextInput
+        style={styles.input}
+        // onChangeText={onChangeNumber}
+        // value={number}
+        onSubmitEditing={() => Alert.alert('function to come')}
+        placeholder="Search for character..."
+      />
+      {people &&
+        people.map((person) => (
+          <View key={person.id}>
+            <Text>{convert.capitalise(person.name)}</Text>
+          </View>
+        ))}
     </View>
   )
 }
@@ -31,5 +48,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#DBE2CC',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  input: {
+    margin: 10,
+    width: '50%',
+    borderWidth: 1,
+    padding: 5,
+  },
+  title: {
+    fontFamily: 'Caveat-Regular',
+    fontSize: 70,
   },
 })
