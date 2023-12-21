@@ -1,4 +1,6 @@
-import { StyleSheet, Text, View, Image, Pressable, Alert } from 'react-native'
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
+import { getFirestore, collection, getDocs } from 'firebase/firestore'
+import { useEffect } from 'react'
 
 export default function Home({ navigation }) {
   const handleNavigate = (page) => {
@@ -12,19 +14,31 @@ export default function Home({ navigation }) {
         source={require('../assets/images/logo-no-background.png')}
       />
       <Text style={styles.subtitle}>The one stop lore shop</Text>
+
       <View style={styles.buttonContainer}>
-        <Pressable
-          style={[styles.button, styles.buttonLeft]}
-          onPress={() => handleNavigate('Lore')}
-        >
-          <Text style={styles.buttonText}>New Lore</Text>
-        </Pressable>
-        <Pressable
-          style={[styles.button, styles.buttonRight]}
-          onPress={() => Alert.alert('tome navigation')}
-        >
-          <Text style={styles.buttonText}>Tomes</Text>
-        </Pressable>
+        <View style={styles.topButtonContainer}>
+          <Pressable
+            style={[styles.button, styles.buttonTop]}
+            onPress={() => handleNavigate('Books')}
+          >
+            <Text style={styles.buttonText}>Books</Text>
+          </Pressable>
+        </View>
+        <View style={styles.bottomButtonsContainer}>
+          <Pressable
+            style={[styles.button, styles.buttonLeft]}
+            onPress={() => handleNavigate('Lore')}
+          >
+            <Text style={styles.buttonText}>New Lore</Text>
+          </Pressable>
+
+          <Pressable
+            style={[styles.button, styles.buttonRight]}
+            onPress={() => handleNavigate('Tomes')}
+          >
+            <Text style={styles.buttonText}>Tomes</Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   )
@@ -54,24 +68,35 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    margin: 15,
+    flex: 0.35,
+    width: '80%',
+  },
+  topButtonContainer: {
+    height: '50%',
+  },
+  bottomButtonsContainer: {
+    height: '50%',
     flexDirection: 'row',
   },
   button: {
+    justifyContent: 'center',
     flex: 0.5,
-    textAlign: 'center',
     padding: 15,
     margin: 5,
     backgroundColor: '#5a712c',
     elevation: 4,
     shadowColor: '#171D0B',
   },
-  buttonLeft: {
+
+  buttonTop: {
+    flex: 1,
     borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  buttonLeft: {
     borderBottomLeftRadius: 10,
   },
   buttonRight: {
-    borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
   },
   buttonText: {
