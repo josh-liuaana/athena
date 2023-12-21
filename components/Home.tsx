@@ -21,7 +21,7 @@ export default function Home({ navigation }) {
             style={[styles.button, styles.buttonTop]}
             onPress={() => handleNavigate('Books')}
           >
-            <Text style={styles.buttonText}>Books</Text>
+            <Text style={styles.buttonText}>Library</Text>
           </Pressable>
         </View>
         <View style={styles.bottomButtonsContainer}>
