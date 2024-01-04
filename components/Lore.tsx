@@ -1,15 +1,38 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Pressable, Alert, Image } from 'react-native'
 
 export default function Lore({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text>New lore input</Text>
-      <Pressable
-        style={styles.button}
-        onPress={() => navigation.navigate('AddBook')}
-      >
-        <Text style={styles.buttonText}>Add Book</Text>
-      </Pressable>
+      <Image
+        style={styles.logo}
+        source={require('../assets/images/athena-favicon-color.png')}
+      />
+      <Text style={styles.title}>Add Lore</Text>
+      <View style={styles.buttonContainer}>
+        <View style={styles.topButtonContainer}>
+          <Pressable
+            style={[styles.button, styles.buttonTop]}
+            onPress={() => navigation.navigate('AddBook')}
+          >
+            <Text style={styles.buttonText}>Book</Text>
+          </Pressable>
+        </View>
+        <View style={styles.bottomButtonsContainer}>
+          <Pressable
+            style={[styles.button, styles.buttonLeft]}
+            onPress={() => Alert.alert('Character')}
+          >
+            <Text style={styles.buttonText}>Character</Text>
+          </Pressable>
+
+          <Pressable
+            style={[styles.button, styles.buttonRight]}
+            onPress={() => Alert.alert('Location')}
+          >
+            <Text style={styles.buttonText}>Location</Text>
+          </Pressable>
+        </View>
+      </View>
     </View>
   )
 }
@@ -21,13 +44,49 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  button: {
+  logo: {
+    height: 75,
+    width: 75,
+    margin: 15,
+  },
+  title: {
+    fontFamily: 'Caveat-Regular',
+    fontSize: 70,
+    width: '100%',
     textAlign: 'center',
+  },
+
+  buttonContainer: {
+    flex: 0.35,
+    width: '80%',
+  },
+  topButtonContainer: {
+    height: '50%',
+  },
+  bottomButtonsContainer: {
+    height: '50%',
+    flexDirection: 'row',
+  },
+  button: {
+    justifyContent: 'center',
+    flex: 0.5,
     padding: 15,
     margin: 5,
     backgroundColor: '#5a712c',
     elevation: 4,
     shadowColor: '#171D0B',
+  },
+
+  buttonTop: {
+    flex: 1,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  buttonLeft: {
+    borderBottomLeftRadius: 10,
+  },
+  buttonRight: {
+    borderBottomRightRadius: 10,
   },
   buttonText: {
     textAlign: 'center',
