@@ -1,18 +1,15 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Pressable } from 'react-native'
 
-export default function Lore() {
+export default function Lore({ navigation }) {
   return (
     <View style={styles.container}>
       <Text>New lore input</Text>
-      <View>
-        <Text>FORM INFO TO PLUG IN</Text>
-        <Text>Universe</Text>
-        <Text>Book</Text>
-        <Text>Place/Character</Text>
-        <Text>if char: relationship</Text>
-        <Text>if char: home city</Text>
-        <Text>summary</Text>
-      </View>
+      <Pressable
+        style={styles.button}
+        onPress={() => navigation.navigate('AddBook')}
+      >
+        <Text style={styles.buttonText}>Add Book</Text>
+      </Pressable>
     </View>
   )
 }
@@ -23,5 +20,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#DBE2CC',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  button: {
+    textAlign: 'center',
+    padding: 15,
+    margin: 5,
+    backgroundColor: '#5a712c',
+    elevation: 4,
+    shadowColor: '#171D0B',
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: '#ffffff',
+    fontSize: 40,
+    fontFamily: 'Caveat-Regular',
   },
 })
