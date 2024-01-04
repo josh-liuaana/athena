@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, Pressable, Alert, Image } from 'react-native'
+import Icon from 'react-native-vector-icons/Octicons'
 
 export default function Lore({ navigation }) {
   return (
@@ -14,7 +15,7 @@ export default function Lore({ navigation }) {
             style={[styles.button, styles.buttonTop]}
             onPress={() => navigation.navigate('AddBook')}
           >
-            <Text style={styles.buttonText}>Book</Text>
+            <Icon style={styles.icon} name="book" size={60} />
           </Pressable>
         </View>
         <View style={styles.bottomButtonsContainer}>
@@ -22,14 +23,14 @@ export default function Lore({ navigation }) {
             style={[styles.button, styles.buttonLeft]}
             onPress={() => Alert.alert('Character')}
           >
-            <Text style={styles.buttonText}>Character</Text>
+            <Icon style={styles.icon} name="person" size={60} />
           </Pressable>
 
           <Pressable
             style={[styles.button, styles.buttonRight]}
             onPress={() => Alert.alert('Location')}
           >
-            <Text style={styles.buttonText}>Location</Text>
+            <Icon style={styles.icon} name="location" size={60} />
           </Pressable>
         </View>
       </View>
@@ -93,5 +94,9 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 40,
     fontFamily: 'Caveat-Regular',
+  },
+  icon: {
+    color: '#DBE2CC',
+    textAlign: 'center',
   },
 })
