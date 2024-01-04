@@ -7,10 +7,12 @@ interface Book {
   id: string
   title: string
   author: string
+  isCurrent: boolean
 }
 
 export default function Books() {
   const [books, setBooks] = useState<Book[]>()
+  const [currentBook, setCurrentBook] = useState<Book>()
 
   useEffect(() => {
     async function getDb() {
@@ -18,11 +20,20 @@ export default function Books() {
       const booksCol = collection(db, 'books')
       const booksSnapshot = await getDocs(booksCol)
       const booksList = []
+      const currentBookArr = []
 
-      booksSnapshot.docs.map((doc) =>
+      booksSnapshot.docs.map((doc) => {
+        if (doc.data().isCurrent === 'true') {
+          const current = {
+            ...doc.data(),
+            id: doc.id,
+          }
+          currentBookArr.push(current)
+        }
         booksList.push({ ...doc.data(), id: doc.id })
-      )
+      })
 
+      setCurrentBook(currentBookArr[0])
       setBooks(booksList)
     }
     getDb()
@@ -31,6 +42,10 @@ export default function Books() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Library</Text>
+      <Text>
+        Currently Reading:{' '}
+        {currentBook && convert.capitalise(currentBook.title)}
+      </Text>
       <TextInput
         style={styles.input}
         // onChangeText={onChangeNumber}
