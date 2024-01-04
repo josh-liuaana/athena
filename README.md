@@ -19,6 +19,7 @@ The peruse through the tomes of knowledge when some extra information is needed 
 - Firebase
   - [Create / Update to firebase](https://firebase.google.com/docs/firestore/manage-data/add-data#web-modular-api "Firestore documentation")
 - Expo
+- [Vector Icons](https://oblador.github.io/react-native-vector-icons/)
 
 ## Styling features
 
