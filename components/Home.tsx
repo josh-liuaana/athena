@@ -1,6 +1,4 @@
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
-import { getFirestore, collection, getDocs } from 'firebase/firestore'
-import { useEffect } from 'react'
 
 export default function Home({ navigation }) {
   const handleNavigate = (page) => {
