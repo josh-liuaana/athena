@@ -17,6 +17,7 @@ The peruse through the tomes of knowledge when some extra information is needed 
 - TypeScript
 - react-native
 - Firebase
+  - [Create / Update to firebase](https://firebase.google.com/docs/firestore/manage-data/add-data#web-modular-api "Firestore documentation")
 - Expo
 
 ## Styling features
