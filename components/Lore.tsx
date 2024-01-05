@@ -21,7 +21,7 @@ export default function Lore({ navigation }) {
         <View style={styles.bottomButtonsContainer}>
           <Pressable
             style={[styles.button, styles.buttonLeft]}
-            onPress={() => Alert.alert('Character')}
+            onPress={() => navigation.navigate('AddCharacter')}
           >
             <Icon style={styles.icon} name="person" size={60} />
           </Pressable>
