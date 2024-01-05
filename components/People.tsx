@@ -1,7 +1,6 @@
 import { StyleSheet, View, Text, TextInput, Alert } from 'react-native'
 import { getFirestore, collection, getDocs } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
-import * as convert from '../models/data-functions'
 import { Person } from '../models/types'
 
 export default function People() {
@@ -35,7 +34,7 @@ export default function People() {
       {people &&
         people.map((person) => (
           <View key={person.id}>
-            <Text>{convert.capitalise(person.name)}</Text>
+            <Text>{person.name}</Text>
           </View>
         ))}
     </View>
