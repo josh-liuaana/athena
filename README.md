@@ -12,7 +12,11 @@ Simple input will allow the readers to input information they deem necessary
 
 The peruse through the tomes of knowledge when some extra information is needed for understanding a certain person or relationship
 
-## Technologies implemented
+[Project KanBan](https://github.com/users/josh-liuaana/projects/4)
+
+[Firebase console](https://console.firebase.google.com/project/lore-81319/overview)
+
+## Technologies
 
 - TypeScript
 - react-native
@@ -21,7 +25,7 @@ The peruse through the tomes of knowledge when some extra information is needed 
 - Expo
 - [Vector Icons](https://oblador.github.io/react-native-vector-icons/)
 
-## Styling features
+## Styling
 
 Palette
 - Primary: #5a712c
@@ -30,10 +34,3 @@ Palette
 
 Font
 - Caveat-Regular
-
-## To-do list of features
-- Implement redux, and separate concerns into API folder / files, reducer and actions files
-  - Setup an intuitive flow when implementing CRUD operations
-- Animate between screen for smoother UI
-- Icons for tomes, add, people, place etc - buttons
-  - react-native-vector-icons
