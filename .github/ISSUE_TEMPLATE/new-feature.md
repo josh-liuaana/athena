@@ -1,14 +1,11 @@
 ---
 name: New Feature
 about: New feature for this application/project
-title: New Feature
+title: Feature
 labels: feature
 assignees: ''
 
 ---
-
-**Is the feature related to a problem?**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 
 **Describe the features main purpose**
 A clear and concise description of what you want to happen.
