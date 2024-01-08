@@ -1,5 +1,12 @@
-import { StyleSheet, View, TextInput, Pressable, Text } from 'react-native'
-import { useState } from 'react'
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Pressable,
+  Text,
+  Image,
+} from 'react-native'
+import { useState, useRef } from 'react'
 import { addCharacter } from '../apis/firebase'
 
 export default function AddCharacter({ navigation }) {
@@ -8,29 +15,81 @@ export default function AddCharacter({ navigation }) {
     ethnicity: '',
     name: '',
   })
+  const [focus, setFocus] = useState(null)
+  const citRef = useRef(null)
+  const ethRef = useRef(null)
 
   const submitNewCharacter = async () => {
-    await addCharacter(newCharacter)
+    const res = await addCharacter(newCharacter)
+    console.log(res)
     // TODO include current book and universe into newChar object
     navigation.navigate('People')
     // TODO redirect to individual character page
     // * options here about adding optional characteristics - affiliations, aliases, relationships
   }
 
+  const customOnFocus = (focus) => {
+    setFocus(focus)
+  }
+  const customOnBlur = () => {
+    setFocus(null)
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Add Character</Text>
-      <Text>Adding to (import current book)</Text>
+      <Image
+        style={styles.logo}
+        source={require('../assets/images/athena-favicon-color.png')}
+      />
+      <Text style={styles.title}>Add Character</Text>
+      {/* <Text>Adding to (import current book)</Text> */}
       <TextInput
+        autoCapitalize="words"
+        autoCorrect={false}
+        enterKeyHint="next"
+        onFocus={() => customOnFocus('name')}
+        onBlur={() => customOnBlur()}
+        value={newCharacter.name}
         placeholder="Name..."
+        style={[
+          { backgroundColor: focus === 'name' ? '#DBE2CC' : 'white' },
+          { borderColor: focus === 'name' ? 'white' : '#DBE2CC' },
+          styles.textInput,
+        ]}
         onChangeText={(name) => setNewCharacter({ ...newCharacter, name })}
+        onSubmitEditing={() => citRef.current.focus()}
       />
       <TextInput
+        ref={citRef}
+        autoCapitalize="words"
+        autoCorrect={false}
+        enterKeyHint="next"
+        onFocus={() => customOnFocus('city')}
+        onBlur={() => customOnBlur()}
+        value={newCharacter.city}
         placeholder="Home..."
+        style={[
+          { backgroundColor: focus === 'city' ? '#DBE2CC' : 'white' },
+          { borderColor: focus === 'city' ? 'white' : '#DBE2CC' },
+          styles.textInput,
+        ]}
         onChangeText={(city) => setNewCharacter({ ...newCharacter, city })}
+        onSubmitEditing={() => ethRef.current.focus()}
       />
       <TextInput
+        ref={ethRef}
+        autoCapitalize="words"
+        autoCorrect={false}
+        enterKeyHint="done"
+        onFocus={() => customOnFocus('ethnicity')}
+        onBlur={() => customOnBlur()}
+        value={newCharacter.ethnicity}
         placeholder="Race..."
+        style={[
+          { backgroundColor: focus === 'ethnicity' ? '#DBE2CC' : 'white' },
+          { borderColor: focus === 'ethnicity' ? 'white' : '#DBE2CC' },
+          styles.textInput,
+        ]}
         onChangeText={(ethnicity) =>
           setNewCharacter({ ...newCharacter, ethnicity })
         }
@@ -51,6 +110,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logo: {
+    height: 75,
+    width: 75,
+    margin: 15,
+  },
+  title: {
+    fontFamily: 'Caveat-Regular',
+    fontSize: 70,
+    width: '100%',
+    textAlign: 'center',
+  },
+  textInput: {
+    margin: 5,
+    borderRadius: 7,
+    borderWidth: 2,
+    width: '75%',
+    height: 60,
+    paddingHorizontal: 20,
+    marginVertical: 10,
+    fontSize: 30,
+    fontFamily: 'Caveat-Regular',
+  },
   button: {
     textAlign: 'center',
     padding: 15,
@@ -58,6 +139,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#5a712c',
     elevation: 4,
     shadowColor: '#171D0B',
+    borderRadius: 10,
+    width: '40%',
   },
   buttonText: {
     textAlign: 'center',
