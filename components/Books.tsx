@@ -1,15 +1,7 @@
 import { Text, StyleSheet, View, TextInput, Alert } from 'react-native'
-import { getFirestore, collection, getDocs } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
-import * as convert from '../models/data-functions'
 import { fetchBooks } from '../apis/books'
-
-interface Book {
-  id: string
-  title: string
-  author: string
-  isCurrent: boolean
-}
+import { Book } from '../models/types'
 
 export default function Books() {
   const [books, setBooks] = useState<Book[]>()
@@ -17,11 +9,9 @@ export default function Books() {
 
   useEffect(() => {
     async function getDb() {
-      console.log('fetching books...')
-      const bookList = await fetchBooks()
-      console.log('retrieved')
-      setCurrentBook(bookList.currentBook)
-      setBooks(bookList.booksList)
+      const bookData = await fetchBooks()
+      setCurrentBook(bookData.current)
+      setBooks(bookData.bookList)
     }
     getDb()
   }, [])
@@ -29,14 +19,9 @@ export default function Books() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Library</Text>
-      <Text>
-        Currently Reading:{' '}
-        {currentBook && convert.capitalise(currentBook.title)}
-      </Text>
+      <Text>Currently Reading: {currentBook && currentBook.title}</Text>
       <TextInput
         style={styles.input}
-        // onChangeText={onChangeNumber}
-        // value={number}
         onSubmitEditing={() => Alert.alert('function to come')}
         placeholder="Search for book..."
       />
@@ -44,8 +29,7 @@ export default function Books() {
         books.map((book) => (
           <View key={book.id}>
             <Text>
-              {convert.capitalise(book.title)} -{' '}
-              {convert.capitalise(book.author)}
+              {book.title} - {book.author}
             </Text>
           </View>
         ))}

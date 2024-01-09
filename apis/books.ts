@@ -1,22 +1,32 @@
-import { collection, getDocs, getFirestore } from 'firebase/firestore'
+import { addDoc, collection, getDocs, getFirestore } from 'firebase/firestore'
 
 export async function fetchBooks() {
+  console.log('fetching books...')
   const db = getFirestore()
   const booksCol = collection(db, 'books')
   const booksSnapshot = await getDocs(booksCol)
-  const booksList = []
-  const currentBookArr = []
+  const bookList = []
+  let current
 
   booksSnapshot.docs.map((doc) => {
     if (doc.data().isCurrent === 'true') {
-      const current = {
-        ...doc.data(),
-        id: doc.id,
-      }
-      currentBookArr.push(current)
+      current = { ...doc.data(), id: doc.id }
     }
-    booksList.push({ ...doc.data(), id: doc.id })
+    bookList.push({ ...doc.data(), id: doc.id })
   })
+  console.log('retrieved books')
 
-  return { booksList, currentBook: currentBookArr[0] }
+  return { bookList, current }
+}
+
+export async function postBook(newBookData) {
+  const db = getFirestore()
+  try {
+    console.log('adding book...')
+    const res = await addDoc(collection(db, 'books'), newBookData)
+    console.log('book added:', res.id)
+    return res
+  } catch (err) {
+    throw new Error(err)
+  }
 }
