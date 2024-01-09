@@ -18,3 +18,10 @@ export interface Location {
   universe: string
   world: string
 }
+
+export interface Book {
+  id: string
+  title: string
+  author: string
+  isCurrent: boolean
+}
