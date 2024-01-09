@@ -2,6 +2,7 @@ import { Text, StyleSheet, View, TextInput, Alert } from 'react-native'
 import { getFirestore, collection, getDocs } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import * as convert from '../models/data-functions'
+import { fetchBooks } from '../apis/books'
 
 interface Book {
   id: string
@@ -16,25 +17,11 @@ export default function Books() {
 
   useEffect(() => {
     async function getDb() {
-      const db = getFirestore()
-      const booksCol = collection(db, 'books')
-      const booksSnapshot = await getDocs(booksCol)
-      const booksList = []
-      const currentBookArr = []
-
-      booksSnapshot.docs.map((doc) => {
-        if (doc.data().isCurrent === 'true') {
-          const current = {
-            ...doc.data(),
-            id: doc.id,
-          }
-          currentBookArr.push(current)
-        }
-        booksList.push({ ...doc.data(), id: doc.id })
-      })
-
-      setCurrentBook(currentBookArr[0])
-      setBooks(booksList)
+      console.log('fetching books...')
+      const bookList = await fetchBooks()
+      console.log('retrieved')
+      setCurrentBook(bookList.currentBook)
+      setBooks(bookList.booksList)
     }
     getDb()
   }, [])
