@@ -13,8 +13,9 @@ export async function addCharacter(newCharacterObject) {
     universe: '',
   }
   try {
-    await addDoc(collection(db, 'people'), updatedCharacterObject)
+    const res = await addDoc(collection(db, 'people'), updatedCharacterObject)
     Alert.alert('New character has been added successfully')
+    return res.id
   } catch (err) {
     console.log(err)
   }
