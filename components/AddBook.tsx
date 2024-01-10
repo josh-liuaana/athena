@@ -7,24 +7,16 @@ import {
   Alert,
 } from 'react-native'
 import { useState } from 'react'
-import { addDoc, collection, getFirestore } from 'firebase/firestore'
+import { postBook } from '../apis/books'
+import { Book } from '../models/types'
 
-export default function AddBook() {
-  const [newBookInfo, setNewBookInfo] = useState({
-    title: '',
-    author: '',
-    isCurrent: false,
-  })
+export default function AddBook({ navigation }) {
+  const [newBookInfo, setNewBookInfo] = useState<Partial<Book>>()
 
   const submitNewBook = async () => {
-    const db = getFirestore()
-    console.log(newBookInfo)
-    try {
-      await addDoc(collection(db, 'books'), newBookInfo)
-      Alert.alert('Thanks for adding a new book')
-    } catch (err) {
-      console.log(err)
-    }
+    await postBook(newBookInfo)
+    Alert.alert('Thanks for adding a new book')
+    navigation.navigate('Books')
   }
 
   return (

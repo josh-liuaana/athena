@@ -1,22 +1,15 @@
 import { StyleSheet, View, Text, TextInput, Alert } from 'react-native'
-import { getFirestore, collection, getDocs } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { Person } from '../models/types'
+import { fetchCharacters } from '../apis/characters'
 
 export default function People() {
   const [people, setPeople] = useState<Person[]>()
 
   useEffect(() => {
     async function getDb() {
-      const db = getFirestore()
-      const peopleCol = collection(db, 'people')
-      const peopleSnapshot = await getDocs(peopleCol)
-      const peopleList = []
-
-      peopleSnapshot.docs.map((doc) =>
-        peopleList.push({ ...doc.data(), id: doc.id })
-      )
-      setPeople(peopleList)
+      const characterData = await fetchCharacters()
+      setPeople(characterData)
     }
     getDb()
   }, [])
@@ -26,8 +19,6 @@ export default function People() {
       <Text style={styles.title}>Characters</Text>
       <TextInput
         style={styles.input}
-        // onChangeText={onChangeNumber}
-        // value={number}
         onSubmitEditing={() => Alert.alert('function to come')}
         placeholder="Search for character..."
       />
