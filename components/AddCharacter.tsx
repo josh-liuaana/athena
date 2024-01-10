@@ -5,9 +5,10 @@ import {
   Pressable,
   Text,
   Image,
+  Alert,
 } from 'react-native'
 import { useState, useRef } from 'react'
-import { addCharacter } from '../apis/firebase'
+import { postCharacter } from '../apis/characters'
 
 export default function AddCharacter({ navigation }) {
   const [newCharacter, setNewCharacter] = useState({
@@ -20,12 +21,9 @@ export default function AddCharacter({ navigation }) {
   const ethRef = useRef(null)
 
   const submitNewCharacter = async () => {
-    const res = await addCharacter(newCharacter)
-    console.log(res)
-    // TODO include current book and universe into newChar object
+    await postCharacter(newCharacter)
+    Alert.alert('Thanks for adding a new character')
     navigation.navigate('People')
-    // TODO redirect to individual character page
-    // * options here about adding optional characteristics - affiliations, aliases, relationships
   }
 
   const customOnFocus = (focus) => {
