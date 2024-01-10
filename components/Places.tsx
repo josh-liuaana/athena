@@ -1,23 +1,15 @@
 import { Alert, StyleSheet, Text, TextInput, View } from 'react-native'
-import { getFirestore, collection, getDocs } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
-import * as convert from '../models/data-functions'
 import { Location } from '../models/types'
+import { fetchLocations } from '../apis/locations'
 
 export default function Places() {
   const [location, setLocation] = useState<Location[]>()
 
   useEffect(() => {
     async function getDb() {
-      const db = getFirestore()
-      const placesCol = collection(db, 'places')
-      const placesSnapshot = await getDocs(placesCol)
-      const placesList = []
-
-      placesSnapshot.docs.map((doc) =>
-        placesList.push({ ...doc.data(), id: doc.id })
-      )
-      setLocation(placesList)
+      const locationData = await fetchLocations()
+      setLocation(locationData)
     }
     getDb()
   }, [])
@@ -27,15 +19,13 @@ export default function Places() {
       <Text>Locations</Text>
       <TextInput
         style={styles.input}
-        // onChangeText={onChangeNumber}
-        // value={number}
         onSubmitEditing={() => Alert.alert('function to come')}
         placeholder="Search for location..."
       />
       {location &&
         location.map((location) => (
           <View key={location.id}>
-            <Text>{convert.capitalise(location.location)}</Text>
+            <Text>{location.location}</Text>
           </View>
         ))}
     </View>
