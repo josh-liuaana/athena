@@ -11,6 +11,7 @@ import Places from './components/Places'
 import Books from './components/Books'
 import AddBook from './components/AddBook'
 import AddCharacter from './components/AddCharacter'
+import SingleCharacter from './components/SingleCharacter'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAC4In-oSxGzp738krP-KSOOaXEjvxL0Ls',
@@ -100,6 +101,14 @@ export default function App() {
           component={AddCharacter}
           options={{
             title: 'AddCharacter',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="SingleCharacter"
+          component={SingleCharacter}
+          options={{
+            title: 'SingleCharacter',
             headerShown: false,
           }}
         />
