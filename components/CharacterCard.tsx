@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     fontFamily: 'vibes',
     fontSize: 40,
     color: '#DBE2CC',
+    letterSpacing: 3,
   },
   universe: {
     fontSize: 18,

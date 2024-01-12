@@ -33,13 +33,11 @@ export default function People({ navigation }) {
         <Text style={styles.title}>Characters</Text>
       </View>
       <View style={styles.inputContainer}>
-        <Text>Search</Text>
         <TextInput
           style={styles.input}
           onSubmitEditing={() => Alert.alert('function to come')}
           placeholder="Search for character..."
         />
-        <Text>Filter</Text>
         <TextInput
           style={styles.input}
           onSubmitEditing={() => Alert.alert('function to come')}
@@ -86,7 +84,7 @@ const styles = StyleSheet.create({
   },
 
   inputContainer: {
-    height: '20%',
+    height: '18%',
     width: '60%',
     padding: 10,
   },
@@ -97,7 +95,7 @@ const styles = StyleSheet.create({
   },
 
   scrollContainer: {
-    height: '50%',
+    height: '52%',
     width: '100%',
   },
 })

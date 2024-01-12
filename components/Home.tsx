@@ -11,15 +11,15 @@ export default function Home({ navigation }) {
         style={styles.logo}
         source={require('../assets/images/logo-no-background.png')}
       />
-      <Text style={styles.subtitle}>The one stop lore shop</Text>
+      <Text style={styles.subtitle}>scientia et intellectus</Text>
 
       <View style={styles.buttonContainer}>
         <View style={styles.topButtonContainer}>
           <Pressable
             style={[styles.button, styles.buttonTop]}
-            onPress={() => handleNavigate('Books')}
+            onPress={() => handleNavigate('Tomes')}
           >
-            <Text style={styles.buttonText}>Library</Text>
+            <Text style={styles.buttonText}>Tomes</Text>
           </Pressable>
         </View>
         <View style={styles.bottomButtonsContainer}>
@@ -27,14 +27,14 @@ export default function Home({ navigation }) {
             style={[styles.button, styles.buttonLeft]}
             onPress={() => handleNavigate('Lore')}
           >
-            <Text style={styles.buttonText}>New Lore</Text>
+            <Text style={styles.buttonText}>Add Lore</Text>
           </Pressable>
 
           <Pressable
             style={[styles.button, styles.buttonRight]}
-            onPress={() => handleNavigate('Tomes')}
+            onPress={() => handleNavigate('Books')}
           >
-            <Text style={styles.buttonText}>Tomes</Text>
+            <Text style={styles.buttonText}>Library</Text>
           </Pressable>
         </View>
       </View>
@@ -61,8 +61,10 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 15,
     marginBottom: 15,
-    fontSize: 50,
-    fontFamily: 'Caveat-Regular',
+    fontSize: 60,
+    fontFamily: 'vibes',
+    letterSpacing: 3,
+    color: '#5a712c',
   },
 
   buttonContainer: {
