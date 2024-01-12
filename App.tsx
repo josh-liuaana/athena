@@ -11,6 +11,7 @@ import Places from './components/Places'
 import Books from './components/Books'
 import AddBook from './components/AddBook'
 import AddCharacter from './components/AddCharacter'
+import SingleCharacter from './components/SingleCharacter'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAC4In-oSxGzp738krP-KSOOaXEjvxL0Ls',
@@ -31,6 +32,7 @@ const Stack = createNativeStackNavigator()
 export default function App() {
   const [fontsLoaded] = useFonts({
     'Caveat-Regular': require('./assets/fonts/Caveat-Regular.ttf'),
+    vibes: require('./assets/fonts/GreatVibes-Regular.ttf'),
   })
 
   if (!fontsLoaded) return null
@@ -99,6 +101,14 @@ export default function App() {
           component={AddCharacter}
           options={{
             title: 'AddCharacter',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="SingleCharacter"
+          component={SingleCharacter}
+          options={{
+            title: 'SingleCharacter',
             headerShown: false,
           }}
         />

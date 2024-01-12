@@ -1,13 +1,14 @@
 import { View, Text, StyleSheet, Pressable, Alert } from 'react-native'
 
-export default function CharacterCard({ characterInfo }) {
+export default function CharacterCard({ navigation, characterInfo }) {
+  const handleNavigation = () => {
+    navigation.navigate('SingleCharacter', { characterInfo })
+  }
+
   const { name, id, universe } = characterInfo
   return (
     <View style={styles.container}>
-      <Pressable
-        style={styles.button}
-        onPress={() => Alert.alert(`Navigate to ${name} at id: ${id}`)}
-      >
+      <Pressable style={styles.button} onPress={() => handleNavigation()}>
         <Text style={styles.characterName}>{name}</Text>
         <Text style={styles.universe}>{universe}</Text>
       </Pressable>
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   characterName: {
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'vibes',
     fontSize: 40,
     color: '#DBE2CC',
   },

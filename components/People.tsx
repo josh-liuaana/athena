@@ -12,7 +12,7 @@ import { Person } from '../models/types'
 import { fetchCharacters } from '../apis/characters'
 import CharacterCard from './CharacterCard'
 
-export default function People() {
+export default function People({ navigation }) {
   const [people, setPeople] = useState<Person[]>()
 
   useEffect(() => {
@@ -49,7 +49,11 @@ export default function People() {
       <ScrollView style={styles.scrollContainer}>
         {people &&
           people.map((person) => (
-            <CharacterCard key={person.id} characterInfo={person} />
+            <CharacterCard
+              key={person.id}
+              characterInfo={person}
+              navigation={navigation}
+            />
           ))}
       </ScrollView>
     </View>
@@ -76,8 +80,9 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   title: {
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'vibes',
     fontSize: 70,
+    letterSpacing: 5,
   },
 
   inputContainer: {
