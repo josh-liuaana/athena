@@ -32,5 +32,6 @@ Palette
 - Background: #DBE2CC
 - Dark:#171D0B
 
-Font
+Fonts
 - Caveat-Regular
+- GreatVibes-Regular

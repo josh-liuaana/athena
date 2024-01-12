@@ -31,6 +31,7 @@ const Stack = createNativeStackNavigator()
 export default function App() {
   const [fontsLoaded] = useFonts({
     'Caveat-Regular': require('./assets/fonts/Caveat-Regular.ttf'),
+    vibes: require('./assets/fonts/GreatVibes-Regular.ttf'),
   })
 
   if (!fontsLoaded) return null
