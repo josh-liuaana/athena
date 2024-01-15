@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Pressable, Alert } from 'react-native'
 
 export default function SingleCharacter({ route }) {
   const { characterInfo } = route.params
@@ -18,6 +18,45 @@ export default function SingleCharacter({ route }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{name}</Text>
+      <View>
+        <Pressable
+          style={styles.editButton}
+          onPress={() =>
+            Alert.alert(
+              'Update form triggered',
+              'Functionality will be to navigate to an update form',
+              [{ text: 'Cancel' }],
+              { cancelable: true }
+            )
+          }
+        >
+          <Text>Edit {name}</Text>
+        </Pressable>
+        <Pressable
+          style={styles.deleteButton}
+          onPress={() =>
+            Alert.alert(
+              `Are you sure you want to delete ${name}?`,
+              'This is permanent and cannot be reversed',
+              [
+                {
+                  text: 'Delete',
+                  onPress: () => Alert.alert(`Bye bye ${name}`),
+                },
+                {
+                  text: 'Cancel',
+                  onPress: () => Alert.alert('Phew, close call'),
+                },
+              ],
+              {
+                cancelable: true,
+              }
+            )
+          }
+        >
+          <Text>Delete {name}</Text>
+        </Pressable>
+      </View>
       <View style={styles.categoryContainer}>
         <Text style={styles.category}>Books:</Text>
         <Text style={styles.information}>{books.join(', ')}</Text>
@@ -61,20 +100,48 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontFamily: 'Caveat-Regular',
-    fontSize: 50,
+    fontFamily: 'vibes',
+    fontSize: 70,
+
+    // borderWidth: 1,
+    // borderColor: 'black',
+  },
+  editButton: {
+    backgroundColor: 'white',
+    paddingVertical: 15,
+    paddingHorizontal: 25,
+    borderWidth: 1,
+    borderColor: 'black',
+  },
+  deleteButton: {
+    backgroundColor: '#d11a2a',
+    paddingVertical: 15,
+    paddingHorizontal: 25,
+    borderWidth: 1,
+    borderColor: 'black',
   },
   categoryContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: 'column',
+    padding: 4,
+
+    // borderWidth: 1,
+    // borderColor: 'red',
   },
   category: {
     fontFamily: 'Caveat-Regular',
     fontSize: 25,
+    textAlign: 'center',
+
+    // borderWidth: 1,
+    // borderColor: 'green',
   },
   information: {
     fontFamily: 'sans-serif',
     fontSize: 15,
+    textAlign: 'center',
+    color: '#5a712c',
+
+    // borderWidth: 1,
+    // borderColor: 'blue',
   },
 })
