@@ -1,6 +1,9 @@
-import { View, Text, StyleSheet, Pressable, Alert } from 'react-native'
+import { useState } from 'react'
+import { View, Text, StyleSheet, Pressable } from 'react-native'
+import EditCharacter from './EditCharacter'
 
 export default function SingleCharacter({ route }) {
+  const [showCharacter, setShowCharacter] = useState(true)
   const { characterInfo } = route.params
   const {
     affiliations,
@@ -18,77 +21,69 @@ export default function SingleCharacter({ route }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{name}</Text>
-      <View>
+
+      {showCharacter ? (
+        <View>
+          {books.join() !== '' && (
+            <View style={styles.categoryContainer}>
+              <Text style={styles.category}>Books:</Text>
+              <Text style={styles.information}>{books.join(', ')}</Text>
+            </View>
+          )}
+          {city !== '' && (
+            <View style={styles.categoryContainer}>
+              <Text style={styles.category}>City:</Text>
+              <Text style={styles.information}>{city}</Text>
+            </View>
+          )}
+          {ethnicity !== '' && (
+            <View style={styles.categoryContainer}>
+              <Text style={styles.category}>Race:</Text>
+              <Text style={styles.information}>{ethnicity}</Text>
+            </View>
+          )}
+          {universe !== '' && (
+            <View style={styles.categoryContainer}>
+              <Text style={styles.category}>Universe:</Text>
+              <Text style={styles.information}>{universe}</Text>
+            </View>
+          )}
+          {aliases.join() !== '' && (
+            <View style={styles.categoryContainer}>
+              <Text style={styles.category}>Aliases:</Text>
+              <Text style={styles.information}>{aliases.join(', ')}</Text>
+            </View>
+          )}
+          {affiliations.join() !== '' && (
+            <View style={styles.categoryContainer}>
+              <Text style={styles.category}>Affiliations:</Text>
+              <Text style={styles.information}>{affiliations.join(', ')}</Text>
+            </View>
+          )}
+          {relationshipType.length !== 0 && (
+            <View>
+              <Text style={styles.category}>Relationships:</Text>
+              {relationshipType.map((relationship, idx) => (
+                <View style={styles.categoryContainer} key={idx}>
+                  <Text style={styles.information}>
+                    {relationship}: {relationships[relationship]}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+      ) : (
+        <EditCharacter />
+      )}
+      <View style={styles.updatesContainer}>
         <Pressable
           style={styles.editButton}
-          onPress={() =>
-            Alert.alert(
-              'Update form triggered',
-              'Functionality will be to navigate to an update form',
-              [{ text: 'Cancel' }],
-              { cancelable: true }
-            )
-          }
+          onPress={() => setShowCharacter(!showCharacter)}
         >
-          <Text>Edit {name}</Text>
-        </Pressable>
-        <Pressable
-          style={styles.deleteButton}
-          onPress={() =>
-            Alert.alert(
-              `Are you sure you want to delete ${name}?`,
-              'This is permanent and cannot be reversed',
-              [
-                {
-                  text: 'Delete',
-                  onPress: () => Alert.alert(`Bye bye ${name}`),
-                },
-                {
-                  text: 'Cancel',
-                  onPress: () => Alert.alert('Phew, close call'),
-                },
-              ],
-              {
-                cancelable: true,
-              }
-            )
-          }
-        >
-          <Text>Delete {name}</Text>
+          <Text>{showCharacter ? 'Update' : 'Back to lore'}</Text>
         </Pressable>
       </View>
-      <View style={styles.categoryContainer}>
-        <Text style={styles.category}>Books:</Text>
-        <Text style={styles.information}>{books.join(', ')}</Text>
-      </View>
-      <View style={styles.categoryContainer}>
-        <Text style={styles.category}>City:</Text>
-        <Text style={styles.information}>{city}</Text>
-      </View>
-      <View style={styles.categoryContainer}>
-        <Text style={styles.category}>Race:</Text>
-        <Text style={styles.information}>{ethnicity}</Text>
-      </View>
-      <View style={styles.categoryContainer}>
-        <Text style={styles.category}>Universe:</Text>
-        <Text style={styles.information}>{universe}</Text>
-      </View>
-      <View style={styles.categoryContainer}>
-        <Text style={styles.category}>Aliases:</Text>
-        <Text style={styles.information}>{aliases.join(', ')}</Text>
-      </View>
-      <View style={styles.categoryContainer}>
-        <Text style={styles.category}>Affiliations:</Text>
-        <Text style={styles.information}>{affiliations.join(', ')}</Text>
-      </View>
-      <Text style={styles.category}>Relationships:</Text>
-      {relationshipType.map((relationship, idx) => (
-        <View style={styles.categoryContainer} key={idx}>
-          <Text style={styles.information}>
-            {relationship}: {relationships[relationship]}
-          </Text>
-        </View>
-      ))}
     </View>
   )
 }
@@ -98,20 +93,25 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#dbe2cc',
   },
   title: {
     fontFamily: 'vibes',
     fontSize: 70,
-
-    // borderWidth: 1,
-    // borderColor: 'black',
+  },
+  updatesContainer: {
+    flexDirection: 'row',
+    marginTop: 10,
   },
   editButton: {
-    backgroundColor: 'white',
+    backgroundColor: '#dbe2cc',
     paddingVertical: 15,
     paddingHorizontal: 25,
-    borderWidth: 1,
+    borderWidth: 0.5,
+    borderRadius: 10,
     borderColor: 'black',
+    elevation: 4,
+    shadowColor: '#171D0B',
   },
   deleteButton: {
     backgroundColor: '#d11a2a',
@@ -123,25 +123,16 @@ const styles = StyleSheet.create({
   categoryContainer: {
     flexDirection: 'column',
     padding: 4,
-
-    // borderWidth: 1,
-    // borderColor: 'red',
   },
   category: {
     fontFamily: 'Caveat-Regular',
-    fontSize: 25,
+    fontSize: 35,
     textAlign: 'center',
-
-    // borderWidth: 1,
-    // borderColor: 'green',
   },
   information: {
     fontFamily: 'sans-serif',
-    fontSize: 15,
+    fontSize: 20,
     textAlign: 'center',
     color: '#5a712c',
-
-    // borderWidth: 1,
-    // borderColor: 'blue',
   },
 })
