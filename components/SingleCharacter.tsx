@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { View, Text, StyleSheet, Pressable } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import EditCharacter from './EditCharacter'
 
 export default function SingleCharacter({ route }) {
@@ -78,7 +79,7 @@ export default function SingleCharacter({ route }) {
           )}
           <View style={styles.updatesContainer}>
             <Pressable style={styles.editButton} onPress={togglePage}>
-              <Text>Update</Text>
+              <Icon name="account-edit" style={styles.icon} />
             </Pressable>
           </View>
         </View>
@@ -100,19 +101,19 @@ const styles = StyleSheet.create({
     fontFamily: 'vibes',
     fontSize: 70,
   },
+
   updatesContainer: {
     flexDirection: 'row',
     marginTop: 10,
+    justifyContent: 'center',
   },
   editButton: {
-    backgroundColor: '#dbe2cc',
     paddingVertical: 15,
     paddingHorizontal: 25,
-    borderWidth: 0.5,
-    borderRadius: 10,
-    borderColor: 'black',
-    elevation: 4,
-    shadowColor: '#171D0B',
+  },
+  icon: {
+    color: '#5a712c',
+    fontSize: 30,
   },
   deleteButton: {
     backgroundColor: '#d11a2a',
@@ -127,12 +128,12 @@ const styles = StyleSheet.create({
   },
   category: {
     fontFamily: 'Caveat-Regular',
-    fontSize: 35,
+    fontSize: 40,
     textAlign: 'center',
   },
   information: {
     fontFamily: 'sans-serif',
-    fontSize: 20,
+    fontSize: 25,
     textAlign: 'center',
     color: '#5a712c',
   },
