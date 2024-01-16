@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDocs,
   getFirestore,
@@ -46,12 +47,22 @@ export async function postCharacter(newCharacterObject) {
 
 export async function updateCharacter(characterInfo) {
   const db = getFirestore()
-  console.log('api function param', characterInfo)
   try {
     console.log('updating character...')
     const characterRef = doc(db, 'people', characterInfo.id)
     await updateDoc(characterRef, characterInfo)
     console.log('character updated')
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export async function deleteCharacter(id) {
+  const db = getFirestore()
+  try {
+    console.log('deleting character...')
+    await deleteDoc(doc(db, 'people', id))
+    console.log('character deleted')
   } catch (err) {
     console.error(err)
   }

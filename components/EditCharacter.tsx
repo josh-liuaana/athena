@@ -8,14 +8,18 @@ import {
   TextInput,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
-import { updateCharacter } from '../apis/characters'
+import { deleteCharacter, updateCharacter } from '../apis/characters'
 
 interface Relationship {
   relation: string
   name: string
 }
 
-export default function EditCharacter({ characterInfo, togglePage }) {
+export default function EditCharacter({
+  characterInfo,
+  togglePage,
+  navigation,
+}) {
   const {
     affiliations,
     aliases,
@@ -56,6 +60,12 @@ export default function EditCharacter({ characterInfo, togglePage }) {
     togglePage()
   }
 
+  const handleCharacterDelete = () => {
+    deleteCharacter(id)
+    Alert.alert('character deleted')
+    navigation.navigate('People', { paramPropKey: 'paramPropValue' })
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.topButtonContainer}>
@@ -68,11 +78,10 @@ export default function EditCharacter({ characterInfo, togglePage }) {
               [
                 {
                   text: 'Delete',
-                  onPress: () => Alert.alert(`Bye bye ${name}`),
+                  onPress: () => handleCharacterDelete(),
                 },
                 {
                   text: 'Cancel',
-                  onPress: () => Alert.alert('Phew, close call'),
                 },
               ],
               {
