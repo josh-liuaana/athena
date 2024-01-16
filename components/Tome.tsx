@@ -1,21 +1,25 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Pressable, Image } from 'react-native'
 
 export default function Tomes({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text>Tomes</Text>
+      <Image
+        style={styles.logo}
+        source={require('../assets/images/athena-favicon-color.png')}
+      />
+      <Text style={styles.title}>Tomes</Text>
       <View style={styles.buttonContainer}>
         <Pressable
           style={[styles.button, styles.buttonLeft]}
           onPress={() => navigation.navigate('People')}
         >
-          <Text style={styles.buttonText}>People</Text>
+          <Text style={styles.buttonText}>Characters</Text>
         </Pressable>
         <Pressable
           style={[styles.button, styles.buttonRight]}
           onPress={() => navigation.navigate('Places')}
         >
-          <Text style={styles.buttonText}>Places</Text>
+          <Text style={styles.buttonText}>Locations</Text>
         </Pressable>
       </View>
     </View>
@@ -28,6 +32,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#DBE2CC',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  logo: {
+    height: 75,
+    width: 75,
+    margin: 15,
+  },
+  title: {
+    fontFamily: 'vibes',
+    fontSize: 70,
+    width: '100%',
+    textAlign: 'center',
   },
   buttonContainer: {
     margin: 15,
