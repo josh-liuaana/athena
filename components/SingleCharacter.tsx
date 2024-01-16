@@ -18,6 +18,10 @@ export default function SingleCharacter({ route }) {
 
   const relationshipType = Object.keys(relationships)
 
+  const togglePage = () => {
+    setShowCharacter(!showCharacter)
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{name}</Text>
@@ -72,18 +76,15 @@ export default function SingleCharacter({ route }) {
               ))}
             </View>
           )}
+          <View style={styles.updatesContainer}>
+            <Pressable style={styles.editButton} onPress={togglePage}>
+              <Text>Update</Text>
+            </Pressable>
+          </View>
         </View>
       ) : (
-        <EditCharacter />
+        <EditCharacter characterInfo={characterInfo} togglePage={togglePage} />
       )}
-      <View style={styles.updatesContainer}>
-        <Pressable
-          style={styles.editButton}
-          onPress={() => setShowCharacter(!showCharacter)}
-        >
-          <Text>{showCharacter ? 'Update' : 'Back to lore'}</Text>
-        </Pressable>
-      </View>
     </View>
   )
 }

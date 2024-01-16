@@ -1,4 +1,11 @@
-import { addDoc, collection, getDocs, getFirestore } from 'firebase/firestore'
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  updateDoc,
+} from 'firebase/firestore'
 
 export async function fetchCharacters() {
   console.log('fetching characters...')
@@ -34,5 +41,18 @@ export async function postCharacter(newCharacterObject) {
     return res.id
   } catch (err) {
     console.log(err)
+  }
+}
+
+export async function updateCharacter(characterInfo) {
+  const db = getFirestore()
+  console.log('api function param', characterInfo)
+  try {
+    console.log('updating character...')
+    const characterRef = doc(db, 'people', characterInfo.id)
+    await updateDoc(characterRef, characterInfo)
+    console.log('character updated')
+  } catch (err) {
+    console.error(err)
   }
 }
