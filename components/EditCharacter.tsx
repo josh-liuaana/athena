@@ -120,7 +120,7 @@ export default function EditCharacter({ characterInfo, togglePage }) {
           onChangeText={(alias) => setNewAlias(alias)}
         />
         <TextInput
-          placeholder="Relationship..."
+          placeholder="Type of relation..."
           onFocus={() => customOnFocus('relationships')}
           onBlur={() => customOnBlur()}
           style={[
@@ -138,7 +138,7 @@ export default function EditCharacter({ characterInfo, togglePage }) {
           }
         />
         <TextInput
-          placeholder="Name..."
+          placeholder="Relations name..."
           onFocus={() => customOnFocus('relationName')}
           onBlur={() => customOnBlur()}
           style={[
