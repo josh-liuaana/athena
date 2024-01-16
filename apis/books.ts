@@ -9,7 +9,7 @@ export async function fetchBooks() {
   let current
 
   booksSnapshot.docs.map((doc) => {
-    if (doc.data().isCurrent === 'true') {
+    if (doc.data().isCurrent === true) {
       current = { ...doc.data(), id: doc.id }
     }
     bookList.push({ ...doc.data(), id: doc.id })
