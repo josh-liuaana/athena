@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Pressable } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import EditCharacter from './EditCharacter'
 
-export default function SingleCharacter({ route }) {
+export default function SingleCharacter({ route, navigation }) {
   const [showCharacter, setShowCharacter] = useState(true)
   const { characterInfo } = route.params
   const {
@@ -84,7 +84,11 @@ export default function SingleCharacter({ route }) {
           </View>
         </View>
       ) : (
-        <EditCharacter characterInfo={characterInfo} togglePage={togglePage} />
+        <EditCharacter
+          characterInfo={characterInfo}
+          togglePage={togglePage}
+          navigation={navigation}
+        />
       )}
     </View>
   )

@@ -12,7 +12,7 @@ import { Person } from '../models/types'
 import { fetchCharacters } from '../apis/characters'
 import CharacterCard from './CharacterCard'
 
-export default function People({ navigation }) {
+export default function People({ navigation, route }) {
   const [people, setPeople] = useState<Person[]>()
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function People({ navigation }) {
       setPeople(characterData)
     }
     getDb()
-  }, [])
+  }, [route])
 
   return (
     <View style={styles.container}>
