@@ -1,12 +1,4 @@
-import {
-  Text,
-  StyleSheet,
-  View,
-  TextInput,
-  Alert,
-  ScrollView,
-  Image,
-} from 'react-native'
+import { Text, StyleSheet, View, TextInput, ScrollView } from 'react-native'
 import { useEffect, useState } from 'react'
 import { fetchBooks } from '../apis/books'
 import { Book } from '../models/types'
@@ -15,6 +7,8 @@ import BookCard from './BookCard'
 export default function Books({ navigation, route }) {
   const [books, setBooks] = useState<Book[]>()
   const [currentBook, setCurrentBook] = useState<Book>()
+  const [focus, setFocus] = useState(null)
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>()
 
   useEffect(() => {
     async function getDb() {
@@ -25,29 +19,63 @@ export default function Books({ navigation, route }) {
     getDb()
   }, [route])
 
+  const customOnFocus = (focus) => {
+    setFocus(focus)
+  }
+  const customOnBlur = () => {
+    setFocus(null)
+  }
+
+  const handleSearchTyping = async (search) => {
+    const filter = books.filter(
+      (book) =>
+        book.title.toLowerCase().includes(search.toLowerCase()) ||
+        book.author.toLowerCase().includes(search.toLowerCase()) ||
+        book.universe?.toLowerCase().includes(search.toLowerCase())
+    )
+    setFilteredBooks(filter)
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Image
-          style={styles.logo}
-          source={require('../assets/images/athena-favicon-color.png')}
-        />
         <Text style={styles.title}>Library</Text>
       </View>
+
       <View style={styles.inputContainer}>
-        <Text>Currently Reading: {currentBook && currentBook.title}</Text>
+        <Text style={styles.currentText}>Currently Reading: </Text>
+        <Text style={styles.currentBookTitle}>
+          {' '}
+          {currentBook && currentBook.title} -{' '}
+          {currentBook && currentBook.author}
+        </Text>
         <TextInput
-          style={styles.input}
-          onSubmitEditing={() => Alert.alert('function to come')}
-          placeholder="Search for book..."
+          style={[
+            { backgroundColor: focus === 'search' ? '#DBE2CC' : 'white' },
+            { borderColor: focus === 'search' ? 'white' : '#DBE2CC' },
+            styles.input,
+          ]}
+          onChangeText={(search) => handleSearchTyping(search)}
+          placeholder="Search..."
+          onFocus={() => customOnFocus('search')}
+          onBlur={() => customOnBlur()}
         />
       </View>
-      <ScrollView style={styles.scrollContainer}>
-        {books &&
-          books.map((book) => (
-            <BookCard key={book.id} book={book} navigation={navigation} />
-          ))}
-      </ScrollView>
+      {filteredBooks ? (
+        <ScrollView style={styles.scrollContainer}>
+          {filteredBooks &&
+            filteredBooks.map((book) => (
+              <BookCard key={book.id} book={book} navigation={navigation} />
+            ))}
+        </ScrollView>
+      ) : (
+        <ScrollView style={styles.scrollContainer}>
+          {books &&
+            books.map((book) => (
+              <BookCard key={book.id} book={book} navigation={navigation} />
+            ))}
+        </ScrollView>
+      )}
     </View>
   )
 }
@@ -61,39 +89,40 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   titleContainer: {
-    // borderWidth: 1,
-    // borderColor: 'green',
-    height: '20%',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  logo: {
-    height: 60,
-    width: 60,
-    margin: 10,
+    marginTop: 10,
   },
   title: {
     fontFamily: 'vibes',
     fontSize: 70,
     letterSpacing: 5,
   },
+  currentText: {
+    fontFamily: 'vibes',
+    fontSize: 50,
+    letterSpacing: 2,
+  },
+  currentBookTitle: {
+    fontFamily: 'sans-serif',
+    fontSize: 25,
+    letterSpacing: 0,
+  },
   inputContainer: {
-    height: '15%',
-    width: '60%',
-    // borderWidth: 1,
-    // borderColor: 'yellow',
-    padding: 10,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   input: {
     margin: 10,
-    width: '50%',
-    borderWidth: 1,
-    padding: 5,
+    borderRadius: 7,
+    width: '70%',
+    borderWidth: 2,
+    paddingHorizontal: 20,
+    fontSize: 20,
+    height: 50,
   },
   scrollContainer: {
-    // borderWidth: 1,
-    // borderColor: 'blue',
     width: '100%',
-    // height: '50%',
   },
 })
