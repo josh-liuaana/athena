@@ -1,4 +1,12 @@
-import { addDoc, collection, getDocs, getFirestore } from 'firebase/firestore'
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  getFirestore,
+  updateDoc,
+} from 'firebase/firestore'
 
 export async function fetchBooks() {
   console.log('fetching books...')
@@ -28,5 +36,28 @@ export async function postBook(newBookData) {
     return res
   } catch (err) {
     throw new Error(err)
+  }
+}
+
+export async function updateBookDetails(updateData, id) {
+  const db = getFirestore()
+  try {
+    console.log('updating book...')
+    const bookRef = doc(db, 'books', id)
+    await updateDoc(bookRef, updateData)
+    console.log('book updated')
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export async function deleteBook(id) {
+  const db = getFirestore()
+  try {
+    console.log('deleting book...')
+    await deleteDoc(doc(db, 'books', id))
+    console.log('book deleted')
+  } catch (err) {
+    console.error(err)
   }
 }
