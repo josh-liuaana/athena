@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
+import Icon from 'react-native-vector-icons/AntDesign'
 
 export default function Home({ navigation }) {
   const handleNavigate = (page) => {
@@ -38,6 +39,13 @@ export default function Home({ navigation }) {
           </Pressable>
         </View>
       </View>
+      <Pressable
+        // style={[styles.button]}
+        onPress={() => handleNavigate('Login')}
+      >
+        {/* <Text >Login</Text> */}
+        <Icon style={styles.icon} name="user" />
+      </Pressable>
     </View>
   )
 }
@@ -104,5 +112,10 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 40,
     fontFamily: 'Caveat-Regular',
+  },
+
+  icon: {
+    marginTop: 20,
+    fontSize: 60,
   },
 })

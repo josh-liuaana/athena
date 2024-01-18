@@ -1,7 +1,9 @@
-import { initializeApp } from 'firebase/app'
 import { useFonts } from 'expo-font'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { useEffect, useState } from 'react'
+import { User, onAuthStateChanged } from 'firebase/auth'
+import { auth } from './firebaseConfig'
 
 import Home from './components/Home'
 import Lore from './components/Lore'
@@ -12,18 +14,7 @@ import Books from './components/Books'
 import AddBook from './components/AddBook'
 import AddCharacter from './components/AddCharacter'
 import SingleCharacter from './components/SingleCharacter'
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyAC4In-oSxGzp738krP-KSOOaXEjvxL0Ls',
-  authDomain: 'lore-81319.firebaseapp.com',
-  projectId: 'lore-81319',
-  storageBucket: 'lore-81319.appspot.com',
-  messagingSenderId: '99101299935',
-  appId: '1:99101299935:web:72e7f366d67e69a662456a',
-  measurementId: 'G-YY2YG2T1CH',
-}
-
-initializeApp(firebaseConfig)
+import Login from './components/Login'
 
 const Stack = createNativeStackNavigator()
 
@@ -35,6 +26,14 @@ export default function App() {
     vibes: require('./assets/fonts/GreatVibes-Regular.ttf'),
   })
 
+  const [user, setUser] = useState<User | null>(null)
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      console.log('user', user)
+      setUser(user)
+    })
+  }, [])
   if (!fontsLoaded) return null
 
   return (
@@ -109,6 +108,14 @@ export default function App() {
           component={SingleCharacter}
           options={{
             title: 'SingleCharacter',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            title: 'Login',
             headerShown: false,
           }}
         />
