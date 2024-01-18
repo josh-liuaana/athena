@@ -24,4 +24,5 @@ export interface Book {
   title: string
   author: string
   isCurrent: boolean
+  universe?: string
 }
