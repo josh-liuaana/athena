@@ -4,13 +4,12 @@ import {
   deleteDoc,
   doc,
   getDocs,
-  getFirestore,
   updateDoc,
 } from 'firebase/firestore'
+import { db } from '../firebaseConfig'
 
 export async function fetchBooks() {
   console.log('fetching books...')
-  const db = getFirestore()
   const booksCol = collection(db, 'books')
   const booksSnapshot = await getDocs(booksCol)
   const bookList = []
@@ -28,7 +27,6 @@ export async function fetchBooks() {
 }
 
 export async function postBook(newBookData) {
-  const db = getFirestore()
   try {
     console.log('adding book...')
     const res = await addDoc(collection(db, 'books'), newBookData)
@@ -40,7 +38,6 @@ export async function postBook(newBookData) {
 }
 
 export async function updateBookDetails(updateData, id) {
-  const db = getFirestore()
   try {
     console.log('updating book...')
     const bookRef = doc(db, 'books', id)
@@ -52,7 +49,6 @@ export async function updateBookDetails(updateData, id) {
 }
 
 export async function deleteBook(id) {
-  const db = getFirestore()
   try {
     console.log('deleting book...')
     await deleteDoc(doc(db, 'books', id))
