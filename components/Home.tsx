@@ -1,9 +1,19 @@
+import { signOut } from 'firebase/auth'
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
+import { auth } from '../firebaseConfig'
 
 export default function Home({ navigation }) {
   const handleNavigate = (page) => {
     navigation.navigate(page)
+  }
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
@@ -23,6 +33,7 @@ export default function Home({ navigation }) {
             <Text style={styles.buttonText}>Tomes</Text>
           </Pressable>
         </View>
+
         <View style={styles.bottomButtonsContainer}>
           <Pressable
             style={[styles.button, styles.buttonLeft]}
@@ -39,13 +50,11 @@ export default function Home({ navigation }) {
           </Pressable>
         </View>
       </View>
-      <Pressable
-        // style={[styles.button]}
-        onPress={() => handleNavigate('Login')}
-      >
-        {/* <Text >Login</Text> */}
-        <Icon style={styles.icon} name="user" />
-      </Pressable>
+      <View>
+        <Pressable onPress={handleLogout}>
+          <Icon style={styles.icon} name="logout" />
+        </Pressable>
+      </View>
     </View>
   )
 }

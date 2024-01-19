@@ -24,6 +24,7 @@ export default function Login({ navigation }) {
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password)
       console.log(res)
+      navigation.navigate('Home')
     } catch (err) {
       console.error(err)
     }
