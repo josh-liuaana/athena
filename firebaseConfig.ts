@@ -1,8 +1,13 @@
 // ! --- Need to link up this/replace other db and app calls --- ! \\
 
 import { initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
+import {
+  getAuth,
+  initializeAuth,
+  getReactNativePersistence,
+} from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage'
 
 const app = initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -12,6 +17,10 @@ const app = initializeApp({
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+})
+
+initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 })
 
 export const auth = getAuth(app)
