@@ -1,23 +1,15 @@
 import { Text, StyleSheet, View, TextInput, ScrollView } from 'react-native'
-import { useEffect, useState } from 'react'
-import { fetchBooks } from '../apis/books'
+import { useState } from 'react'
 import { Book } from '../models/types'
 import BookCard from './BookCard'
+import { useAppSelector } from '../hooks/redux'
 
 export default function Books({ navigation, route }) {
-  const [books, setBooks] = useState<Book[]>()
+  const bookList = useAppSelector((state) => state.books)
+  // TODO set up new slice for current book // const currentBook = useAppSelector((state) => state.current)
   const [currentBook, setCurrentBook] = useState<Book>()
   const [focus, setFocus] = useState(null)
   const [filteredBooks, setFilteredBooks] = useState<Book[]>()
-
-  useEffect(() => {
-    async function getDb() {
-      const bookData = await fetchBooks()
-      setCurrentBook(bookData.current)
-      setBooks(bookData.bookList)
-    }
-    getDb()
-  }, [route])
 
   const customOnFocus = (focus) => {
     setFocus(focus)
@@ -27,7 +19,7 @@ export default function Books({ navigation, route }) {
   }
 
   const handleSearchTyping = async (search) => {
-    const filter = books.filter(
+    const filter = bookList.filter(
       (book) =>
         book.title.toLowerCase().includes(search.toLowerCase()) ||
         book.author.toLowerCase().includes(search.toLowerCase()) ||
@@ -46,8 +38,8 @@ export default function Books({ navigation, route }) {
         <Text style={styles.currentText}>Currently Reading: </Text>
         <Text style={styles.currentBookTitle}>
           {' '}
-          {currentBook && currentBook.title} -{' '}
-          {currentBook && currentBook.author}
+          {currentBook && currentBook.title} - // ? TO BE UPDATED
+          {currentBook && currentBook.author} // ? TO BE UPDATED
         </Text>
         <TextInput
           style={[
@@ -70,8 +62,8 @@ export default function Books({ navigation, route }) {
         </ScrollView>
       ) : (
         <ScrollView style={styles.scrollContainer}>
-          {books &&
-            books.map((book) => (
+          {bookList &&
+            bookList.map((book) => (
               <BookCard key={book.id} book={book} navigation={navigation} />
             ))}
         </ScrollView>
