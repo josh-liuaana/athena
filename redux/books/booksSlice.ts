@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchBooks, postBook } from '../../apis/books'
+import {
+  deleteBook,
+  fetchBooks,
+  postBook,
+  updateBookDetails,
+} from '../../apis/books'
 
 import { Book } from '../../models/types'
 
@@ -16,17 +21,30 @@ export const bookSlice = createSlice({
       return action.payload
     },
     addBook: (state, action) => {
-      console.log('action payload', action.payload)
       const newBookList = [...state.bookList, action.payload]
       return {
         bookList: newBookList,
         current: state.current,
       }
     },
-    // deleteBook: (state, action) => {
-    //   // ! -- need to update so store shape includes current
-    //   return state.filter((book) => book.id !== action.payload.id)
-    // },
+    delBook: (state, action) => {
+      const newBookList = state.bookList.filter(
+        (book) => book.id !== action.payload.id
+      )
+      return {
+        bookList: newBookList,
+        current: state.current,
+      }
+    },
+    updBook: (state, action) => {
+      const newBookList = state.bookList.map((book) => {
+        if (book.id === action.payload.id) {
+          return action.payload
+        }
+        return book
+      })
+      return { bookList: newBookList, current: state.current }
+    },
   },
 })
 
@@ -39,7 +57,16 @@ export const postThunkBook = (newBookInfo) => async (dispatch) => {
   const res = await postBook(newBookInfo)
   dispatch(addBook(res))
 }
-// export const { setBooks, addBook, deleteBook } = bookSlice.actions
-export const { setBooks, addBook } = bookSlice.actions
 
+export const deleteThunkBook = (id) => async (dispatch) => {
+  await deleteBook(id)
+  dispatch(delBook(id))
+}
+
+export const updateThunkBook = (updatedBookInfo, id) => async (dispatch) => {
+  const res = await updateBookDetails(updatedBookInfo, id)
+  dispatch(updBook(res))
+}
+
+export const { setBooks, addBook, delBook, updBook } = bookSlice.actions
 export default bookSlice.reducer
