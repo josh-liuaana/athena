@@ -1,12 +1,15 @@
 import { Text, StyleSheet, View, TextInput, ScrollView } from 'react-native'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Book } from '../models/types'
 import BookCard from './BookCard'
-import { useAppSelector } from '../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../hooks/redux'
+import { fetchThunkBooks } from '../redux/books/booksSlice'
 
 export default function Books({ navigation, route }) {
+  const dispatch = useAppDispatch()
   const bookList = useAppSelector((state) => state.books.bookList)
   const currentBook = useAppSelector((state) => state.books.current)
+
   const [focus, setFocus] = useState(null)
   const [filteredBooks, setFilteredBooks] = useState<Book[]>()
 
@@ -16,6 +19,10 @@ export default function Books({ navigation, route }) {
   const customOnBlur = () => {
     setFocus(null)
   }
+
+  useEffect(() => {
+    dispatch(fetchThunkBooks())
+  }, [dispatch, route])
 
   const handleSearchTyping = async (search) => {
     const filter = bookList.filter(

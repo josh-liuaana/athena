@@ -2,21 +2,11 @@ import { signOut } from 'firebase/auth'
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
 import { auth } from '../firebaseConfig'
-import { useEffect } from 'react'
-
-import { useAppDispatch } from '../hooks/redux'
-import { fetchThunkBooks } from '../redux/books/booksSlice'
 
 export default function Home({ navigation }) {
-  const dispatch = useAppDispatch()
-
   const handleNavigate = (page) => {
     navigation.navigate(page)
   }
-
-  useEffect(() => {
-    dispatch(fetchThunkBooks())
-  }, [dispatch])
 
   const handleLogout = async () => {
     try {
