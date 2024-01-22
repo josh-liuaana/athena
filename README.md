@@ -28,7 +28,6 @@ The peruse through the tomes of knowledge when some extra information is needed 
   - [Redux Toolkit Docs](https://redux-toolkit.js.org/)
   - [Template](https://github.com/rahsheen/react-native-template-redux-typescript/tree/main)
 
-
 ## Styling
 
 Palette
@@ -39,3 +38,12 @@ Palette
 Fonts
 - Caveat-Regular
 - GreatVibes-Regular
+
+## Redux - store shape
+
+#### bookSlice
+
+```
+  booklist: Book[],
+  current: Book
+```
