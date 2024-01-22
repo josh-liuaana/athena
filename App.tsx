@@ -33,7 +33,6 @@ export default function App() {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log('user', user)
       setUser(user)
     })
   }, [])
