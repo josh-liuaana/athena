@@ -8,11 +8,16 @@ import {
   TextInput,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
-import { useAppDispatch } from '../hooks/redux'
-import { deleteThunkBook, updateThunkBook } from '../redux/books/booksSlice'
+import { useAppDispatch, useAppSelector } from '../hooks/redux'
+import {
+  deleteThunkBook,
+  updateCurrentThunkBook,
+  updateThunkBook,
+} from '../redux/books/booksSlice'
 
 export default function BookCard({ book, navigation }) {
   const dispatch = useAppDispatch()
+  const currentId = useAppSelector((state) => state.books.current.id)
 
   const { author, title, isCurrent, id } = book
   const [currentlyEditing, setCurrentlyEditing] = useState(false)
@@ -41,7 +46,8 @@ export default function BookCard({ book, navigation }) {
   }
 
   const handleUpdateCurrent = () => {
-    Alert.alert('update current pressed')
+    dispatch(updateCurrentThunkBook({ isCurrent: true }, id, currentId))
+    setCurrentlyEditing(false)
   }
 
   const customOnFocus = (focus) => {
@@ -118,7 +124,9 @@ export default function BookCard({ book, navigation }) {
                 onPress={handleUpdateCurrent}
               >
                 <Text style={styles.currentlyReadingText}>
-                  Mark as currently reading
+                  {isCurrent === true
+                    ? 'Finished reading'
+                    : 'Mark as currently reading'}
                 </Text>
               </Pressable>
             </View>

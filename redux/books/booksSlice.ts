@@ -45,6 +45,17 @@ export const bookSlice = createSlice({
       })
       return { bookList: newBookList, current: state.current }
     },
+    updCurrent: (state, action) => {
+      const newBookList = state.bookList.map((book) => {
+        if (book.id === action.payload.id) {
+          return action.payload
+        } else if (book.isCurrent === true) {
+          return { ...book, current: false }
+        }
+        return book
+      })
+      return { bookList: newBookList, current: action.payload }
+    },
   },
 })
 
@@ -68,5 +79,14 @@ export const updateThunkBook = (updatedBookInfo, id) => async (dispatch) => {
   dispatch(updBook(res))
 }
 
-export const { setBooks, addBook, delBook, updBook } = bookSlice.actions
+export const updateCurrentThunkBook =
+  (currentData, id, currentId) => async (dispatch) => {
+    updateBookDetails({ isCurrent: false }, currentId)
+    const res = await updateBookDetails(currentData, id)
+
+    dispatch(updCurrent(res))
+  }
+
+export const { setBooks, addBook, delBook, updBook, updCurrent } =
+  bookSlice.actions
 export default bookSlice.reducer
