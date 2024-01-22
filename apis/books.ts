@@ -3,6 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   updateDoc,
 } from 'firebase/firestore'
@@ -21,7 +22,7 @@ export async function fetchBooks() {
     }
     bookList.push({ ...doc.data(), id: doc.id })
   })
-  console.log('retrieved books')
+  console.log('retrieved books', { bookList, current })
 
   return { bookList, current }
 }
@@ -30,8 +31,9 @@ export async function postBook(newBookData) {
   try {
     console.log('adding book...')
     const res = await addDoc(collection(db, 'books'), newBookData)
-    console.log('book added:', res.id)
-    return res
+    const newBook = await getDoc(doc(db, 'books', res.id))
+    console.log('book added:', newBook.data())
+    return { ...newBook.data(), id: newBook.id }
   } catch (err) {
     throw new Error(err)
   }

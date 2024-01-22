@@ -5,9 +5,8 @@ import BookCard from './BookCard'
 import { useAppSelector } from '../hooks/redux'
 
 export default function Books({ navigation, route }) {
-  const bookList = useAppSelector((state) => state.books)
-  // TODO set up new slice for current book // const currentBook = useAppSelector((state) => state.current)
-  const [currentBook, setCurrentBook] = useState<Book>()
+  const bookList = useAppSelector((state) => state.books.bookList)
+  const currentBook = useAppSelector((state) => state.books.current)
   const [focus, setFocus] = useState(null)
   const [filteredBooks, setFilteredBooks] = useState<Book[]>()
 
@@ -37,9 +36,8 @@ export default function Books({ navigation, route }) {
       <View style={styles.inputContainer}>
         <Text style={styles.currentText}>Currently Reading: </Text>
         <Text style={styles.currentBookTitle}>
-          {' '}
-          {currentBook && currentBook.title} - // ? TO BE UPDATED
-          {currentBook && currentBook.author} // ? TO BE UPDATED
+          {currentBook && currentBook.title} -{' '}
+          {currentBook && currentBook.author}
         </Text>
         <TextInput
           style={[
