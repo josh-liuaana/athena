@@ -22,7 +22,7 @@ export async function fetchBooks() {
     }
     bookList.push({ ...doc.data(), id: doc.id })
   })
-  console.log('retrieved books', { bookList, current })
+  console.log('retrieved books')
 
   return { bookList, current }
 }
@@ -44,7 +44,9 @@ export async function updateBookDetails(updateData, id) {
     console.log('updating book...')
     const bookRef = doc(db, 'books', id)
     await updateDoc(bookRef, updateData)
+    const updatedBook = await getDoc(doc(db, 'books', id))
     console.log('book updated')
+    return { ...updatedBook.data(), id }
   } catch (err) {
     console.error(err)
   }
