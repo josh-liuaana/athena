@@ -3,6 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   updateDoc,
 } from 'firebase/firestore'
@@ -30,8 +31,9 @@ export async function postBook(newBookData) {
   try {
     console.log('adding book...')
     const res = await addDoc(collection(db, 'books'), newBookData)
-    console.log('book added:', res.id)
-    return res
+    const newBook = await getDoc(doc(db, 'books', res.id))
+    console.log('book added:', newBook.data())
+    return { ...newBook.data(), id: newBook.id }
   } catch (err) {
     throw new Error(err)
   }
@@ -42,7 +44,9 @@ export async function updateBookDetails(updateData, id) {
     console.log('updating book...')
     const bookRef = doc(db, 'books', id)
     await updateDoc(bookRef, updateData)
+    const updatedBook = await getDoc(doc(db, 'books', id))
     console.log('book updated')
+    return { ...updatedBook.data(), id }
   } catch (err) {
     console.error(err)
   }

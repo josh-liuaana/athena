@@ -8,9 +8,17 @@ import {
   TextInput,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
-import { deleteBook, updateBookDetails } from '../apis/books'
+import { useAppDispatch, useAppSelector } from '../hooks/redux'
+import {
+  deleteThunkBook,
+  updateCurrentThunkBook,
+  updateThunkBook,
+} from '../redux/books/booksSlice'
 
 export default function BookCard({ book, navigation }) {
+  const dispatch = useAppDispatch()
+  const currentId = useAppSelector((state) => state.books.current.id)
+
   const { author, title, isCurrent, id } = book
   const [currentlyEditing, setCurrentlyEditing] = useState(false)
   const [showEditForm, setShowEditForm] = useState(false)
@@ -26,23 +34,20 @@ export default function BookCard({ book, navigation }) {
   }
 
   const handleDelete = () => {
-    deleteBook(id)
+    dispatch(deleteThunkBook(id))
     Alert.alert('book deleted')
     navigation.navigate('Books', { paramPropKey: 'paramPropValue' })
   }
 
   const handleUpdateDetails = () => {
-    console.log(bookUpdateData)
-    updateBookDetails(bookUpdateData, id)
+    dispatch(updateThunkBook(bookUpdateData, id))
+    setCurrentlyEditing(false)
+    Alert.alert('book updated')
   }
 
   const handleUpdateCurrent = () => {
-    Alert.alert('update current pressed')
-    // TODO
-    // Need to go into the database and change current isCurrent book to false
-    // Then need to change this book currently reading to true in db
-    // Then need to toggle the Currently reading subtitle to new book
-    // ? Will likely need to pass props up to Books so can re render with the new title
+    dispatch(updateCurrentThunkBook({ isCurrent: true }, id, currentId))
+    setCurrentlyEditing(false)
   }
 
   const customOnFocus = (focus) => {
@@ -119,7 +124,9 @@ export default function BookCard({ book, navigation }) {
                 onPress={handleUpdateCurrent}
               >
                 <Text style={styles.currentlyReadingText}>
-                  Mark as currently reading
+                  {isCurrent === true
+                    ? 'Finished reading'
+                    : 'Mark as currently reading'}
                 </Text>
               </Pressable>
             </View>

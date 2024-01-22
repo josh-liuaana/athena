@@ -7,14 +7,17 @@ import {
   Alert,
 } from 'react-native'
 import { useState } from 'react'
-import { postBook } from '../apis/books'
+
+import { useAppDispatch } from '../hooks/redux'
+import { postThunkBook } from '../redux/books/booksSlice'
 import { Book } from '../models/types'
 
 export default function AddBook({ navigation }) {
   const [newBookInfo, setNewBookInfo] = useState<Partial<Book>>()
+  const dispatch = useAppDispatch()
 
   const submitNewBook = async () => {
-    await postBook(newBookInfo)
+    await dispatch(postThunkBook(newBookInfo))
     Alert.alert('Thanks for adding a new book')
     navigation.navigate('Books')
   }
