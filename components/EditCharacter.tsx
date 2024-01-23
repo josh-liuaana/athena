@@ -8,7 +8,9 @@ import {
   TextInput,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
-import { deleteCharacter, updateCharacter } from '../apis/characters'
+import { useAppDispatch } from '../hooks/redux'
+import { updateCharacter } from '../apis/characters'
+import { deleteThunkCharacter } from '../redux/characters/characterSlice'
 
 interface Relationship {
   relation: string
@@ -31,6 +33,7 @@ export default function EditCharacter({
     universe,
     id,
   } = characterInfo
+  const dispatch = useAppDispatch()
   const [focus, setFocus] = useState(null)
   const [newAffiliation, setNewAffiliation] = useState('')
   const [newAlias, setNewAlias] = useState('')
@@ -61,7 +64,7 @@ export default function EditCharacter({
   }
 
   const handleCharacterDelete = () => {
-    deleteCharacter(id)
+    dispatch(deleteThunkCharacter(id))
     Alert.alert('character deleted')
     navigation.navigate('People', { paramPropKey: 'paramPropValue' })
   }

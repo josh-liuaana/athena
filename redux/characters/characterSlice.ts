@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchCharacters, postCharacter } from '../../apis/characters'
+import {
+  deleteCharacter,
+  fetchCharacters,
+  postCharacter,
+} from '../../apis/characters'
 
 import { Person } from '../../models/types'
 
@@ -13,14 +17,13 @@ export const characterSlice = createSlice({
       return action.payload
     },
     addCharacter: (state, action) => {
-      console.log('current state', state)
-      console.log('new payload', action.payload)
       return [...state, action.payload]
+    },
+    delCharacter: (state, action) => {
+      return state.filter((character) => character.id !== action.payload.id)
     },
   },
 })
-
-// * -- ASYNC THUNKS -- * //
 
 export function fetchThunkCharacters() {
   return async (dispatch) => {
@@ -36,5 +39,13 @@ export function postThunkCharacter(newCharacterInfo) {
   }
 }
 
-export const { setCharacters, addCharacter } = characterSlice.actions
+export function deleteThunkCharacter(id) {
+  return async (dispatch) => {
+    await deleteCharacter(id)
+    dispatch(delCharacter(id))
+  }
+}
+
+export const { setCharacters, addCharacter, delCharacter } =
+  characterSlice.actions
 export default characterSlice.reducer
