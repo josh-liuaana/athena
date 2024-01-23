@@ -7,21 +7,19 @@ import {
   ScrollView,
   Image,
 } from 'react-native'
-import { useEffect, useState } from 'react'
-import { Person } from '../models/types'
-import { fetchCharacters } from '../apis/characters'
+import { useEffect } from 'react'
+
+import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import CharacterCard from './CharacterCard'
+import { fetchThunkCharacters } from '../redux/characters/characterSlice'
 
 export default function People({ navigation, route }) {
-  const [people, setPeople] = useState<Person[]>()
+  const dispatch = useAppDispatch()
+  const characters = useAppSelector((state) => state.characters)
 
   useEffect(() => {
-    async function getDb() {
-      const characterData = await fetchCharacters()
-      setPeople(characterData)
-    }
-    getDb()
-  }, [route])
+    dispatch(fetchThunkCharacters())
+  }, [dispatch, route])
 
   return (
     <View style={styles.container}>
@@ -45,8 +43,8 @@ export default function People({ navigation, route }) {
         />
       </View>
       <ScrollView style={styles.scrollContainer}>
-        {people &&
-          people.map((person) => (
+        {characters &&
+          characters.map((person) => (
             <CharacterCard
               key={person.id}
               characterInfo={person}

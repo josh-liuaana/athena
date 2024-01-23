@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import {} from '../../apis/characters'
+import { fetchCharacters } from '../../apis/characters'
 
 import { Person } from '../../models/types'
 
@@ -8,10 +8,21 @@ const initialState = [] as Person[]
 export const characterSlice = createSlice({
   name: 'characters',
   initialState,
-  reducers: {},
+  reducers: {
+    setCharacters: (state, action) => {
+      return action.payload
+    },
+  },
 })
 
 // * -- ASYNC THUNKS -- * //
 
-export const {} = characterSlice.actions
+export function fetchThunkCharacters() {
+  return async (dispatch) => {
+    const res = await fetchCharacters()
+    dispatch(setCharacters(res))
+  }
+}
+
+export const { setCharacters } = characterSlice.actions
 export default characterSlice.reducer
