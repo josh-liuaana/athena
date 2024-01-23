@@ -5,6 +5,8 @@ import {
   doc,
   getDocs,
   getFirestore,
+  orderBy,
+  query,
   updateDoc,
 } from 'firebase/firestore'
 
@@ -12,7 +14,7 @@ export async function fetchCharacters() {
   console.log('fetching characters...')
   const db = getFirestore()
   const peopleCol = collection(db, 'people')
-  const peopleSnapshot = await getDocs(peopleCol)
+  const peopleSnapshot = await getDocs(query(peopleCol, orderBy('name', 'asc')))
   const peopleList = []
 
   peopleSnapshot.docs.map((doc) =>
