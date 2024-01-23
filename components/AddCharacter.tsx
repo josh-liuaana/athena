@@ -8,9 +8,12 @@ import {
   Alert,
 } from 'react-native'
 import { useState, useRef } from 'react'
-import { postCharacter } from '../apis/characters'
+
+import { useAppDispatch } from '../hooks/redux'
+import { postThunkCharacter } from '../redux/characters/characterSlice'
 
 export default function AddCharacter({ navigation }) {
+  const dispatch = useAppDispatch()
   const [newCharacter, setNewCharacter] = useState({
     city: '',
     ethnicity: '',
@@ -21,7 +24,8 @@ export default function AddCharacter({ navigation }) {
   const ethRef = useRef(null)
 
   const submitNewCharacter = async () => {
-    await postCharacter(newCharacter)
+    await dispatch(postThunkCharacter(newCharacter))
+
     Alert.alert('Thanks for adding a new character')
     navigation.navigate('People')
   }

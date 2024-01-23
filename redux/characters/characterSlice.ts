@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchCharacters } from '../../apis/characters'
+import { fetchCharacters, postCharacter } from '../../apis/characters'
 
 import { Person } from '../../models/types'
 
@@ -11,6 +11,11 @@ export const characterSlice = createSlice({
   reducers: {
     setCharacters: (state, action) => {
       return action.payload
+    },
+    addCharacter: (state, action) => {
+      console.log('current state', state)
+      console.log('new payload', action.payload)
+      return [...state, action.payload]
     },
   },
 })
@@ -24,5 +29,12 @@ export function fetchThunkCharacters() {
   }
 }
 
-export const { setCharacters } = characterSlice.actions
+export function postThunkCharacter(newCharacterInfo) {
+  return async (dispatch) => {
+    const res = await postCharacter(newCharacterInfo)
+    dispatch(addCharacter({ ...newCharacterInfo, id: res }))
+  }
+}
+
+export const { setCharacters, addCharacter } = characterSlice.actions
 export default characterSlice.reducer
