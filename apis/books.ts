@@ -5,6 +5,8 @@ import {
   doc,
   getDoc,
   getDocs,
+  orderBy,
+  query,
   updateDoc,
 } from 'firebase/firestore'
 import { db } from '../firebaseConfig'
@@ -12,7 +14,8 @@ import { db } from '../firebaseConfig'
 export async function fetchBooks() {
   console.log('fetching books...')
   const booksCol = collection(db, 'books')
-  const booksSnapshot = await getDocs(booksCol)
+  const booksSnapshot = await getDocs(query(booksCol, orderBy('title', 'asc')))
+
   const bookList = []
   let current
 
