@@ -3,6 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   getFirestore,
   orderBy,
@@ -11,17 +12,31 @@ import {
 } from 'firebase/firestore'
 
 export async function fetchCharacters() {
-  console.log('fetching characters...')
-  const db = getFirestore()
-  const peopleCol = collection(db, 'people')
-  const peopleSnapshot = await getDocs(query(peopleCol, orderBy('name', 'asc')))
-  const peopleList = []
+  try {
+    console.log('fetching characters...')
+    const db = getFirestore()
+    const peopleCol = collection(db, 'people')
+    const peopleSnapshot = await getDocs(
+      query(peopleCol, orderBy('name', 'asc'))
+    )
+    const peopleList = []
 
-  peopleSnapshot.docs.map((doc) =>
-    peopleList.push({ ...doc.data(), id: doc.id })
-  )
-  console.log('retrieved characters')
-  return peopleList
+    peopleSnapshot.docs.map((doc) =>
+      peopleList.push({ ...doc.data(), id: doc.id })
+    )
+    console.log('retrieved characters')
+    return peopleList
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export async function fetchSingleCharacter(id) {
+  console.log('fetching character...')
+  const db = getFirestore()
+  const updatedCharacter = await getDoc(doc(db, 'people', id))
+  console.log('retrieved character')
+  return { ...updatedCharacter.data(), id }
 }
 
 export async function postCharacter(newCharacterObject) {
@@ -47,15 +62,17 @@ export async function postCharacter(newCharacterObject) {
   }
 }
 
-export async function updateCharacter(characterInfo) {
+export async function updateCharacter(characterInfo, id) {
   const db = getFirestore()
   try {
     console.log('updating character...')
-    const characterRef = doc(db, 'people', characterInfo.id)
+    const characterRef = doc(db, 'people', id)
     await updateDoc(characterRef, characterInfo)
+    const updatedCharacter = await getDoc(doc(db, 'people', id))
     console.log('character updated')
+    return { ...updatedCharacter.data(), id }
   } catch (err) {
-    console.error(err)
+    console.error('error inside api call:', err.message)
   }
 }
 
