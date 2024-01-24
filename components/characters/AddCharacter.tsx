@@ -9,8 +9,8 @@ import {
 } from 'react-native'
 import { useState, useRef } from 'react'
 
-import { useAppDispatch } from '../hooks/redux'
-import { postThunkCharacter } from '../redux/characters/characterSlice'
+import { useAppDispatch } from '../../hooks/redux'
+import { postThunkCharacter } from '../../redux/characters/characterSlice'
 
 export default function AddCharacter({ navigation }) {
   const dispatch = useAppDispatch()
@@ -41,7 +41,7 @@ export default function AddCharacter({ navigation }) {
     <View style={styles.container}>
       <Image
         style={styles.logo}
-        source={require('../assets/images/athena-favicon-color.png')}
+        source={require('../../assets/images/athena-favicon-color.png')}
       />
       <Text style={styles.title}>Add Character</Text>
       {/* <Text>Adding to (import current book)</Text> */}

@@ -8,9 +8,9 @@ import {
 } from 'react-native'
 import { useState } from 'react'
 
-import { useAppDispatch } from '../hooks/redux'
-import { postThunkBook } from '../redux/books/booksSlice'
-import { Book } from '../models/types'
+import { useAppDispatch } from '../../hooks/redux'
+import { postThunkBook } from '../../redux/books/booksSlice'
+import { Book } from '../../models/types'
 
 export default function AddBook({ navigation }) {
   const [newBookInfo, setNewBookInfo] = useState<Partial<Book>>()

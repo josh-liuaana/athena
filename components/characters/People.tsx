@@ -6,12 +6,13 @@ import {
   Alert,
   ScrollView,
   Image,
+  Button,
 } from 'react-native'
 import { useEffect } from 'react'
 
-import { useAppDispatch, useAppSelector } from '../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import CharacterCard from './CharacterCard'
-import { fetchThunkCharacters } from '../redux/characters/characterSlice'
+import { fetchThunkCharacters } from '../../redux/characters/characterSlice'
 
 export default function People({ navigation, route }) {
   const dispatch = useAppDispatch()
@@ -26,10 +27,14 @@ export default function People({ navigation, route }) {
       <View style={styles.titleContainer}>
         <Image
           style={styles.logo}
-          source={require('../assets/images/athena-favicon-color.png')}
+          source={require('../../assets/images/athena-favicon-color.png')}
         />
         <Text style={styles.title}>Characters</Text>
       </View>
+      <Button
+        onPress={() => console.log(characters)}
+        title="print current redux store"
+      />
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -44,7 +49,7 @@ export default function People({ navigation, route }) {
       </View>
       <ScrollView style={styles.scrollContainer}>
         {characters &&
-          characters.map((person) => (
+          characters.characterList.map((person) => (
             <CharacterCard
               key={person.id}
               characterInfo={person}

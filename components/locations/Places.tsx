@@ -1,7 +1,7 @@
 import { Alert, StyleSheet, Text, TextInput, View } from 'react-native'
 import { useEffect, useState } from 'react'
-import { Location } from '../models/types'
-import { fetchLocations } from '../apis/locations'
+import { Location } from '../../models/types'
+import { fetchLocations } from '../../apis/locations'
 
 export default function Places() {
   const [location, setLocation] = useState<Location[]>()
