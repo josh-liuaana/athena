@@ -8,29 +8,23 @@ import {
   TextInput,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
-import { deleteCharacter, updateCharacter } from '../apis/characters'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import {
+  deleteThunkCharacter,
+  updateThunkCharacter,
+} from '../../redux/characters/characterSlice'
 
 interface Relationship {
   relation: string
   name: string
 }
 
-export default function EditCharacter({
-  characterInfo,
-  togglePage,
-  navigation,
-}) {
-  const {
-    affiliations,
-    aliases,
-    books,
-    city,
-    ethnicity,
-    name,
-    relationships,
-    universe,
-    id,
-  } = characterInfo
+export default function EditCharacter({ togglePage, navigation }) {
+  const dispatch = useAppDispatch()
+  const character = useAppSelector((state) => state.characters.activeCharacter)
+
+  const { affiliations, aliases, name, relationships, id } = character
+
   const [focus, setFocus] = useState(null)
   const [newAffiliation, setNewAffiliation] = useState('')
   const [newAlias, setNewAlias] = useState('')
@@ -47,21 +41,28 @@ export default function EditCharacter({
   }
 
   const submitNewInformation = async () => {
+    let updateData = {
+      affiliations: [...affiliations],
+      aliases: [...aliases],
+      relationships: { ...relationships },
+    }
     if (newAffiliation !== '') {
-      affiliations.push(newAffiliation)
+      updateData.affiliations.push(newAffiliation)
     }
     if (newAlias !== '') {
-      aliases.push(newAlias)
+      updateData.aliases.push(newAlias)
     }
     if (newRelationship.relation !== '') {
-      relationships[newRelationship.relation] = newRelationship.name
+      updateData.relationships[newRelationship.relation] = newRelationship.name
     }
-    updateCharacter({ affiliations, aliases, relationships, id })
+
+    dispatch(updateThunkCharacter(updateData, id))
+    Alert.alert('character updated')
     togglePage()
   }
 
   const handleCharacterDelete = () => {
-    deleteCharacter(id)
+    dispatch(deleteThunkCharacter(id))
     Alert.alert('character deleted')
     navigation.navigate('People', { paramPropKey: 'paramPropValue' })
   }

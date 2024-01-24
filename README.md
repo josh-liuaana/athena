@@ -47,3 +47,9 @@ Fonts
   booklist: Book[],
   current: Book
 ```
+#### characterSlice
+
+```
+  characterList: Person[],
+  activeCharacter: Person
+```

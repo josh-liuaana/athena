@@ -1,77 +1,97 @@
-import { useState } from 'react'
-import { View, Text, StyleSheet, Pressable } from 'react-native'
+import { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, Pressable, Button } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import EditCharacter from './EditCharacter'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { fetchThunkSingleCharacter } from '../../redux/characters/characterSlice'
+import { Person } from '../../models/types'
 
 export default function SingleCharacter({ route, navigation }) {
-  const [showCharacter, setShowCharacter] = useState(true)
-  const { characterInfo } = route.params
-  const {
-    affiliations,
-    aliases,
-    books,
-    city,
-    ethnicity,
-    name,
-    relationships,
-    universe,
-  } = characterInfo
+  const dispatch = useAppDispatch()
+  const activeCharacter = useAppSelector(
+    (state) => state.characters.activeCharacter
+  ) as Person
+  const state = useAppSelector((state) => state.characters)
 
-  const relationshipType = Object.keys(relationships)
+  const [showCharacter, setShowCharacter] = useState(true)
+  const id = route.params.characterInfo.id
+
+  useEffect(() => {
+    console.log('loading state')
+    dispatch(fetchThunkSingleCharacter(id))
+    console.log('finished loading')
+  }, [dispatch, id])
 
   const togglePage = () => {
     setShowCharacter(!showCharacter)
   }
 
+  const relationshipType =
+    activeCharacter.relationships && Object.keys(activeCharacter.relationships)
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{name}</Text>
+      <Text style={styles.title}>{activeCharacter.name}</Text>
+      <Button
+        onPress={() => console.log(state)}
+        title="Print Current Character Redux Store"
+      />
 
       {showCharacter ? (
         <View>
-          {books.join() !== '' && (
+          {activeCharacter.books && activeCharacter.books.join() !== '' && (
             <View style={styles.categoryContainer}>
               <Text style={styles.category}>Books:</Text>
-              <Text style={styles.information}>{books.join(', ')}</Text>
+              <Text style={styles.information}>
+                {activeCharacter.books.join(', ')}
+              </Text>
             </View>
           )}
-          {city !== '' && (
+          {activeCharacter.city && activeCharacter.city !== '' && (
             <View style={styles.categoryContainer}>
               <Text style={styles.category}>City:</Text>
-              <Text style={styles.information}>{city}</Text>
+              <Text style={styles.information}>{activeCharacter.city}</Text>
             </View>
           )}
-          {ethnicity !== '' && (
+          {activeCharacter.ethnicity && activeCharacter.ethnicity !== '' && (
             <View style={styles.categoryContainer}>
               <Text style={styles.category}>Race:</Text>
-              <Text style={styles.information}>{ethnicity}</Text>
+              <Text style={styles.information}>
+                {activeCharacter.ethnicity}
+              </Text>
             </View>
           )}
-          {universe !== '' && (
+          {activeCharacter.universe && activeCharacter.universe !== '' && (
             <View style={styles.categoryContainer}>
               <Text style={styles.category}>Universe:</Text>
-              <Text style={styles.information}>{universe}</Text>
+              <Text style={styles.information}>{activeCharacter.universe}</Text>
             </View>
           )}
-          {aliases.join() !== '' && (
+          {activeCharacter.aliases && activeCharacter.aliases.join() !== '' && (
             <View style={styles.categoryContainer}>
               <Text style={styles.category}>Aliases:</Text>
-              <Text style={styles.information}>{aliases.join(', ')}</Text>
+              <Text style={styles.information}>
+                {activeCharacter.aliases.join(', ')}
+              </Text>
             </View>
           )}
-          {affiliations.join() !== '' && (
-            <View style={styles.categoryContainer}>
-              <Text style={styles.category}>Affiliations:</Text>
-              <Text style={styles.information}>{affiliations.join(', ')}</Text>
-            </View>
-          )}
-          {relationshipType.length !== 0 && (
+          {activeCharacter.affiliations &&
+            activeCharacter.affiliations.join() !== '' && (
+              <View style={styles.categoryContainer}>
+                <Text style={styles.category}>Affiliations:</Text>
+                <Text style={styles.information}>
+                  {activeCharacter.affiliations.join(', ')}
+                </Text>
+              </View>
+            )}
+          {relationshipType && relationshipType.length !== 0 && (
             <View>
               <Text style={styles.category}>Relationships:</Text>
               {relationshipType.map((relationship, idx) => (
                 <View style={styles.categoryContainer} key={idx}>
                   <Text style={styles.information}>
-                    {relationship}: {relationships[relationship]}
+                    {relationship}:{' '}
+                    {activeCharacter.relationships[relationship]}
                   </Text>
                 </View>
               ))}
@@ -85,7 +105,7 @@ export default function SingleCharacter({ route, navigation }) {
         </View>
       ) : (
         <EditCharacter
-          characterInfo={characterInfo}
+          // characterInfo={activeCharacter}
           togglePage={togglePage}
           navigation={navigation}
         />

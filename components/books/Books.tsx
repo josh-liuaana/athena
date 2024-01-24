@@ -1,9 +1,9 @@
 import { Text, StyleSheet, View, TextInput, ScrollView } from 'react-native'
 import { useEffect, useState } from 'react'
-import { Book } from '../models/types'
+import { Book } from '../../models/types'
 import BookCard from './BookCard'
-import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { fetchThunkBooks } from '../redux/books/booksSlice'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { fetchThunkBooks } from '../../redux/books/booksSlice'
 
 export default function Books({ navigation, route }) {
   const dispatch = useAppDispatch()

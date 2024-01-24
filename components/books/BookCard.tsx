@@ -8,12 +8,12 @@ import {
   TextInput,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
-import { useAppDispatch, useAppSelector } from '../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import {
   deleteThunkBook,
   updateCurrentThunkBook,
   updateThunkBook,
-} from '../redux/books/booksSlice'
+} from '../../redux/books/booksSlice'
 
 export default function BookCard({ book, navigation }) {
   const dispatch = useAppDispatch()
