@@ -51,4 +51,5 @@ Fonts
 
 ```
   characterList: Person[],
+  activeCharacter: Person
 ```
