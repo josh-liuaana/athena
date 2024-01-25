@@ -9,8 +9,13 @@ import {
   query,
   updateDoc,
 } from 'firebase/firestore'
-import { db } from '../firebaseConfig'
 
+import { db } from '../firebase.config'
+
+/**
+ * Fetches book data from firebase /books collection
+ * @returns Array of books from the firebase DB
+ */
 export async function fetchBooks() {
   console.log('fetching books...')
   const booksCol = collection(db, 'books')

@@ -1,7 +1,9 @@
 import { signOut } from 'firebase/auth'
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
-import { auth } from '../firebaseConfig'
+import { auth } from '../firebase.config'
+
+import appLogo from '../assets/images/logo-no-background.png'
 
 export default function Home({ navigation }) {
   const handleNavigate = (page) => {
@@ -18,10 +20,7 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.logo}
-        source={require('../assets/images/logo-no-background.png')}
-      />
+      <Image style={styles.logo} source={appLogo} />
       <Text style={styles.subtitle}>scientia et intellectus</Text>
 
       <View style={styles.buttonContainer}>

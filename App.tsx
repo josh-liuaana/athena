@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useEffect, useState } from 'react'
 import { User, onAuthStateChanged } from 'firebase/auth'
-import { auth } from './firebaseConfig'
+import { auth } from './firebase.config'
 import { Provider } from 'react-redux'
 
 import { store } from './redux/store'
