@@ -25,4 +25,5 @@ export interface Book {
   author: string
   isCurrent: boolean
   universe?: string
+  userId: string
 }
