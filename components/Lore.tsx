@@ -1,7 +1,15 @@
 import { View, Text, StyleSheet, Pressable, Alert, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/Octicons'
+import { useAppDispatch } from '../hooks/redux'
+import { useEffect } from 'react'
+import { fetchThunkBooks } from '../redux/books/booksSlice'
 
 export default function Lore({ navigation }) {
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(fetchThunkBooks())
+  }, [])
+
   return (
     <View style={styles.container}>
       <Image
