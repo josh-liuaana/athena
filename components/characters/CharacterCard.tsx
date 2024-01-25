@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet, Pressable, Alert } from 'react-native'
+import { View, Text, StyleSheet, Pressable } from 'react-native'
 
 export default function CharacterCard({ navigation, characterInfo }) {
   const handleNavigation = () => {
     navigation.navigate('SingleCharacter', { characterInfo })
   }
 
-  const { name, id, universe } = characterInfo
+  const { name, universe } = characterInfo
   return (
     <View style={styles.container}>
       <Pressable style={styles.button} onPress={() => handleNavigation()}>
