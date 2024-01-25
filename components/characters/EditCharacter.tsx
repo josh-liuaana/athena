@@ -41,7 +41,7 @@ export default function EditCharacter({ togglePage, navigation }) {
   }
 
   const submitNewInformation = async () => {
-    let updateData = {
+    const updateData = {
       affiliations: [...affiliations],
       aliases: [...aliases],
       relationships: { ...relationships },
