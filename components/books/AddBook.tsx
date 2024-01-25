@@ -10,12 +10,16 @@ import { useEffect, useState } from 'react'
 import DropDownPicker from 'react-native-dropdown-picker'
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { postThunkBook } from '../../redux/books/booksSlice'
+import { postThunkBook, updateThunkBook } from '../../redux/books/booksSlice'
 import { Book } from '../../models/types'
+
+import { auth } from '../../firebaseConfig'
 
 export default function AddBook({ navigation }) {
   const dispatch = useAppDispatch()
   const books = useAppSelector((state) => state.books.bookList)
+  const currentId = useAppSelector((state) => state.books.current.id)
+  const user = auth.currentUser
 
   const [newBookInfo, setNewBookInfo] = useState<Partial<Book>>()
   const [open, setOpen] = useState(false)
@@ -38,16 +42,16 @@ export default function AddBook({ navigation }) {
     setNewBookInfo({ ...newBookInfo, universe: value })
   }, [value])
 
-  const submitNewBook = async () => {
-    await dispatch(postThunkBook(newBookInfo))
+  const submitNewBook = async (current) => {
+    if (current === true) {
+      dispatch(updateThunkBook({ isCurrent: false }, currentId))
+    }
+    await dispatch(
+      postThunkBook({ ...newBookInfo, userId: user.uid, isCurrent: current })
+    )
     Alert.alert('Thanks for adding a new book')
     navigation.navigate('Books')
   }
-
-  // TODO - need to include userID in the newBookInfo so db knows who added the book
-  // * also need to include an 'are you currently reading this section' checkbox potential
-  // TODO - dropdown
-  // styling - looks crook as
 
   return (
     <View style={styles.container}>
@@ -76,14 +80,31 @@ export default function AddBook({ navigation }) {
         addCustomItem={true}
         closeAfterSelecting={true}
         // * potentially use modal, but without the drop box view, click yes that modal popup
-        // listMode="MODAL"
-        // modalProps={{ animationType: 'slide' }}
       />
 
-      <Pressable style={styles.button}>
-        <Text style={styles.buttonText} onPress={submitNewBook}>
-          Submit
-        </Text>
+      <Pressable
+        style={styles.button}
+        onPress={() =>
+          Alert.alert(
+            `Are you currently reading this book`,
+            'Would you like this book to be set as active',
+            [
+              {
+                text: 'Yes',
+                onPress: () => submitNewBook(true),
+              },
+              {
+                text: 'No',
+                onPress: () => submitNewBook(false),
+              },
+            ],
+            {
+              cancelable: true,
+            }
+          )
+        }
+      >
+        <Text style={styles.buttonText}>Submit</Text>
       </Pressable>
     </View>
   )
