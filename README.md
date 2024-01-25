@@ -16,6 +16,8 @@ The peruse through the tomes of knowledge when some extra information is needed 
 
 [Firebase console](https://console.firebase.google.com/project/lore-81319/overview)
 
+[Style Guide and Convention](./style-guide.md)
+
 ## Technologies
 
 - TypeScript
