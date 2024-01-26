@@ -64,7 +64,7 @@ export default function EditCharacter({ togglePage, navigation }) {
   const handleCharacterDelete = () => {
     dispatch(deleteThunkCharacter(id))
     Alert.alert('character deleted')
-    navigation.navigate('People', { paramPropKey: 'paramPropValue' })
+    navigation.navigate('Characters', { paramPropKey: 'paramPropValue' })
   }
 
   return (

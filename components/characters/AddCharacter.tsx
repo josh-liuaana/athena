@@ -37,7 +37,7 @@ export default function AddCharacter({ navigation }) {
       await dispatch(postThunkCharacter(newCharacter))
     }
     Alert.alert('Thanks for adding a new character')
-    navigation.navigate('People')
+    navigation.navigate('Characters')
   }
 
   const customOnFocus = (focus) => {

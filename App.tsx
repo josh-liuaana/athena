@@ -11,7 +11,7 @@ import { store } from './redux/store'
 import Home from './components/Home'
 import Lore from './components/Lore'
 import Tomes from './components/Tome'
-import People from './components/characters/People'
+import Characters from './components/characters/Characters'
 import Places from './components/locations/Places'
 import Books from './components/books/Books'
 import AddBook from './components/books/AddBook'
@@ -76,10 +76,10 @@ export default function App() {
               }}
             />
             <Stack.Screen
-              name="People"
-              component={People}
+              name="Characters"
+              component={Characters}
               options={{
-                title: 'People',
+                title: 'Characters',
                 headerShown: false,
               }}
             />
