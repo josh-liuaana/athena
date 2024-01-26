@@ -19,11 +19,19 @@ export interface Location {
   world: string
 }
 
-export interface Book {
-  id: string
+export interface BookData {
   title: string
   author: string
   isCurrent: boolean
   universe?: string
   userId: string
+}
+
+export interface Book extends BookData {
+  id: string
+}
+
+export interface BookStore {
+  bookList: Book[]
+  current: Book
 }
