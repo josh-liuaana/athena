@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'caveat',
     fontSize: 70,
     width: '100%',
     textAlign: 'center',
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginVertical: 10,
     fontSize: 30,
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'caveat',
   },
   button: {
     textAlign: 'center',
@@ -95,6 +95,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#ffffff',
     fontSize: 40,
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'caveat',
   },
 })

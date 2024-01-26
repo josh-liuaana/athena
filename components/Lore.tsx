@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     margin: 15,
   },
   title: {
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'caveat',
     fontSize: 70,
     width: '100%',
     textAlign: 'center',
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#ffffff',
     fontSize: 40,
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'caveat',
   },
   icon: {
     color: '#DBE2CC',

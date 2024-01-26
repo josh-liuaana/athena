@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#ffffff',
     fontSize: 40,
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'caveat',
   },
 
   icon: {

@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   title: {
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'caveat',
     fontSize: 70,
   },
 })
