@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import CharacterCard from './CharacterCard'
 import { fetchThunkCharacters } from '../../redux/characters/characterSlice'
 
-export default function People({ navigation, route }) {
+export default function Characters({ navigation, route }) {
   const dispatch = useAppDispatch()
   const characters = useAppSelector((state) => state.characters)
 

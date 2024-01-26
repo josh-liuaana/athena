@@ -6,18 +6,15 @@ import {
   updateBookDetails,
 } from '../../apis/books'
 
-import { Book } from '../../models/types'
+import { BookStore } from '../../models/types'
 
-const initialState = {
-  bookList: [] as Book[],
-  current: {} as Book,
-}
+const initialState = {} as BookStore
 
 export const bookSlice = createSlice({
   name: 'books',
   initialState,
   reducers: {
-    setBooks: (state, action) => {
+    setBooks: (_, action) => {
       return action.payload
     },
     addBook: (state, action) => {

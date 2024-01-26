@@ -5,84 +5,83 @@ import {
   doc,
   getDoc,
   getDocs,
-  getFirestore,
   orderBy,
   query,
   updateDoc,
 } from 'firebase/firestore'
 
-export async function fetchCharacters() {
-  try {
-    console.log('fetching characters...')
-    const db = getFirestore()
-    const peopleCol = collection(db, 'people')
-    const peopleSnapshot = await getDocs(
-      query(peopleCol, orderBy('name', 'asc'))
-    )
-    const peopleList = []
+import { db } from '../firebase.config'
 
-    peopleSnapshot.docs.map((doc) =>
-      peopleList.push({ ...doc.data(), id: doc.id })
+import {
+  Character,
+  RawCharacterData,
+  UpdateCharacterData,
+} from '../models/types'
+
+export async function fetchCharacters(): Promise<Character[]> {
+  try {
+    const characterCollection = collection(db, 'people')
+    const characterSnapshot = await getDocs(
+      query(characterCollection, orderBy('name', 'asc'))
     )
-    console.log('retrieved characters')
-    return peopleList
+    const characterList = []
+
+    characterSnapshot.docs.map((doc) =>
+      characterList.push({ ...doc.data(), id: doc.id })
+    )
+
+    return characterList
   } catch (err) {
-    console.error(err)
+    throw new Error(err.message)
   }
 }
 
-export async function fetchSingleCharacter(id) {
-  console.log('fetching character...')
-  const db = getFirestore()
-  const updatedCharacter = await getDoc(doc(db, 'people', id))
-  console.log('retrieved character')
-  return { ...updatedCharacter.data(), id }
+export async function fetchSingleCharacter(id: string): Promise<Character> {
+  try {
+    const updatedCharacter = await getDoc(doc(db, 'people', id))
+    return { ...updatedCharacter.data(), id } as Character
+  } catch (err) {
+    throw new Error(err.message)
+  }
 }
 
-export async function postCharacter(newCharacterObject) {
-  const db = getFirestore()
-
-  // --- includes auto blank fields for db input --- //
+export async function postCharacter(
+  newCharacterObject: RawCharacterData
+): Promise<string> {
+  // --- includes auto blank fields for db input so update can push and add--- //
   const updatedCharacterObject = {
     ...newCharacterObject,
     affiliations: [],
     aliases: [],
-    books: [],
     relationships: {},
-    universe: '',
   }
 
   try {
-    console.log('adding character...')
     const res = await addDoc(collection(db, 'people'), updatedCharacterObject)
-    console.log('character added:', res.id)
     return res.id
   } catch (err) {
-    console.log(err)
+    throw new Error(err.message)
   }
 }
 
-export async function updateCharacter(characterInfo, id) {
-  const db = getFirestore()
+export async function updateCharacter(
+  characterInfo: UpdateCharacterData,
+  id: string
+): Promise<Character> {
   try {
-    console.log('updating character...')
     const characterRef = doc(db, 'people', id)
     await updateDoc(characterRef, characterInfo)
     const updatedCharacter = await getDoc(doc(db, 'people', id))
-    console.log('character updated')
-    return { ...updatedCharacter.data(), id }
+    return { ...updatedCharacter.data(), id } as Character
   } catch (err) {
-    console.error('error inside api call:', err.message)
+    throw new Error(err.message)
   }
 }
 
-export async function deleteCharacter(id) {
-  const db = getFirestore()
+export async function deleteCharacter(id: string): Promise<void> {
   try {
-    console.log('deleting character...')
     await deleteDoc(doc(db, 'people', id))
-    console.log('character deleted')
   } catch (err) {
-    console.error(err)
+    throw new Error(err.message)
   }
 }

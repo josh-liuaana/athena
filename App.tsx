@@ -1,17 +1,15 @@
-import { useFonts } from 'expo-font'
+import { useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { useEffect, useState } from 'react'
-import { User, onAuthStateChanged } from 'firebase/auth'
-import { auth } from './firebaseConfig'
 import { Provider } from 'react-redux'
 
-import { store } from './redux/store'
+import { User, onAuthStateChanged } from 'firebase/auth'
+import { useFonts } from 'expo-font'
 
 import Home from './components/Home'
 import Lore from './components/Lore'
 import Tomes from './components/Tome'
-import People from './components/characters/People'
+import Characters from './components/characters/Characters'
 import Places from './components/locations/Places'
 import Books from './components/books/Books'
 import AddBook from './components/books/AddBook'
@@ -19,13 +17,15 @@ import AddCharacter from './components/characters/AddCharacter'
 import SingleCharacter from './components/characters/SingleCharacter'
 import Login from './components/Login'
 
-const Stack = createNativeStackNavigator()
+import { auth } from './firebase.config'
 
-// ! SET UP REDUX FOR FRONT END STATE MANAGEMENT
+import { store } from './redux/store'
+
+const Stack = createNativeStackNavigator()
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    'Caveat-Regular': require('./assets/fonts/Caveat-Regular.ttf'),
+    caveat: require('./assets/fonts/Caveat-Regular.ttf'),
     vibes: require('./assets/fonts/GreatVibes-Regular.ttf'),
   })
 
@@ -36,6 +36,7 @@ export default function App() {
       setUser(user)
     })
   }, [])
+
   if (!fontsLoaded) return null
 
   return (
@@ -76,10 +77,10 @@ export default function App() {
               }}
             />
             <Stack.Screen
-              name="People"
-              component={People}
+              name="Characters"
+              component={Characters}
               options={{
-                title: 'People',
+                title: 'Characters',
                 headerShown: false,
               }}
             />

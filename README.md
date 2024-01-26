@@ -16,6 +16,8 @@ The peruse through the tomes of knowledge when some extra information is needed 
 
 [Firebase console](https://console.firebase.google.com/project/lore-81319/overview)
 
+[Style Guide and Convention](./style-guide.md)
+
 ## Technologies
 
 - TypeScript
@@ -28,6 +30,9 @@ The peruse through the tomes of knowledge when some extra information is needed 
   - [Redux Toolkit Docs](https://redux-toolkit.js.org/)
   - [Template](https://github.com/rahsheen/react-native-template-redux-typescript/tree/main)
 - [react-native-dropdown-picker](https://hossein-zare.github.io/react-native-dropdown-picker-website/)
+
+### Potential Future Tech
+- [React Native Paper](https://reactnativepaper.com/)
 
 ## Styling
 

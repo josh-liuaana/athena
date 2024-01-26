@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 10,
     fontSize: 25,
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'caveat',
   },
   editFormContainer: {
     alignItems: 'center',
@@ -276,6 +276,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#ffffff',
     fontSize: 25,
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'caveat',
   },
 })

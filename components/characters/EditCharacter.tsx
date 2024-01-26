@@ -41,7 +41,7 @@ export default function EditCharacter({ togglePage, navigation }) {
   }
 
   const submitNewInformation = async () => {
-    let updateData = {
+    const updateData = {
       affiliations: [...affiliations],
       aliases: [...aliases],
       relationships: { ...relationships },
@@ -64,7 +64,7 @@ export default function EditCharacter({ togglePage, navigation }) {
   const handleCharacterDelete = () => {
     dispatch(deleteThunkCharacter(id))
     Alert.alert('character deleted')
-    navigation.navigate('People', { paramPropKey: 'paramPropValue' })
+    navigation.navigate('Characters', { paramPropKey: 'paramPropValue' })
   }
 
   return (
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginVertical: 10,
     fontSize: 30,
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'caveat',
   },
 
   submitContainer: {
@@ -251,6 +251,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#ffffff',
     fontSize: 30,
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'caveat',
   },
 })

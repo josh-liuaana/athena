@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   category: {
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'caveat',
     fontSize: 40,
     textAlign: 'center',
   },

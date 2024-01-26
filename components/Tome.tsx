@@ -11,7 +11,7 @@ export default function Tomes({ navigation }) {
       <View style={styles.buttonContainer}>
         <Pressable
           style={[styles.button, styles.buttonLeft]}
-          onPress={() => navigation.navigate('People')}
+          onPress={() => navigation.navigate('Characters')}
         >
           <Text style={styles.buttonText}>Characters</Text>
         </Pressable>
@@ -69,6 +69,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#ffffff',
     fontSize: 40,
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'caveat',
   },
 })

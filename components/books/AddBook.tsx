@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { postThunkBook, updateThunkBook } from '../../redux/books/booksSlice'
 import { Book } from '../../models/types'
 
-import { auth } from '../../firebaseConfig'
+import { auth } from '../../firebase.config'
 
 export default function AddBook({ navigation }) {
   const dispatch = useAppDispatch()
@@ -129,6 +129,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#ffffff',
     fontSize: 40,
-    fontFamily: 'Caveat-Regular',
+    fontFamily: 'caveat',
   },
 })
