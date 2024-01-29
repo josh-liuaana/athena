@@ -13,8 +13,6 @@ export default function Login({ navigation }) {
   const handleSignIn = async () => {
     try {
       const res = await signInWithEmailAndPassword(auth, email, password)
-      console.log('firebase auth response', res)
-      navigation.navigate('Home')
     } catch (err) {
       console.error(err)
     }
@@ -23,8 +21,6 @@ export default function Login({ navigation }) {
   const handleSignUp = async () => {
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password)
-      console.log(res)
-      navigation.navigate('Home')
     } catch (err) {
       console.error(err)
     }
