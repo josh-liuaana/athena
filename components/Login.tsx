@@ -1,28 +1,33 @@
-import { View, Text, StyleSheet, TextInput, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Pressable, Alert } from 'react-native'
 import { auth } from '../firebase.config'
 import { useState } from 'react'
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth'
+import { Button, TextInput } from 'react-native-paper'
 
-export default function Login({ navigation }) {
+export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [hidePassword, setHidePassword] = useState(true)
 
   const handleSignIn = async () => {
     try {
-      const res = await signInWithEmailAndPassword(auth, email, password)
+      await signInWithEmailAndPassword(auth, email, password)
     } catch (err) {
-      console.error(err)
+      throw new Error(err.message)
     }
   }
 
   const handleSignUp = async () => {
     try {
-      const res = await createUserWithEmailAndPassword(auth, email, password)
+      Alert.alert(
+        'register redirect, disabled until better functionality set up'
+      )
+      // await createUserWithEmailAndPassword(auth, email, password)
     } catch (err) {
-      console.error(err)
+      throw new Error(err.message)
     }
   }
 
@@ -32,24 +37,63 @@ export default function Login({ navigation }) {
       <TextInput
         style={styles.textInput}
         value={email}
-        placeholder="Email..."
+        mode="outlined"
+        label="Email"
         autoCapitalize="none"
         onChangeText={(email) => setEmail(email)}
+        selectionColor="#171D0B"
+        outlineColor="#DBE2CC"
+        activeOutlineColor="#5a712c"
+        textColor="#171D0B"
       />
       <TextInput
-        style={styles.textInput}
-        secureTextEntry={true}
+        mode="outlined"
+        label="Password"
+        secureTextEntry={hidePassword}
+        right={
+          <TextInput.Icon
+            icon="eye"
+            style={styles.icon}
+            rippleColor="#DBE2CC"
+            onPress={() => setHidePassword(!hidePassword)}
+          />
+        }
         value={password}
-        placeholder="Password..."
-        autoCapitalize="none"
         onChangeText={(password) => setPassword(password)}
+        selectionColor="#171D0B"
+        outlineColor="#DBE2CC"
+        activeOutlineColor="#5a712c"
+        textColor="#171D0B"
+        style={styles.textInput}
+        autoCapitalize="none"
       />
       <Pressable style={styles.button} onPress={handleSignIn}>
         <Text style={styles.buttonText}>Sign In</Text>
       </Pressable>
-      <Pressable style={styles.button} onPress={handleSignUp}>
-        <Text style={styles.buttonText}>Register</Text>
-      </Pressable>
+      <View style={styles.gfbContainer}>
+        <Button
+          icon="google"
+          mode="contained"
+          onPress={() => Alert.alert('Google login')}
+          buttonColor="#DB4437"
+        >
+          Google
+        </Button>
+        <Button
+          icon="facebook"
+          mode="contained"
+          onPress={() => Alert.alert('Facebook login')}
+          buttonColor="#316FF6"
+        >
+          Facebook
+        </Button>
+      </View>
+      <View style={styles.registerContainer}>
+        <Text>Not registered yet?</Text>
+        <Text style={styles.registerText} onPress={handleSignUp}>
+          Register
+        </Text>
+      </View>
     </View>
   )
 }
@@ -59,6 +103,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#DBE2CC',
   },
   title: {
     fontFamily: 'caveat',
@@ -67,15 +112,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textInput: {
-    margin: 5,
-    borderRadius: 7,
-    borderWidth: 2,
     width: '75%',
     height: 60,
-    paddingHorizontal: 20,
-    marginVertical: 10,
-    fontSize: 30,
-    fontFamily: 'caveat',
+    marginVertical: 5,
+    fontSize: 25,
+  },
+  icon: {
+    marginTop: 15,
   },
   button: {
     textAlign: 'center',
@@ -92,5 +135,18 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 40,
     fontFamily: 'caveat',
+  },
+  gfbContainer: {
+    marginTop: 10,
+    gap: 10,
+  },
+  registerContainer: {
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  registerText: {
+    marginLeft: 3,
+    color: 'blue',
   },
 })
