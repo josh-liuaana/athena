@@ -97,14 +97,9 @@ export default function App() {
   })
 
   const [user, setUser] = useState<User | null>(null)
-  const [notifications, setNotifications] = useState<null | number>(null)
-
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setUser(user)
-      if (!user?.emailVerified) {
-        setNotifications(1)
-      }
     })
   }, [])
 
@@ -188,7 +183,6 @@ export default function App() {
                 options={{
                   title: 'User',
                   headerShown: false,
-                  tabBarBadge: notifications,
                 }}
               />
             </Tab.Navigator>
