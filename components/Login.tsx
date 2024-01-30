@@ -1,13 +1,12 @@
-import { View, Text, StyleSheet, Pressable, Alert } from 'react-native'
+import { View, Text, StyleSheet, Pressable, Alert, Image } from 'react-native'
 import { auth } from '../firebase.config'
 import { useState } from 'react'
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import { Button, TextInput } from 'react-native-paper'
+import { homeStyles } from '../styles/styles'
+import appLogo from '../assets/images/logo-no-background.png'
 
-export default function Login() {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [hidePassword, setHidePassword] = useState(true)
@@ -22,9 +21,7 @@ export default function Login() {
 
   const handleSignUp = async () => {
     try {
-      Alert.alert(
-        'register redirect, disabled until better functionality set up'
-      )
+      navigation.navigate('Register')
       // await createUserWithEmailAndPassword(auth, email, password)
     } catch (err) {
       throw new Error(err.message)
@@ -33,6 +30,7 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
+      <Image style={homeStyles.logo} source={appLogo} />
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.textInput}
@@ -72,6 +70,7 @@ export default function Login() {
       </Pressable>
       <View style={styles.gfbContainer}>
         <Button
+          disabled
           icon="google"
           mode="contained"
           onPress={() => Alert.alert('Google login')}
@@ -80,6 +79,7 @@ export default function Login() {
           Google
         </Button>
         <Button
+          disabled
           icon="facebook"
           mode="contained"
           onPress={() => Alert.alert('Facebook login')}
@@ -106,7 +106,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#DBE2CC',
   },
   title: {
-    fontFamily: 'caveat',
+    fontFamily: 'vibes',
+    letterSpacing: 4,
+    color: '#5a712c',
     fontSize: 70,
     width: '100%',
     textAlign: 'center',
