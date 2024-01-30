@@ -31,9 +31,9 @@ The peruse through the tomes of knowledge when some extra information is needed 
   - [Template](https://github.com/rahsheen/react-native-template-redux-typescript/tree/main)
 - [react-native-dropdown-picker](https://hossein-zare.github.io/react-native-dropdown-picker-website/)
 - [Bottom Tabs Navigator](https://reactnavigation.org/docs/bottom-tab-navigator/)
+- [React Native Paper](https://reactnativepaper.com/)
 
 ### Potential Future Tech
-- [React Native Paper](https://reactnativepaper.com/)
 
 ## Styling
 

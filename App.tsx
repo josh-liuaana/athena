@@ -19,6 +19,7 @@ import AddBook from './components/books/AddBook'
 import AddCharacter from './components/characters/AddCharacter'
 import SingleCharacter from './components/characters/SingleCharacter'
 import Login from './components/Login'
+import Register from './components/Register'
 import UserProfile from './components/user/UserProfile'
 import Information from './components/Information'
 
@@ -96,7 +97,6 @@ export default function App() {
   })
 
   const [user, setUser] = useState<User | null>(null)
-
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setUser(user)
@@ -180,7 +180,10 @@ export default function App() {
               <Tab.Screen
                 name="User"
                 component={UserProfile}
-                options={{ title: 'User', headerShown: false, tabBarBadge: 1 }}
+                options={{
+                  title: 'User',
+                  headerShown: false,
+                }}
               />
             </Tab.Navigator>
           ) : (
@@ -190,6 +193,14 @@ export default function App() {
                 component={Login}
                 options={{
                   title: 'User logged out - login form',
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="Register"
+                component={Register}
+                options={{
+                  title: 'User logged out - register form',
                   headerShown: false,
                 }}
               />
