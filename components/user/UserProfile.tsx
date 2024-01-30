@@ -21,9 +21,9 @@ export default function UserProfile() {
 
   return (
     <View style={styles.container}>
-      <Text>Hello ~username~</Text>
+      <Text>Hello {user.displayName}</Text>
       <Text>{user.email}</Text>
-      {!user.emailVerified && (
+      {!user?.emailVerified && (
         <View>
           <Text style={{ color: 'red' }}>
             Email address not yet verified, please verify
@@ -34,7 +34,7 @@ export default function UserProfile() {
           />
         </View>
       )}
-      <Text>User information blah blah</Text>
+
       <Button
         title="Update User Information"
         onPress={() => Alert.alert('User update form')}
