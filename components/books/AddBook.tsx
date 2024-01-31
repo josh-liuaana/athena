@@ -21,7 +21,10 @@ export default function AddBook({ navigation }) {
   const currentId = useAppSelector((state) => state.books.current.id)
   const user = auth.currentUser
 
-  const [newBookInfo, setNewBookInfo] = useState<Partial<Book>>()
+  const [newBookInfo, setNewBookInfo] = useState<Partial<Book>>({
+    title: '',
+    author: '',
+  })
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState(null)
   const [items, setItems] = useState([{ label: 'Standalone Novel', value: '' }])
@@ -49,18 +52,21 @@ export default function AddBook({ navigation }) {
     await dispatch(
       postThunkBook({ ...newBookInfo, userId: user.uid, isCurrent: current })
     )
+    setNewBookInfo({ title: '', author: '' })
     Alert.alert('Thanks for adding a new book')
-    navigation.navigate('Books')
+    navigation.navigate('Tomes', { screen: 'Books' })
   }
 
   return (
     <View style={styles.container}>
       <Text>Add Book</Text>
       <TextInput
+        value={newBookInfo.title}
         placeholder="Book Title"
         onChangeText={(title) => setNewBookInfo({ ...newBookInfo, title })}
       />
       <TextInput
+        value={newBookInfo.author}
         placeholder="Author"
         onChangeText={(author) => setNewBookInfo({ ...newBookInfo, author })}
       />
