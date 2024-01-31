@@ -6,6 +6,7 @@ import {
   Pressable,
   Alert,
   TextInput,
+  Image,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
@@ -19,7 +20,7 @@ export default function BookCard({ book, navigation }) {
   const dispatch = useAppDispatch()
   const currentId = useAppSelector((state) => state.books.current.id)
 
-  const { author, title, isCurrent, id } = book
+  const { author, title, isCurrent, id, cover } = book
   const [currentlyEditing, setCurrentlyEditing] = useState(false)
   const [showEditForm, setShowEditForm] = useState(false)
   const [focus, setFocus] = useState(null)
@@ -70,6 +71,8 @@ export default function BookCard({ book, navigation }) {
     >
       <Pressable style={styles.card} onPress={handleCardPress}>
         <View style={styles.infoContainer}>
+          <Image style={{ height: 60, width: 30 }} source={{ uri: cover }} />
+          {/* // ! NEED TO SORT OUT THE STYLING WITH THE COVER */}
           <Text
             style={[
               styles.titleText,
