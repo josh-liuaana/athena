@@ -69,10 +69,20 @@ export default function BookCard({ book, navigation }) {
           : styles.inactiveContainer,
       ]}
     >
-      <Pressable style={styles.card} onPress={handleCardPress}>
-        <View style={styles.infoContainer}>
-          <Image style={{ height: 60, width: 30 }} source={{ uri: cover }} />
-          {/* // ! NEED TO SORT OUT THE STYLING WITH THE COVER */}
+      <Pressable
+        style={currentlyEditing ? styles.cardEditing : styles.card}
+        onPress={handleCardPress}
+      >
+        {!currentlyEditing && (
+          <Image style={styles.image} source={{ uri: cover }} />
+        )}
+        <View
+          style={
+            currentlyEditing
+              ? styles.infoContainerEditing
+              : styles.infoContainer
+          }
+        >
           <Text
             style={[
               styles.titleText,
@@ -200,6 +210,36 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
   },
+  image: {
+    height: '100%',
+    width: 75,
+    borderTopLeftRadius: 7,
+    borderBottomLeftRadius: 7,
+    position: 'absolute',
+    left: 0,
+  },
+  infoContainer: {
+    width: '75%',
+    position: 'absolute',
+    right: 10,
+  },
+  infoContainerEditing: {
+    width: '75%',
+  },
+  card: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
+  },
+  cardEditing: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+
   activeContainer: {
     backgroundColor: '#DBE2CC',
     height: 160,
@@ -212,7 +252,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#5a712c',
     height: 110,
   },
-  infoContainer: {},
   editButtonsContainer: {
     flexDirection: 'row',
     gap: 10,
@@ -228,17 +267,10 @@ const styles = StyleSheet.create({
   deleteButton: {
     backgroundColor: '#ffa7a7',
   },
-  card: {
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-  },
   titleText: {
     fontFamily: 'vibes',
     fontSize: 33,
     color: '#DBE2CC',
-    letterSpacing: 4,
     textAlign: 'center',
   },
   authorText: {
