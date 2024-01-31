@@ -32,6 +32,7 @@ export interface BookData {
 
 export interface Book extends BookData {
   id: string
+  cover?: string
 }
 
 export interface BookStore {
