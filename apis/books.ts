@@ -9,6 +9,7 @@ import {
   query,
   updateDoc,
 } from 'firebase/firestore'
+import request from 'superagent'
 
 import { db } from '../firebase.config'
 
@@ -53,11 +54,35 @@ export async function fetchBooks(): Promise<BookStore> {
  */
 export async function postBook(newBookData: Partial<BookData>): Promise<Book> {
   try {
-    const res = await addDoc(collection(db, 'books'), newBookData)
+    const bookCover = await fetchBookInformation(
+      newBookData.title,
+      newBookData.author
+    )
+    const res = await addDoc(collection(db, 'books'), {
+      ...newBookData,
+      cover: bookCover,
+    })
     const newBook = await getDoc(doc(db, 'books', res.id))
-    return { ...newBook.data(), id: newBook.id } as Book
+    return { ...newBook.data(), id: newBook.id, cover: bookCover } as Book
   } catch (err) {
     throw new Error(err.message)
+  }
+}
+
+/**
+ * Retrieves book cover image from google books api
+ * @param title
+ * @param author
+ * @returns book cover image url
+ */
+export async function fetchBookInformation(title, author): Promise<string> {
+  try {
+    const res = await request.get(
+      `https://www.googleapis.com/books/v1/volumes?q=intitle:${title}+inauthor:${author}`
+    )
+    return res.body.items[0].volumeInfo.imageLinks.thumbnail
+  } catch (err) {
+    throw new Error('fetch book information error', err.message)
   }
 }
 
