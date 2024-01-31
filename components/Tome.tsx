@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, Image } from 'react-native'
+import { View, Text, StyleSheet, Pressable, Image, Button } from 'react-native'
 
 export default function Tomes({ navigation }) {
   return (
@@ -22,6 +22,11 @@ export default function Tomes({ navigation }) {
           <Text style={styles.buttonText}>Locations</Text>
         </Pressable>
       </View>
+
+      <Button
+        onPress={() => navigation.navigate('Books')}
+        title="Browse the Library"
+      />
     </View>
   )
 }
