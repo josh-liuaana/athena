@@ -36,7 +36,7 @@ export default function Lore({ navigation }) {
 
           <Pressable
             style={[styles.button, styles.buttonRight]}
-            onPress={() => Alert.alert('Location')}
+            onPress={() => Alert.alert('Add Location functionality to come')}
           >
             <Icon style={styles.icon} name="location" size={60} />
           </Pressable>
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
   },
   buttonRight: {
     borderBottomRightRadius: 10,
+    backgroundColor: 'grey',
   },
   buttonText: {
     textAlign: 'center',
