@@ -88,7 +88,7 @@ export default function FileName({ props }) {
     </View>
   )
 
-  // * Styles
+  // * Styles -- will be housed in separate files
   const styles = StyleSheet.create({
   })
 }
