@@ -64,7 +64,7 @@ export type UpdateCharacterData = Pick<
 
 export interface Character extends CharacterData {
   id: string
-  dateAdded: string
+  dateAdded: number
 }
 
 export interface CharacterStore {

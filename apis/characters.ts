@@ -54,7 +54,7 @@ export async function postCharacter(
     affiliations: [],
     aliases: [],
     relationships: {},
-    dateAdded: new Date().toLocaleString(),
+    dateAdded: Date.now(),
   }
 
   try {
