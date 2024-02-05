@@ -17,6 +17,9 @@ import DropDownPicker from 'react-native-dropdown-picker'
 // * import assets
 import appLogo from '../assets/images/logo-no-background.png'
 
+// * import shared components
+import TextInputComp from '../@shared/TextInputComp'
+
 // * import components
 import BookCard from './BookCard'
 
