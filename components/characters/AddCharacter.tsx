@@ -1,9 +1,9 @@
 import { StyleSheet, View, Pressable, Text, Image, Alert } from 'react-native'
 import { useState } from 'react'
 
-import { TextInput } from 'react-native-paper'
-
 import appLogo from '../../assets/images/athena-favicon-color.png'
+
+import TextInputComp from '../@shared/TextInputComp'
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { postThunkCharacter } from '../../redux/characters/characterSlice'
@@ -29,8 +29,16 @@ export default function AddCharacter({ navigation }) {
     } else {
       await dispatch(postThunkCharacter(newCharacter))
     }
+    setNewCharacter({
+      ...newCharacter,
+      city: '',
+      ethnicity: '',
+      name: '',
+    })
     Alert.alert('Thanks for adding a new character')
-    navigation.navigate('Characters', { paramPropKey: 'paramPropValue' })
+    navigation.navigate('Tomes', {
+      screen: 'Characters',
+    })
   }
 
   return (
@@ -38,44 +46,20 @@ export default function AddCharacter({ navigation }) {
       <Image style={styles.logo} source={appLogo} />
       <Text style={styles.title}>Add Character</Text>
       <Text style={styles.currentBook}>Adding to {currentBook.title}</Text>
-      <TextInput
-        style={styles.textInput}
+      <TextInputComp
+        func={(name) => setNewCharacter({ ...newCharacter, name })}
         value={newCharacter.name}
-        mode="outlined"
         label="Name"
-        autoCapitalize="words"
-        autoCorrect={false}
-        onChangeText={(name) => setNewCharacter({ ...newCharacter, name })}
-        selectionColor="#171d0b"
-        activeOutlineColor="#5a712c"
-        textColor="#171D0B"
       />
-      <TextInput
-        style={styles.textInput}
+      <TextInputComp
+        func={(city) => setNewCharacter({ ...newCharacter, city })}
         value={newCharacter.city}
-        mode="outlined"
         label="Home"
-        autoCapitalize="words"
-        autoCorrect={false}
-        onChangeText={(city) => setNewCharacter({ ...newCharacter, city })}
-        selectionColor="#171d0b"
-        activeOutlineColor="#5a712c"
-        textColor="#171D0B"
       />
-      <TextInput
-        style={styles.textInput}
+      <TextInputComp
+        func={(ethnicity) => setNewCharacter({ ...newCharacter, ethnicity })}
         value={newCharacter.ethnicity}
-        mode="outlined"
         label="Race"
-        autoCapitalize="words"
-        autoCorrect={false}
-        onChangeText={(ethnicity) =>
-          setNewCharacter({ ...newCharacter, ethnicity })
-        }
-        selectionColor="#171d0b"
-        activeOutlineColor="#5a712c"
-        textColor="#171D0B"
-        enterKeyHint="done"
       />
       <Pressable style={styles.button}>
         <Text style={styles.buttonText} onPress={submitNewCharacter}>
@@ -106,9 +90,6 @@ const styles = StyleSheet.create({
   },
   currentBook: {
     fontSize: 20,
-  },
-  textInput: {
-    width: '80%',
   },
   button: {
     textAlign: 'center',
