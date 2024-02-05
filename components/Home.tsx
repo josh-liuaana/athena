@@ -1,10 +1,22 @@
+import { useEffect } from 'react'
 import { Text, View, Image, Pressable } from 'react-native'
 
 import appLogo from '../assets/images/logo-no-background.png'
-
 import { homeStyles } from '../styles/styles'
 
+import { useAppDispatch } from '../hooks/redux'
+
+import { fetchThunkCharacters } from '../redux/characters/characterSlice'
+import { fetchThunkBooks } from '../redux/books/booksSlice'
+
 export default function Home({ navigation }) {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(fetchThunkCharacters())
+    dispatch(fetchThunkBooks())
+  })
+
   const handleNavigate = (page) => {
     navigation.navigate(page)
   }
