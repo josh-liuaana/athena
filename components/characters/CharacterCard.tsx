@@ -10,7 +10,7 @@ export default function CharacterCard({ navigation, characterInfo }) {
     <View style={styles.container}>
       <Pressable style={styles.button} onPress={() => handleNavigation()}>
         <Text style={styles.characterName}>{name}</Text>
-        <Text style={styles.universe}>{universe}</Text>
+        {universe && <Text style={styles.universe}>{universe}</Text>}
       </Pressable>
     </View>
   )
