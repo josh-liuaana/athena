@@ -39,16 +39,10 @@ export default function Home({ navigation }) {
         <View style={homeStyles.bottomButtonsContainer}>
           <Pressable
             style={[homeStyles.button, homeStyles.buttonLeft]}
-            onPress={() => handleNavigate('Books')}
-          >
-            <Text style={homeStyles.buttonText}>Library</Text>
-          </Pressable>
-          {/* <Pressable
-            style={[homeStyles.button, homeStyles.buttonLeft]}
             onPress={() => handleNavigate('Information')}
           >
             <Text style={homeStyles.buttonText}>Info</Text>
-          </Pressable> */}
+          </Pressable>
 
           <Pressable
             style={[homeStyles.button, homeStyles.buttonRight]}
