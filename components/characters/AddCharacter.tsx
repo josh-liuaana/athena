@@ -1,13 +1,9 @@
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  Pressable,
-  Text,
-  Image,
-  Alert,
-} from 'react-native'
-import { useState, useRef } from 'react'
+import { StyleSheet, View, Pressable, Text, Image, Alert } from 'react-native'
+import { useState } from 'react'
+
+import { TextInput } from 'react-native-paper'
+
+import appLogo from '../../assets/images/athena-favicon-color.png'
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { postThunkCharacter } from '../../redux/characters/characterSlice'
@@ -24,9 +20,6 @@ export default function AddCharacter({ navigation }) {
     books: [currentBook.title],
     userId: auth.currentUser.uid,
   })
-  const [focus, setFocus] = useState(null)
-  const citRef = useRef(null)
-  const ethRef = useRef(null)
 
   const submitNewCharacter = async () => {
     if (currentBook.universe) {
@@ -40,71 +33,49 @@ export default function AddCharacter({ navigation }) {
     navigation.navigate('Characters', { paramPropKey: 'paramPropValue' })
   }
 
-  const customOnFocus = (focus) => {
-    setFocus(focus)
-  }
-  const customOnBlur = () => {
-    setFocus(null)
-  }
-
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.logo}
-        source={require('../../assets/images/athena-favicon-color.png')}
-      />
+      <Image style={styles.logo} source={appLogo} />
       <Text style={styles.title}>Add Character</Text>
-      {/* <Text>Adding to (import current book)</Text> */}
+      <Text style={styles.currentBook}>Adding to {currentBook.title}</Text>
       <TextInput
-        autoCapitalize="words"
-        autoCorrect={false}
-        enterKeyHint="next"
-        onFocus={() => customOnFocus('name')}
-        onBlur={() => customOnBlur()}
+        style={styles.textInput}
         value={newCharacter.name}
-        placeholder="Name..."
-        style={[
-          { backgroundColor: focus === 'name' ? '#DBE2CC' : 'white' },
-          { borderColor: focus === 'name' ? 'white' : '#DBE2CC' },
-          styles.textInput,
-        ]}
+        mode="outlined"
+        label="Name"
+        autoCapitalize="words"
+        autoCorrect={false}
         onChangeText={(name) => setNewCharacter({ ...newCharacter, name })}
-        onSubmitEditing={() => citRef.current.focus()}
+        selectionColor="#171d0b"
+        activeOutlineColor="#5a712c"
+        textColor="#171D0B"
       />
       <TextInput
-        ref={citRef}
-        autoCapitalize="words"
-        autoCorrect={false}
-        enterKeyHint="next"
-        onFocus={() => customOnFocus('city')}
-        onBlur={() => customOnBlur()}
+        style={styles.textInput}
         value={newCharacter.city}
-        placeholder="Home..."
-        style={[
-          { backgroundColor: focus === 'city' ? '#DBE2CC' : 'white' },
-          { borderColor: focus === 'city' ? 'white' : '#DBE2CC' },
-          styles.textInput,
-        ]}
-        onChangeText={(city) => setNewCharacter({ ...newCharacter, city })}
-        onSubmitEditing={() => ethRef.current.focus()}
-      />
-      <TextInput
-        ref={ethRef}
+        mode="outlined"
+        label="Home"
         autoCapitalize="words"
         autoCorrect={false}
-        enterKeyHint="done"
-        onFocus={() => customOnFocus('ethnicity')}
-        onBlur={() => customOnBlur()}
+        onChangeText={(city) => setNewCharacter({ ...newCharacter, city })}
+        selectionColor="#171d0b"
+        activeOutlineColor="#5a712c"
+        textColor="#171D0B"
+      />
+      <TextInput
+        style={styles.textInput}
         value={newCharacter.ethnicity}
-        placeholder="Race..."
-        style={[
-          { backgroundColor: focus === 'ethnicity' ? '#DBE2CC' : 'white' },
-          { borderColor: focus === 'ethnicity' ? 'white' : '#DBE2CC' },
-          styles.textInput,
-        ]}
+        mode="outlined"
+        label="Race"
+        autoCapitalize="words"
+        autoCorrect={false}
         onChangeText={(ethnicity) =>
           setNewCharacter({ ...newCharacter, ethnicity })
         }
+        selectionColor="#171d0b"
+        activeOutlineColor="#5a712c"
+        textColor="#171D0B"
+        enterKeyHint="done"
       />
       <Pressable style={styles.button}>
         <Text style={styles.buttonText} onPress={submitNewCharacter}>
@@ -121,11 +92,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#DBE2CC',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 5,
   },
   logo: {
     height: 75,
     width: 75,
-    margin: 15,
   },
   title: {
     fontFamily: 'caveat',
@@ -133,19 +104,15 @@ const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
   },
+  currentBook: {
+    fontSize: 20,
+  },
   textInput: {
-    margin: 5,
-    borderRadius: 7,
-    borderWidth: 2,
-    width: '75%',
-    height: 60,
-    paddingHorizontal: 20,
-    marginVertical: 10,
-    fontSize: 30,
-    fontFamily: 'caveat',
+    width: '80%',
   },
   button: {
     textAlign: 'center',
+    justifyContent: 'center',
     padding: 15,
     margin: 5,
     backgroundColor: '#5a712c',
