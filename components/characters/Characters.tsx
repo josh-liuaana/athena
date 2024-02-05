@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Alert, ScrollView, Image } from 'react-native'
+import { StyleSheet, View, Text, ScrollView, Image } from 'react-native'
 import { useEffect, useState } from 'react'
 
 import {
