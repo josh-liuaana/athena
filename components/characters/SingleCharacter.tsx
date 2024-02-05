@@ -1,52 +1,68 @@
 import { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Pressable, Button } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { View, Text, StyleSheet, Alert } from 'react-native'
+
+import { Button, FAB, Snackbar } from 'react-native-paper'
+
 import EditCharacter from './EditCharacter'
+
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+
 import { fetchThunkSingleCharacter } from '../../redux/characters/characterSlice'
-import { Person } from '../../models/types'
+
+import type { Person } from '../../models/types'
 
 export default function SingleCharacter({ route, navigation }) {
   const dispatch = useAppDispatch()
   const activeCharacter = useAppSelector(
     (state) => state.characters.activeCharacter
   ) as Person
-  const state = useAppSelector((state) => state.characters)
 
   const [showCharacter, setShowCharacter] = useState(true)
+
   const id = route.params.characterInfo.id
 
   useEffect(() => {
-    console.log('loading state')
     dispatch(fetchThunkSingleCharacter(id))
-    console.log('finished loading')
+    setTimeout(() => setVisible(false), 5000)
   }, [dispatch, id])
 
-  const togglePage = () => {
-    setShowCharacter(!showCharacter)
-  }
+  const togglePage = () => setShowCharacter(!showCharacter)
 
   const relationshipType =
     activeCharacter.relationships && Object.keys(activeCharacter.relationships)
 
+  const [visible, setVisible] = useState(true)
+
+  // const onToggleSnackBar = () => setVisible(!visible)
+
+  const onDismissSnackBar = () => setVisible(false)
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{activeCharacter.name}</Text>
-      <Button
-        onPress={() => console.log(state)}
-        title="Print Current Character Redux Store"
+      <FAB
+        icon={showCharacter ? 'human-edit' : 'keyboard-backspace'}
+        style={styles.fab}
+        onPress={togglePage}
+        color={'#5a712c'}
+        rippleColor={'#5a712c'}
       />
 
       {showCharacter ? (
         <View>
-          {activeCharacter.books && activeCharacter.books.join() !== '' && (
-            <View style={styles.categoryContainer}>
-              <Text style={styles.category}>Books:</Text>
-              <Text style={styles.information}>
-                {activeCharacter.books.join(', ')}
-              </Text>
-            </View>
-          )}
+          <Text style={styles.category}>Books:</Text>
+          {activeCharacter.books &&
+            activeCharacter.books.map((book) => (
+              <View key={book}>
+                <Button
+                  onPress={() =>
+                    Alert.alert(`Navigate to ${book} book information`)
+                  }
+                >
+                  <Text style={styles.information}>{book}</Text>
+                </Button>
+              </View>
+            ))}
           {activeCharacter.city && activeCharacter.city !== '' && (
             <View style={styles.categoryContainer}>
               <Text style={styles.category}>City:</Text>
@@ -75,41 +91,67 @@ export default function SingleCharacter({ route, navigation }) {
               </Text>
             </View>
           )}
+
           {activeCharacter.affiliations &&
-            activeCharacter.affiliations.join() !== '' && (
-              <View style={styles.categoryContainer}>
+            activeCharacter.affiliations.join() !== '' &&
+            activeCharacter.affiliations.map((affiliation, idx) => (
+              <View key={idx}>
                 <Text style={styles.category}>Affiliations:</Text>
-                <Text style={styles.information}>
-                  {activeCharacter.affiliations.join(', ')}
-                </Text>
+                <Button
+                  onPress={() =>
+                    Alert.alert(
+                      `Navigate to ${affiliation} filtered characters`
+                    )
+                  }
+                >
+                  <Text style={styles.information}>{affiliation}</Text>
+                </Button>
               </View>
-            )}
+            ))}
+
           {relationshipType && relationshipType.length !== 0 && (
             <View>
               <Text style={styles.category}>Relationships:</Text>
               {relationshipType.map((relationship, idx) => (
-                <View style={styles.categoryContainer} key={idx}>
-                  <Text style={styles.information}>
-                    {relationship}:{' '}
-                    {activeCharacter.relationships[relationship]}
-                  </Text>
+                <View key={idx}>
+                  <Button
+                    onPress={() =>
+                      Alert.alert(
+                        `Navigate to ${activeCharacter.relationships[relationship]}'s character page`
+                      )
+                    }
+                  >
+                    <Text style={styles.information}>
+                      {relationship}:{' '}
+                      {activeCharacter.relationships[relationship]}
+                    </Text>
+                  </Button>
                 </View>
               ))}
             </View>
           )}
-          <View style={styles.updatesContainer}>
-            <Pressable style={styles.editButton} onPress={togglePage}>
-              <Icon name="account-edit" style={styles.icon} />
-            </Pressable>
-          </View>
         </View>
       ) : (
-        <EditCharacter
-          // characterInfo={activeCharacter}
-          togglePage={togglePage}
-          navigation={navigation}
-        />
+        <EditCharacter togglePage={togglePage} navigation={navigation} />
       )}
+      <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: 'Undo',
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        <Text style={{ color: 'white' }}>
+          Click on a book
+          {activeCharacter.affiliations.length > 0 && ', affiliation'}
+          {Object.keys(activeCharacter.relationships).length > 0 &&
+            ' or relationship'}{' '}
+          to navigate to a new page
+        </Text>
+      </Snackbar>
     </View>
   )
 }
@@ -125,26 +167,10 @@ const styles = StyleSheet.create({
     fontFamily: 'vibes',
     fontSize: 70,
   },
-
-  updatesContainer: {
-    flexDirection: 'row',
-    marginTop: 10,
-    justifyContent: 'center',
-  },
-  editButton: {
-    paddingVertical: 15,
-    paddingHorizontal: 25,
-  },
-  icon: {
-    color: '#5a712c',
-    fontSize: 30,
-  },
-  deleteButton: {
-    backgroundColor: '#d11a2a',
-    paddingVertical: 15,
-    paddingHorizontal: 25,
-    borderWidth: 1,
-    borderColor: 'black',
+  fab: {
+    position: 'absolute',
+    right: 16,
+    bottom: 16,
   },
   categoryContainer: {
     flexDirection: 'column',
@@ -152,12 +178,12 @@ const styles = StyleSheet.create({
   },
   category: {
     fontFamily: 'caveat',
-    fontSize: 40,
+    fontSize: 30,
     textAlign: 'center',
   },
   information: {
     fontFamily: 'sans-serif',
-    fontSize: 25,
+    fontSize: 20,
     textAlign: 'center',
     color: '#5a712c',
   },
