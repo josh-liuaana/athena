@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, Image, Button } from 'react-native'
+import { View, Text, StyleSheet, Pressable, Image, Alert } from 'react-native'
 
 export default function Tomes({ navigation }) {
   return (
@@ -17,16 +17,12 @@ export default function Tomes({ navigation }) {
         </Pressable>
         <Pressable
           style={[styles.button, styles.buttonRight]}
-          onPress={() => navigation.navigate('Places')}
+          onPress={() => Alert.alert('Work in progress')}
+          // onPress={() => navigation.navigate('Places')}
         >
           <Text style={styles.buttonText}>Locations</Text>
         </Pressable>
       </View>
-
-      <Button
-        onPress={() => navigation.navigate('Books')}
-        title="Browse the Library"
-      />
     </View>
   )
 }
@@ -69,6 +65,7 @@ const styles = StyleSheet.create({
   buttonRight: {
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
+    backgroundColor: 'grey',
   },
   buttonText: {
     textAlign: 'center',

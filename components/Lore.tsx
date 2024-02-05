@@ -21,17 +21,17 @@ export default function Lore({ navigation }) {
         <View style={styles.topButtonContainer}>
           <Pressable
             style={[styles.button, styles.buttonTop]}
-            onPress={() => navigation.navigate('AddBook')}
+            onPress={() => navigation.navigate('AddCharacter')}
           >
-            <Icon style={styles.icon} name="book" size={60} />
+            <Icon style={styles.icon} name="person" size={60} />
           </Pressable>
         </View>
         <View style={styles.bottomButtonsContainer}>
           <Pressable
             style={[styles.button, styles.buttonLeft]}
-            onPress={() => navigation.navigate('AddCharacter')}
+            onPress={() => navigation.navigate('AddBook')}
           >
-            <Icon style={styles.icon} name="person" size={60} />
+            <Icon style={styles.icon} name="book" size={60} />
           </Pressable>
 
           <Pressable
