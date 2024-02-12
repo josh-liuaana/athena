@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 import appLogo from '../../assets/images/athena-favicon-color.png'
 
-import TextInputComp from '../@shared/TextInputComp'
+import { TextInputComp } from '../@shared/TextInputComp'
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { postThunkCharacter } from '../../redux/characters/characterSlice'

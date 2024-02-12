@@ -7,7 +7,7 @@ import { Checkbox, Dialog, Portal, Button } from 'react-native-paper'
 import appLogo from '../../assets/images/athena-favicon-color.png'
 
 import SubmitButton from '../@shared/SubmitButton'
-import TextInputComp from '../@shared/TextInputComp'
+import { TextInputComp } from '../@shared/TextInputComp'
 
 import { auth } from '../../firebase.config'
 

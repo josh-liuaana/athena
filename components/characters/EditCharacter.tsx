@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { View, Text, StyleSheet, Alert, Pressable } from 'react-native'
 
-import TextInputComp from '../@shared/TextInputComp'
+import { TextInputComp } from '../@shared/TextInputComp'
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 
