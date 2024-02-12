@@ -7,6 +7,7 @@ import { Checkbox, Dialog, Portal, TextInput, Button } from 'react-native-paper'
 import appLogo from '../../assets/images/athena-favicon-color.png'
 
 import SubmitButton from '../@shared/SubmitButton'
+import TextInputComp from '../@shared/TextInputComp'
 
 import { auth } from '../../firebase.config'
 
@@ -70,32 +71,15 @@ export default function AddBook({ navigation }) {
         <View style={styles.formContainer}>
           <Image style={styles.logo} source={appLogo} />
           <Text style={styles.title}>Add Book</Text>
-          <TextInput
-            style={styles.textInput}
+          <TextInputComp
+            func={(title) => setNewBookInfo({ ...newBookInfo, title })}
             value={newBookInfo.title}
-            mode="outlined"
             label="Book Title"
-            autoCapitalize="words"
-            onChangeText={(title) => setNewBookInfo({ ...newBookInfo, title })}
-            selectionColor="#171d0b"
-            activeOutlineColor="#5a712c"
-            textColor="#171D0B"
-            enterKeyHint="next"
-            onSubmitEditing={() => authorRef.current.focus()}
           />
-          <TextInput
-            ref={authorRef}
-            style={styles.textInput}
-            mode="outlined"
-            label="Author"
-            autoCapitalize="words"
-            selectionColor="#171d0b"
-            activeOutlineColor="#5a712c"
-            textColor="#171D0B"
+          <TextInputComp
+            func={(author) => setNewBookInfo({ ...newBookInfo, author })}
             value={newBookInfo.author}
-            onChangeText={(author) =>
-              setNewBookInfo({ ...newBookInfo, author })
-            }
+            label="Author"
           />
 
           <View style={styles.checkboxContainer}>
@@ -111,22 +95,24 @@ export default function AddBook({ navigation }) {
               position="leading"
             />
           </View>
-          {checked && (
-            <DropDownPicker
-              open={open}
-              setOpen={setOpen}
-              items={items}
-              setItems={setItems}
-              value={value}
-              setValue={setValue}
-              placeholder="Choose a series..."
-              placeholderStyle={{ color: 'grey' }}
-              searchable={true}
-              searchPlaceholder="Search for a series, or add a new one"
-              addCustomItem={true}
-              closeAfterSelecting={true}
-            />
-          )}
+          <View style={{ width: '80%' }}>
+            {checked && (
+              <DropDownPicker
+                open={open}
+                setOpen={setOpen}
+                items={items}
+                setItems={setItems}
+                value={value}
+                setValue={setValue}
+                placeholder="Choose a series..."
+                placeholderStyle={{ color: 'grey' }}
+                searchable={true}
+                searchPlaceholder="Search for a series, or add a new one"
+                addCustomItem={true}
+                closeAfterSelecting={true}
+              />
+            )}
+          </View>
 
           <SubmitButton
             disabled={false} // change to true when fields are filled in correctly
@@ -158,7 +144,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   formContainer: {
-    width: '80%',
+    width: '100%',
     gap: 5,
     alignItems: 'center',
     justifyContent: 'center',
