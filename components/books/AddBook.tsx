@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, Alert, Image } from 'react-native'
-import { useEffect, useRef, useState } from 'react'
+import { View, Text, StyleSheet, Image } from 'react-native'
+import { useEffect, useState } from 'react'
 
 import DropDownPicker from 'react-native-dropdown-picker'
-import { Checkbox, Dialog, Portal, TextInput, Button } from 'react-native-paper'
+import { Checkbox, Dialog, Portal, Button } from 'react-native-paper'
 
 import appLogo from '../../assets/images/athena-favicon-color.png'
 
@@ -22,7 +22,6 @@ export default function AddBook({ navigation }) {
   const books = useAppSelector((state) => state.books.bookList)
   const currentId = useAppSelector((state) => state.books.current.id)
 
-  const authorRef = useRef(null)
   const [newBookInfo, setNewBookInfo] = useState<Partial<Book>>({
     title: '',
     author: '',
@@ -61,7 +60,6 @@ export default function AddBook({ navigation }) {
     setNewBookInfo({ title: '', author: '' })
     setChecked(false)
     setDialogVisible(false)
-    Alert.alert('Thanks for adding a new book')
     navigation.navigate('Tomes', { screen: 'Books' })
   }
 
