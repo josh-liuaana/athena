@@ -1,10 +1,12 @@
-import { View, Text, StyleSheet, Pressable, Alert, Image } from 'react-native'
+import { View, Text, StyleSheet, Alert, Image } from 'react-native'
 import { useEffect, useRef, useState } from 'react'
 
 import DropDownPicker from 'react-native-dropdown-picker'
-import { Checkbox, TextInput } from 'react-native-paper'
+import { Checkbox, Dialog, Portal, TextInput, Button } from 'react-native-paper'
 
 import appLogo from '../../assets/images/athena-favicon-color.png'
+
+import SubmitButton from '../@shared/SubmitButton'
 
 import { auth } from '../../firebase.config'
 
@@ -28,6 +30,7 @@ export default function AddBook({ navigation }) {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState(null)
   const [items, setItems] = useState([])
+  const [dialogVisible, setDialogVisible] = useState(false)
 
   const user = auth.currentUser
   const dropdownArray = []
@@ -56,97 +59,94 @@ export default function AddBook({ navigation }) {
     )
     setNewBookInfo({ title: '', author: '' })
     setChecked(false)
+    setDialogVisible(false)
     Alert.alert('Thanks for adding a new book')
     navigation.navigate('Tomes', { screen: 'Books' })
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.formContainer}>
-        <Image style={styles.logo} source={appLogo} />
-        <Text style={styles.title}>Add Book</Text>
-        <TextInput
-          style={styles.textInput}
-          value={newBookInfo.title}
-          mode="outlined"
-          label="Book Title"
-          autoCapitalize="words"
-          onChangeText={(title) => setNewBookInfo({ ...newBookInfo, title })}
-          selectionColor="#171d0b"
-          activeOutlineColor="#5a712c"
-          textColor="#171D0B"
-          enterKeyHint="next"
-          onSubmitEditing={() => authorRef.current.focus()}
-        />
-        <TextInput
-          ref={authorRef}
-          style={styles.textInput}
-          mode="outlined"
-          label="Author"
-          autoCapitalize="words"
-          selectionColor="#171d0b"
-          activeOutlineColor="#5a712c"
-          textColor="#171D0B"
-          value={newBookInfo.author}
-          onChangeText={(author) => setNewBookInfo({ ...newBookInfo, author })}
-        />
+    <Portal.Host>
+      <View style={styles.container}>
+        <View style={styles.formContainer}>
+          <Image style={styles.logo} source={appLogo} />
+          <Text style={styles.title}>Add Book</Text>
+          <TextInput
+            style={styles.textInput}
+            value={newBookInfo.title}
+            mode="outlined"
+            label="Book Title"
+            autoCapitalize="words"
+            onChangeText={(title) => setNewBookInfo({ ...newBookInfo, title })}
+            selectionColor="#171d0b"
+            activeOutlineColor="#5a712c"
+            textColor="#171D0B"
+            enterKeyHint="next"
+            onSubmitEditing={() => authorRef.current.focus()}
+          />
+          <TextInput
+            ref={authorRef}
+            style={styles.textInput}
+            mode="outlined"
+            label="Author"
+            autoCapitalize="words"
+            selectionColor="#171d0b"
+            activeOutlineColor="#5a712c"
+            textColor="#171D0B"
+            value={newBookInfo.author}
+            onChangeText={(author) =>
+              setNewBookInfo({ ...newBookInfo, author })
+            }
+          />
 
-        <View style={styles.checkboxContainer}>
-          <Checkbox.Item
-            status={checked ? 'checked' : 'unchecked'}
-            onPress={() => {
-              setChecked(!checked)
-            }}
-            uncheckedColor="black"
-            color="#5a712c"
-            label="Part of a series?"
-            rippleColor="#5a712c"
-            position="leading"
+          <View style={styles.checkboxContainer}>
+            <Checkbox.Item
+              status={checked ? 'checked' : 'unchecked'}
+              onPress={() => {
+                setChecked(!checked)
+              }}
+              uncheckedColor="black"
+              color="#5a712c"
+              label="Part of a series?"
+              rippleColor="#5a712c"
+              position="leading"
+            />
+          </View>
+          {checked && (
+            <DropDownPicker
+              open={open}
+              setOpen={setOpen}
+              items={items}
+              setItems={setItems}
+              value={value}
+              setValue={setValue}
+              placeholder="Choose a series..."
+              placeholderStyle={{ color: 'grey' }}
+              searchable={true}
+              searchPlaceholder="Search for a series, or add a new one"
+              addCustomItem={true}
+              closeAfterSelecting={true}
+            />
+          )}
+
+          <SubmitButton
+            disabled={false} // change to true when fields are filled in correctly
+            buttonText="Submit"
+            clickHandleFunction={() => setDialogVisible(true)}
           />
         </View>
-        {checked && (
-          <DropDownPicker
-            open={open}
-            setOpen={setOpen}
-            items={items}
-            setItems={setItems}
-            value={value}
-            setValue={setValue}
-            placeholder="Choose a series..."
-            placeholderStyle={{ color: 'grey' }}
-            searchable={true}
-            searchPlaceholder="Search for a series, or add a new one"
-            addCustomItem={true}
-            closeAfterSelecting={true}
-          />
-        )}
-
-        <Pressable
-          style={styles.button}
-          onPress={() =>
-            Alert.alert(
-              `Are you currently reading this book`,
-              'Would you like this book to be set as active',
-              [
-                {
-                  text: 'Yes',
-                  onPress: () => submitNewBook(true),
-                },
-                {
-                  text: 'No',
-                  onPress: () => submitNewBook(false),
-                },
-              ],
-              {
-                cancelable: true,
-              }
-            )
-          }
-        >
-          <Text style={styles.buttonText}>Submit</Text>
-        </Pressable>
       </View>
-    </View>
+      <Dialog visible={dialogVisible} onDismiss={() => setDialogVisible(false)}>
+        <Dialog.Icon icon="book-check-outline" />
+        <Dialog.Title>{`Are you currently reading this book?`}</Dialog.Title>
+        <Dialog.Content>
+          <Text>{`Would you like this book to be set as active?\nYou can always change your active book in library so don't worry`}</Text>
+        </Dialog.Content>
+        <Dialog.Actions>
+          <Button onPress={() => submitNewBook(false)}>No</Button>
+          <Button onPress={() => submitNewBook(true)}>Yes</Button>
+        </Dialog.Actions>
+      </Dialog>
+    </Portal.Host>
   )
 }
 
@@ -180,21 +180,5 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: '100%',
-  },
-  button: {
-    textAlign: 'center',
-    padding: 15,
-    margin: 5,
-    backgroundColor: '#5a712c',
-    elevation: 4,
-    shadowColor: '#171D0B',
-    borderRadius: 10,
-    width: '40%',
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: '#ffffff',
-    fontSize: 40,
-    fontFamily: 'caveat',
   },
 })
