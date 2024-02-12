@@ -1,15 +1,21 @@
-import { View, Text, StyleSheet, Pressable, Alert, Image } from 'react-native'
-import { auth } from '../firebase.config'
 import { useState } from 'react'
+import { View, Text, StyleSheet, Alert, Image } from 'react-native'
+
+import { Button } from 'react-native-paper'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { Button, TextInput } from 'react-native-paper'
-import { homeStyles } from '../styles/styles'
+
 import appLogo from '../assets/images/logo-no-background.png'
+
+import { TextInputComp, PasswordInput } from './@shared/TextInputComp'
+
+import { auth } from '../firebase.config'
+
+import { homeStyles } from '../styles/styles'
+import SubmitButton from './@shared/SubmitButton'
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [hidePassword, setHidePassword] = useState(true)
 
   const handleSignIn = async () => {
     try {
@@ -19,55 +25,27 @@ export default function Login({ navigation }) {
     }
   }
 
-  const handleSignUp = async () => {
-    try {
-      navigation.navigate('Register')
-      // await createUserWithEmailAndPassword(auth, email, password)
-    } catch (err) {
-      throw new Error(err.message)
-    }
-  }
-
   return (
     <View style={styles.container}>
       <Image style={homeStyles.logo} source={appLogo} />
       <Text style={styles.title}>Login</Text>
-      <TextInput
-        style={styles.textInput}
-        value={email}
-        mode="outlined"
-        label="Email"
-        autoCapitalize="none"
-        onChangeText={(email) => setEmail(email)}
-        selectionColor="#171D0B"
-        outlineColor="#DBE2CC"
-        activeOutlineColor="#5a712c"
-        textColor="#171D0B"
-      />
-      <TextInput
-        mode="outlined"
-        label="Password"
-        secureTextEntry={hidePassword}
-        right={
-          <TextInput.Icon
-            icon="eye"
-            style={styles.icon}
-            rippleColor="#DBE2CC"
-            onPress={() => setHidePassword(!hidePassword)}
-          />
-        }
-        value={password}
-        onChangeText={(password) => setPassword(password)}
-        selectionColor="#171D0B"
-        outlineColor="#DBE2CC"
-        activeOutlineColor="#5a712c"
-        textColor="#171D0B"
-        style={styles.textInput}
-        autoCapitalize="none"
-      />
-      <Pressable style={styles.button} onPress={handleSignIn}>
-        <Text style={styles.buttonText}>Sign In</Text>
-      </Pressable>
+      <View style={styles.inputContainer}>
+        <TextInputComp
+          func={(email) => setEmail(email)}
+          value={email}
+          label={'Email'}
+        />
+        <PasswordInput
+          func={(password) => setPassword(password)}
+          value={password}
+          label="Password"
+        />
+        <SubmitButton
+          disabled={false}
+          buttonText="Sign in"
+          clickHandleFunction={handleSignIn}
+        />
+      </View>
       <View style={styles.gfbContainer}>
         <Button
           disabled
@@ -90,7 +68,10 @@ export default function Login({ navigation }) {
       </View>
       <View style={styles.registerContainer}>
         <Text>Not registered yet?</Text>
-        <Text style={styles.registerText} onPress={handleSignUp}>
+        <Text
+          style={styles.registerText}
+          onPress={() => navigation.navigate('Register')}
+        >
           Register
         </Text>
       </View>
@@ -113,30 +94,11 @@ const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
   },
-  textInput: {
-    width: '75%',
-    height: 60,
-    marginVertical: 5,
-    fontSize: 25,
-  },
-  icon: {
-    marginTop: 15,
-  },
-  button: {
-    textAlign: 'center',
-    padding: 15,
-    margin: 5,
-    backgroundColor: '#5a712c',
-    elevation: 4,
-    shadowColor: '#171D0B',
-    borderRadius: 10,
-    width: '40%',
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: '#ffffff',
-    fontSize: 40,
-    fontFamily: 'caveat',
+  inputContainer: {
+    gap: 5,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   gfbContainer: {
     marginTop: 10,
