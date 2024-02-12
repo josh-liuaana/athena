@@ -35,17 +35,6 @@ The peruse through the tomes of knowledge when some extra information is needed 
 
 ### Potential Future Tech
 
-## Styling
-
-Palette
-- Primary: #5a712c
-- Background: #DBE2CC
-- Dark:#171D0B
-
-Fonts
-- Caveat-Regular
-- GreatVibes-Regular
-
 ## Redux - store shape
 
 #### bookSlice

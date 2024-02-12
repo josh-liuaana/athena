@@ -37,10 +37,16 @@ import type { Book } from '../../models/types'
 ```
 
 ## Colour Management
-TODO - set up style folder with an index to define app colours
+Set up style directory `index.ts` with default values, for app colours
+Palette
+- Primary: `#5a712c`
+- Background: `#dbe2cc`
+- Dark: `#171d0b`
 
 ## Typography
-TODO - define font variables and where to use different fonts for consistency
+Fonts
+- Caveat-Regular
+- GreatVibes-Regular
 
 ## Naming conventions
 - camelCase to be used as default for variable naming
