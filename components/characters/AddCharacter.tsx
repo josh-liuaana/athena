@@ -19,7 +19,7 @@ export default function AddCharacter({ navigation }) {
     city: '',
     ethnicity: '',
     name: '',
-    books: [currentBook.title],
+    books: currentBook && [currentBook.title],
     userId: auth.currentUser.uid,
   })
 
@@ -47,30 +47,40 @@ export default function AddCharacter({ navigation }) {
     <View style={styles.container}>
       <Image style={styles.logo} source={appLogo} />
       <Text style={styles.title}>Add Character</Text>
-      <Text style={styles.currentBook}>Adding to {currentBook.title}</Text>
-      <TextInputComp
-        func={(name) => setNewCharacter({ ...newCharacter, name })}
-        value={newCharacter.name}
-        label="Name"
-        style={{ width: '80%' }}
-      />
-      <TextInputComp
-        func={(city) => setNewCharacter({ ...newCharacter, city })}
-        value={newCharacter.city}
-        label="Home"
-        style={{ width: '80%' }}
-      />
-      <TextInputComp
-        func={(ethnicity) => setNewCharacter({ ...newCharacter, ethnicity })}
-        value={newCharacter.ethnicity}
-        label="Race"
-        style={{ width: '80%' }}
-      />
-      <SubmitButton
-        buttonText="Submit"
-        clickHandleFunction={submitNewCharacter}
-        disabled={false}
-      />
+      {currentBook ? (
+        <>
+          <Text style={styles.currentBook}>Adding to {currentBook.title}</Text>
+          <TextInputComp
+            func={(name) => setNewCharacter({ ...newCharacter, name })}
+            value={newCharacter.name}
+            label="Name"
+            style={{ width: '80%' }}
+          />
+          <TextInputComp
+            func={(city) => setNewCharacter({ ...newCharacter, city })}
+            value={newCharacter.city}
+            label="Home"
+            style={{ width: '80%' }}
+          />
+          <TextInputComp
+            func={(ethnicity) =>
+              setNewCharacter({ ...newCharacter, ethnicity })
+            }
+            value={newCharacter.ethnicity}
+            label="Race"
+            style={{ width: '80%' }}
+          />
+          <SubmitButton
+            buttonText="Submit"
+            clickHandleFunction={submitNewCharacter}
+            disabled={false}
+          />
+        </>
+      ) : (
+        <>
+          <Text>You need to set a book as current to add Characters</Text>
+        </>
+      )}
     </View>
   )
 }

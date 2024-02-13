@@ -20,7 +20,7 @@ import type { Book } from '../../models/types'
 export default function AddBook({ navigation }) {
   const dispatch = useAppDispatch()
   const books = useAppSelector((state) => state.books.bookList)
-  const currentId = useAppSelector((state) => state.books.current.id)
+  const currentBook = useAppSelector((state) => state.books.current)
 
   const [newBookInfo, setNewBookInfo] = useState<Partial<Book>>({
     title: '',
@@ -51,8 +51,8 @@ export default function AddBook({ navigation }) {
   }, [value])
 
   const submitNewBook = async (current) => {
-    if (current === true) {
-      dispatch(updateThunkBook({ isCurrent: false }, currentId))
+    if (currentBook && current === true) {
+      dispatch(updateThunkBook({ isCurrent: false }, currentBook.id))
     }
     await dispatch(
       postThunkBook({ ...newBookInfo, userId: user.uid, isCurrent: current })
@@ -110,6 +110,9 @@ export default function AddBook({ navigation }) {
                 searchPlaceholder="Search for a series, or add a new one"
                 addCustomItem={true}
                 closeAfterSelecting={true}
+                translation={{
+                  NOTHING_TO_SHOW: `Enter your first series to get started!`,
+                }}
               />
             )}
           </View>
