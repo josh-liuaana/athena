@@ -11,7 +11,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import Home from './components/Home'
 import Lore from './components/Lore'
-import Tomes from './components/Tome'
+import Tomes from './components/Tomes'
 import Characters from './components/characters/Characters'
 import Places from './components/locations/Places'
 import Books from './components/books/Books'
