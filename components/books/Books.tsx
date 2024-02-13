@@ -38,34 +38,51 @@ export default function Books({ navigation, route }) {
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Library</Text>
       </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.currentText}>Currently Reading: </Text>
-        <Text style={styles.currentBookTitle}>
-          {currentBook && currentBook.title}
-        </Text>
-        <Text>{currentBook && currentBook.author}</Text>
-        <TextInputComp
-          func={(search) => setBookSearch(search)}
-          value={bookSearch}
-          label="Search"
-          style={{ width: '80%' }}
-        />
-      </View>
-      {filteredBooks ? (
-        <ScrollView style={styles.scrollContainer}>
-          {filteredBooks &&
-            filteredBooks.map((book) => (
-              <BookCard key={book.id} book={book} navigation={navigation} />
-            ))}
-        </ScrollView>
+      {currentBook ? (
+        <>
+          <View style={styles.inputContainer}>
+            <Text style={styles.currentText}>Currently Reading: </Text>
+            <Text style={styles.currentBookTitle}>
+              {currentBook && currentBook.title}
+            </Text>
+            <Text>{currentBook && currentBook.author}</Text>
+            <TextInputComp
+              func={(search) => setBookSearch(search)}
+              value={bookSearch}
+              label="Search"
+              style={{ width: '80%' }}
+            />
+          </View>
+          {filteredBooks ? (
+            <ScrollView style={styles.scrollContainer}>
+              {filteredBooks &&
+                filteredBooks.map((book) => (
+                  <BookCard key={book.id} book={book} navigation={navigation} />
+                ))}
+            </ScrollView>
+          ) : (
+            <ScrollView style={styles.scrollContainer}>
+              {bookList &&
+                bookList.map((book) => (
+                  <BookCard key={book.id} book={book} navigation={navigation} />
+                ))}
+            </ScrollView>
+          )}
+        </>
       ) : (
-        <ScrollView style={styles.scrollContainer}>
-          {bookList &&
-            bookList.map((book) => (
-              <BookCard key={book.id} book={book} navigation={navigation} />
-            ))}
-        </ScrollView>
+        <>
+          <Text>These are not the droids you are looking for</Text>
+          <View style={styles.getStartedContainer}>
+            <Text>You need to</Text>
+            <Text
+              style={{ color: 'blue', marginHorizontal: 3 }}
+              onPress={() => navigation.navigate('Lore', { screen: 'AddBook' })}
+            >
+              add a book
+            </Text>
+            <Text>to get started</Text>
+          </View>
+        </>
       )}
     </View>
   )
@@ -106,5 +123,10 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     width: '100%',
+  },
+  getStartedContainer: {
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 })
