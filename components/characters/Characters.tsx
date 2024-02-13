@@ -117,108 +117,133 @@ export default function Characters({ navigation, route }) {
         <Image style={styles.logo} source={appLogo} />
         <Text style={styles.title}>Characters</Text>
       </View>
-      <Checkbox.Item
-        status={checked ? 'checked' : 'unchecked'}
-        onPress={handleCheck}
-        uncheckedColor="black"
-        color="#5a712c"
-        label={`${current.title} Characters`}
-        rippleColor="#5a712c"
-        position="leading"
-      />
-      <View style={styles.inputContainer}>
-        <TextInputComp
-          func={(text) => setSearch(text)}
-          value={search}
-          label="Character search"
-          style={{ flex: 1 }}
-        />
-        <IconButton
-          icon={currentSortType}
-          iconColor="#5a712c"
-          size={35}
-          style={styles.buttonCont}
-          onPress={showSortModal}
-        />
-        {currentFilteredCharacters.length ===
-        characters.characterList.length ? (
-          <IconButton
-            icon="filter-variant"
-            iconColor="#5a712c"
-            size={35}
-            onPress={() => setFilterVisible(true)}
-            style={styles.buttonCont}
-          />
-        ) : (
-          <IconButton
-            icon="filter-variant-remove"
-            iconColor="#c70000"
-            size={35}
-            onPress={
-              currentFilteredCharacters.length !==
-              characters.characterList.length
-                ? () => clearFilters()
-                : () => showFilterModal()
-            }
-            style={styles.buttonCont}
-          />
-        )}
-      </View>
-      <Portal>
-        <Modal
-          visible={filterVisible}
-          onDismiss={hideFilterModal}
-          contentContainerStyle={styles.filterModal}
-        >
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Filter by universe</Text>
-            <DropDownPicker
-              open={open}
-              setOpen={setOpen}
-              items={items}
-              setItems={setItems}
-              value={value}
-              setValue={setValue}
-              placeholder="Choose a series..."
-              placeholderStyle={{ color: 'grey' }}
-              searchable={true}
-              searchPlaceholder="Search..."
-              closeAfterSelecting={true}
-            />
-            <View style={styles.modalButtonContainer}>
-              <Button onPress={handleFilterSubmit}>Filter</Button>
-              <Button onPress={hideFilterModal}>Close</Button>
-            </View>
-          </View>
-        </Modal>
 
-        <Modal
-          visible={sortVisible}
-          onDismiss={hideSortModal}
-          contentContainerStyle={styles.sortModal}
-        >
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Sort order</Text>
-            <Button onPress={() => sort('date-asc')}>Newest first</Button>
-            <Button onPress={() => sort('date-desc')}>Oldest first</Button>
-            <Button onPress={() => sort('alpha-asc')}>Alphabetical ↓</Button>
-            <Button onPress={() => sort('alpha-desc')}>Alphabetical ↑</Button>
-            <View style={styles.modalButtonContainer}>
-              <Button onPress={hideSortModal}>Close</Button>
-            </View>
+      {characters.characterList.length === 0 ? (
+        <>
+          <Text>These are not the droids you are looking for</Text>
+          <View style={styles.getStartedContainer}>
+            <Text>You need to</Text>
+            <Text
+              style={{ color: 'blue', marginHorizontal: 3 }}
+              onPress={() => navigation.navigate('Lore')}
+            >
+              add a new character
+            </Text>
+            <Text>to get started</Text>
           </View>
-        </Modal>
-      </Portal>
-      <ScrollView style={styles.scrollContainer}>
-        {currentFilteredCharacters &&
-          currentFilteredCharacters.map((character) => (
-            <CharacterCard
-              key={character.id}
-              characterInfo={character}
-              navigation={navigation}
+        </>
+      ) : (
+        <>
+          {current && (
+            <Checkbox.Item
+              status={checked ? 'checked' : 'unchecked'}
+              onPress={handleCheck}
+              uncheckedColor="black"
+              color="#5a712c"
+              label={`${current.title} Characters`}
+              rippleColor="#5a712c"
+              position="leading"
             />
-          ))}
-      </ScrollView>
+          )}
+          <View style={styles.inputContainer}>
+            <TextInputComp
+              func={(text) => setSearch(text)}
+              value={search}
+              label="Character search"
+              style={{ flex: 1 }}
+            />
+            <IconButton
+              icon={currentSortType}
+              iconColor="#5a712c"
+              size={35}
+              style={styles.buttonCont}
+              onPress={showSortModal}
+            />
+            {currentFilteredCharacters.length ===
+            characters.characterList.length ? (
+              <IconButton
+                icon="filter-variant"
+                iconColor="#5a712c"
+                size={35}
+                onPress={() => setFilterVisible(true)}
+                style={styles.buttonCont}
+              />
+            ) : (
+              <IconButton
+                icon="filter-variant-remove"
+                iconColor="#c70000"
+                size={35}
+                onPress={
+                  currentFilteredCharacters.length !==
+                  characters.characterList.length
+                    ? () => clearFilters()
+                    : () => showFilterModal()
+                }
+                style={styles.buttonCont}
+              />
+            )}
+          </View>
+          <Portal>
+            <Modal
+              visible={filterVisible}
+              onDismiss={hideFilterModal}
+              contentContainerStyle={styles.filterModal}
+            >
+              <View style={styles.modalContainer}>
+                <Text style={styles.modalTitle}>Filter by universe</Text>
+                <DropDownPicker
+                  open={open}
+                  setOpen={setOpen}
+                  items={items}
+                  setItems={setItems}
+                  value={value}
+                  setValue={setValue}
+                  placeholder="Choose a series..."
+                  placeholderStyle={{ color: 'grey' }}
+                  searchable={true}
+                  searchPlaceholder="Search..."
+                  closeAfterSelecting={true}
+                />
+                <View style={styles.modalButtonContainer}>
+                  <Button onPress={handleFilterSubmit}>Filter</Button>
+                  <Button onPress={hideFilterModal}>Close</Button>
+                </View>
+              </View>
+            </Modal>
+
+            <Modal
+              visible={sortVisible}
+              onDismiss={hideSortModal}
+              contentContainerStyle={styles.sortModal}
+            >
+              <View style={styles.modalContainer}>
+                <Text style={styles.modalTitle}>Sort order</Text>
+                <Button onPress={() => sort('date-asc')}>Newest first</Button>
+                <Button onPress={() => sort('date-desc')}>Oldest first</Button>
+                <Button onPress={() => sort('alpha-asc')}>
+                  Alphabetical ↓
+                </Button>
+                <Button onPress={() => sort('alpha-desc')}>
+                  Alphabetical ↑
+                </Button>
+                <View style={styles.modalButtonContainer}>
+                  <Button onPress={hideSortModal}>Close</Button>
+                </View>
+              </View>
+            </Modal>
+          </Portal>
+          <ScrollView style={styles.scrollContainer}>
+            {currentFilteredCharacters &&
+              currentFilteredCharacters.map((character) => (
+                <CharacterCard
+                  key={character.id}
+                  characterInfo={character}
+                  navigation={navigation}
+                />
+              ))}
+          </ScrollView>
+        </>
+      )}
     </View>
   )
 }
@@ -304,5 +329,10 @@ const styles = StyleSheet.create({
   scrollContainer: {
     height: '52%',
     width: '100%',
+  },
+  getStartedContainer: {
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 })
