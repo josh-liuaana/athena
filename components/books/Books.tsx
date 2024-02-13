@@ -42,9 +42,9 @@ export default function Books({ navigation, route }) {
       <View style={styles.inputContainer}>
         <Text style={styles.currentText}>Currently Reading: </Text>
         <Text style={styles.currentBookTitle}>
-          {currentBook && currentBook.title} -{' '}
-          {currentBook && currentBook.author}
+          {currentBook && currentBook.title}
         </Text>
+        <Text>{currentBook && currentBook.author}</Text>
         <TextInputComp
           func={(search) => setBookSearch(search)}
           value={bookSearch}
