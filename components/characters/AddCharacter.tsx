@@ -1,9 +1,11 @@
-import { StyleSheet, View, Pressable, Text, Image, Alert } from 'react-native'
+import { StyleSheet, View, Text, Image, Alert } from 'react-native'
 import { useState } from 'react'
+
+import SubmitButton from '../@shared/SubmitButton'
 
 import appLogo from '../../assets/images/athena-favicon-color.png'
 
-import TextInputComp from '../@shared/TextInputComp'
+import { TextInputComp } from '../@shared/TextInputComp'
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { postThunkCharacter } from '../../redux/characters/characterSlice'
@@ -50,22 +52,25 @@ export default function AddCharacter({ navigation }) {
         func={(name) => setNewCharacter({ ...newCharacter, name })}
         value={newCharacter.name}
         label="Name"
+        style={{ width: '80%' }}
       />
       <TextInputComp
         func={(city) => setNewCharacter({ ...newCharacter, city })}
         value={newCharacter.city}
         label="Home"
+        style={{ width: '80%' }}
       />
       <TextInputComp
         func={(ethnicity) => setNewCharacter({ ...newCharacter, ethnicity })}
         value={newCharacter.ethnicity}
         label="Race"
+        style={{ width: '80%' }}
       />
-      <Pressable style={styles.button}>
-        <Text style={styles.buttonText} onPress={submitNewCharacter}>
-          Submit
-        </Text>
-      </Pressable>
+      <SubmitButton
+        buttonText="Submit"
+        clickHandleFunction={submitNewCharacter}
+        disabled={false}
+      />
     </View>
   )
 }
@@ -90,22 +95,5 @@ const styles = StyleSheet.create({
   },
   currentBook: {
     fontSize: 20,
-  },
-  button: {
-    textAlign: 'center',
-    justifyContent: 'center',
-    padding: 15,
-    margin: 5,
-    backgroundColor: '#5a712c',
-    elevation: 4,
-    shadowColor: '#171D0B',
-    borderRadius: 10,
-    width: '40%',
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: '#ffffff',
-    fontSize: 40,
-    fontFamily: 'caveat',
   },
 })

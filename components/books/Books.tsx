@@ -1,38 +1,37 @@
-import { Text, StyleSheet, View, TextInput, ScrollView } from 'react-native'
+import { Text, StyleSheet, View, ScrollView } from 'react-native'
 import { useEffect, useState } from 'react'
-import { Book } from '../../models/types'
+
+import { TextInputComp } from '../@shared/TextInputComp'
+
 import BookCard from './BookCard'
+
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+
 import { fetchThunkBooks } from '../../redux/books/booksSlice'
+
+import type { Book } from '../../models/types'
 
 export default function Books({ navigation, route }) {
   const dispatch = useAppDispatch()
   const bookList = useAppSelector((state) => state.books.bookList)
   const currentBook = useAppSelector((state) => state.books.current)
 
-  const [focus, setFocus] = useState(null)
   const [filteredBooks, setFilteredBooks] = useState<Book[]>()
-
-  const customOnFocus = (focus) => {
-    setFocus(focus)
-  }
-  const customOnBlur = () => {
-    setFocus(null)
-  }
+  const [bookSearch, setBookSearch] = useState('')
 
   useEffect(() => {
     dispatch(fetchThunkBooks())
   }, [dispatch, route])
 
-  const handleSearchTyping = async (search) => {
+  useEffect(() => {
     const filter = bookList.filter(
       (book) =>
-        book.title.toLowerCase().includes(search.toLowerCase()) ||
-        book.author.toLowerCase().includes(search.toLowerCase()) ||
-        book.universe?.toLowerCase().includes(search.toLowerCase())
+        book.title.toLowerCase().includes(bookSearch.toLowerCase()) ||
+        book.author.toLowerCase().includes(bookSearch.toLowerCase()) ||
+        book.universe?.toLowerCase().includes(bookSearch.toLowerCase())
     )
     setFilteredBooks(filter)
-  }
+  }, [bookSearch])
 
   return (
     <View style={styles.container}>
@@ -43,19 +42,14 @@ export default function Books({ navigation, route }) {
       <View style={styles.inputContainer}>
         <Text style={styles.currentText}>Currently Reading: </Text>
         <Text style={styles.currentBookTitle}>
-          {currentBook && currentBook.title} -{' '}
-          {currentBook && currentBook.author}
+          {currentBook && currentBook.title}
         </Text>
-        <TextInput
-          style={[
-            { backgroundColor: focus === 'search' ? '#DBE2CC' : 'white' },
-            { borderColor: focus === 'search' ? 'white' : '#DBE2CC' },
-            styles.input,
-          ]}
-          onChangeText={(search) => handleSearchTyping(search)}
-          placeholder="Search..."
-          onFocus={() => customOnFocus('search')}
-          onBlur={() => customOnBlur()}
+        <Text>{currentBook && currentBook.author}</Text>
+        <TextInputComp
+          func={(search) => setBookSearch(search)}
+          value={bookSearch}
+          label="Search"
+          style={{ width: '80%' }}
         />
       </View>
       {filteredBooks ? (
@@ -109,15 +103,6 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  input: {
-    margin: 10,
-    borderRadius: 7,
-    width: '70%',
-    borderWidth: 2,
-    paddingHorizontal: 20,
-    fontSize: 20,
-    height: 50,
   },
   scrollContainer: {
     width: '100%',

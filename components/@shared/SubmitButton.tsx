@@ -25,5 +25,6 @@ export default function SubmitButton({
 const styles = StyleSheet.create({
   button: {
     borderRadius: 10,
+    marginTop: 5,
   },
 })

@@ -1,15 +1,22 @@
-import { View, Text, StyleSheet, Pressable, Alert } from 'react-native'
-import { auth } from '../firebase.config'
 import { useState } from 'react'
+import { View, Text, StyleSheet, Image, Alert } from 'react-native'
+
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   updateProfile,
 } from 'firebase/auth'
-import { TextInput } from 'react-native-paper'
+
+import appLogo from '../assets/images/logo-no-background.png'
+
+import SubmitButton from './@shared/SubmitButton'
+import { PasswordInput, TextInputComp } from './@shared/TextInputComp'
+
+import { auth } from '../firebase.config'
+
 import { validateEmail } from '../models/utils'
 
-export default function Register() {
+export default function Register({ navigation }) {
   const [newUser, setNewUser] = useState({
     displayName: '',
     email: '',
@@ -17,141 +24,86 @@ export default function Register() {
     confirmPassword: '',
   })
 
-  const [hidePassword, setHidePassword] = useState(true)
-  const [hideConfirmPassword, setHideConfirmPassword] = useState(true)
-
-  const [displayNameValidated, setDisplayNameValidated] = useState(true)
-  const [emailValidated, setEmailValidated] = useState(true)
-  const [passwordValidated, setPasswordValidated] = useState(true)
-  const [confirmPasswordValidated, setConfirmPasswordValidated] = useState(true)
+  const validateUserInput = () => {
+    if (newUser.displayName.length < 2 || newUser.displayName.length > 30) {
+      Alert.alert('Enter a display name between 2 and 30 characters')
+    } else if (validateEmail(newUser.email) === null) {
+      Alert.alert('Enter a valid email')
+    } else if (newUser.password.length < 6) {
+      Alert.alert('Password too short')
+    } else if (newUser.password !== newUser.confirmPassword) {
+      Alert.alert('Passwords do not match')
+    } else {
+      handleRegister()
+    }
+  }
 
   const handleRegister = async () => {
-    setDisplayNameValidated(true)
-    setEmailValidated(true)
-    setPasswordValidated(true)
-    setConfirmPasswordValidated(true)
-    if (newUser.displayName.length < 2 || newUser.displayName.length > 30) {
-      Alert.alert('enter a display name between 2 and 30 characters')
-      setDisplayNameValidated(false)
-    } else if (validateEmail(newUser.email) === null) {
-      Alert.alert('enter a valid email')
-      setEmailValidated(false)
-    } else if (newUser.password.length < 6) {
-      Alert.alert('password too short')
-      setPasswordValidated(false)
-    } else if (newUser.password !== newUser.confirmPassword) {
-      Alert.alert('passwords do not match')
-      setConfirmPasswordValidated(false)
-    } else {
-      try {
-        await createUserWithEmailAndPassword(
-          auth,
-          newUser.email,
-          newUser.password
-        )
-        await updateProfile(auth.currentUser, {
-          displayName: newUser.displayName,
-        })
-        await sendEmailVerification(auth.currentUser)
-        Alert.alert('Email verification sent, check your email inbox')
-      } catch (err) {
-        throw new Error(err.message)
-      }
+    try {
+      await createUserWithEmailAndPassword(
+        auth,
+        newUser.email,
+        newUser.password
+      )
+      await updateProfile(auth.currentUser, {
+        displayName: newUser.displayName,
+      })
+      await sendEmailVerification(auth.currentUser)
+      Alert.alert('Email verification sent, check your email inbox')
+    } catch (err) {
+      throw new Error(err.message)
     }
   }
 
   return (
     <View style={styles.container}>
+      <Image style={styles.logo} source={appLogo} />
       <Text style={styles.title}>Register</Text>
-      <TextInput
-        style={styles.textInput}
+      <TextInputComp
+        func={(displayName) => setNewUser({ ...newUser, displayName })}
         value={newUser.displayName}
-        mode="outlined"
         label="Display Name"
-        autoCapitalize="none"
-        onChangeText={(displayName) => setNewUser({ ...newUser, displayName })}
-        selectionColor="#171D0B"
-        outlineColor={displayNameValidated ? '#DBE2CC' : 'red'}
-        activeOutlineColor="#5a712c"
-        textColor="#171D0B"
+        style={{ width: '80%' }}
       />
-      <TextInput
-        style={styles.textInput}
+      <TextInputComp
+        func={(email) => setNewUser({ ...newUser, email })}
         value={newUser.email}
-        mode="outlined"
         label="Email"
-        autoCapitalize="none"
-        onChangeText={(email) => setNewUser({ ...newUser, email })}
-        selectionColor="#171D0B"
-        outlineColor={emailValidated ? '#DBE2CC' : 'red'}
-        activeOutlineColor="#5a712c"
-        textColor="#171D0B"
+        style={{ width: '80%' }}
       />
-      <TextInput
-        mode="outlined"
-        label="Password"
-        secureTextEntry={hidePassword}
-        right={
-          <TextInput.Icon
-            icon="eye"
-            style={styles.icon}
-            rippleColor="#DBE2CC"
-            onPress={() => setHidePassword(!hidePassword)}
-          />
-        }
+      <PasswordInput
+        func={(password) => setNewUser({ ...newUser, password })}
         value={newUser.password}
-        onChangeText={(password) => setNewUser({ ...newUser, password })}
-        selectionColor="#171D0B"
-        outlineColor={passwordValidated ? '#DBE2CC' : 'red'}
-        activeOutlineColor="#5a712c"
-        textColor="#171D0B"
-        style={styles.textInput}
-        autoCapitalize="none"
+        label="Password"
       />
       {newUser.password.length < 6 && newUser.password.length >= 1 && (
-        <Text>Password needs to be at least 6 characters</Text>
+        <Text style={{ color: 'red' }}>
+          Password needs to be at least 6 characters
+        </Text>
       )}
-      <TextInput
-        mode="outlined"
-        label="Confirm Password"
-        secureTextEntry={hideConfirmPassword}
-        right={
-          <TextInput.Icon
-            icon="eye"
-            style={styles.icon}
-            rippleColor="#DBE2CC"
-            onPress={() => setHideConfirmPassword(!hideConfirmPassword)}
-          />
-        }
+      <PasswordInput
+        func={(confirmPassword) => setNewUser({ ...newUser, confirmPassword })}
         value={newUser.confirmPassword}
-        onChangeText={(confirmPassword) =>
-          setNewUser({ ...newUser, confirmPassword })
-        }
-        selectionColor="#171D0B"
-        outlineColor={
-          confirmPasswordValidated ||
-          (newUser.password !== newUser.confirmPassword &&
-            newUser.confirmPassword.length >= 1)
-            ? '#DBE2CC'
-            : 'red'
-        }
-        activeOutlineColor={
-          newUser.password !== newUser.confirmPassword &&
-          newUser.confirmPassword.length >= newUser.password.length
-            ? 'red'
-            : '#5a712c'
-        }
-        textColor="#171D0B"
-        style={styles.textInput}
-        autoCapitalize="none"
+        label="Confirm Password"
       />
       {newUser.password !== newUser.confirmPassword &&
         newUser.confirmPassword.length >= 1 && (
-          <Text>Passwords do not match</Text>
+          <Text style={{ color: 'red' }}>Passwords do not match</Text>
         )}
-      <Pressable style={styles.button} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Register</Text>
-      </Pressable>
+      <SubmitButton
+        buttonText="Register"
+        clickHandleFunction={validateUserInput}
+        disabled={false}
+      />
+      <View style={styles.loginContainer}>
+        <Text>Already registered?</Text>
+        <Text
+          style={styles.loginText}
+          onPress={() => navigation.navigate('Logged out')}
+        >
+          Log in
+        </Text>
+      </View>
     </View>
   )
 }
@@ -162,36 +114,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#DBE2CC',
+    gap: 5,
+  },
+  logo: {
+    height: 200,
+    width: 203,
+    margin: 15,
   },
   title: {
-    fontFamily: 'caveat',
+    fontFamily: 'vibes',
     fontSize: 70,
     width: '100%',
     textAlign: 'center',
+    color: '#5a712c',
   },
-  textInput: {
-    width: '75%',
-    height: 60,
-    marginVertical: 5,
-    fontSize: 25,
+  loginContainer: {
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  icon: {
-    marginTop: 15,
-  },
-  button: {
-    textAlign: 'center',
-    padding: 15,
-    margin: 5,
-    backgroundColor: '#5a712c',
-    elevation: 4,
-    shadowColor: '#171D0B',
-    borderRadius: 10,
-    width: '40%',
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: '#ffffff',
-    fontSize: 40,
-    fontFamily: 'caveat',
+  loginText: {
+    marginLeft: 3,
+    color: 'blue',
   },
 })

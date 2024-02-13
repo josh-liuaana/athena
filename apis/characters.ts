@@ -8,9 +8,10 @@ import {
   orderBy,
   query,
   updateDoc,
+  where,
 } from 'firebase/firestore'
 
-import { db } from '../firebase.config'
+import { auth, db } from '../firebase.config'
 
 import {
   Character,
@@ -22,7 +23,11 @@ export async function fetchCharacters(): Promise<Character[]> {
   try {
     const characterCollection = collection(db, 'people')
     const characterSnapshot = await getDocs(
-      query(characterCollection, orderBy('name', 'asc'))
+      query(
+        characterCollection,
+        where('userId', '==', auth.currentUser.uid),
+        orderBy('name', 'asc')
+      )
     )
     const characterList = []
 

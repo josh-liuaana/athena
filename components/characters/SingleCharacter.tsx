@@ -139,8 +139,9 @@ export default function SingleCharacter({ route, navigation }) {
             )}
           </View>
         ) : (
-          <EditCharacter togglePage={togglePage} navigation={navigation} />
+          <EditCharacter togglePage={togglePage} />
         )}
+
         <FAB.Group
           open={fabOpen}
           visible
