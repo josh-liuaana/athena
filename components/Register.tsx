@@ -16,7 +16,7 @@ import { auth } from '../firebase.config'
 
 import { validateEmail } from '../models/utils'
 
-export default function Register() {
+export default function Register({ navigation }) {
   const [newUser, setNewUser] = useState({
     displayName: '',
     email: '',
@@ -93,6 +93,15 @@ export default function Register() {
         clickHandleFunction={validateUserInput}
         disabled={false}
       />
+      <View style={styles.loginContainer}>
+        <Text>Already registered?</Text>
+        <Text
+          style={styles.loginText}
+          onPress={() => navigation.navigate('Logged out')}
+        >
+          Log in
+        </Text>
+      </View>
     </View>
   )
 }
@@ -116,5 +125,14 @@ const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
     color: '#5a712c',
+  },
+  loginContainer: {
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  loginText: {
+    marginLeft: 3,
+    color: 'blue',
   },
 })
