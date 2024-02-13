@@ -63,11 +63,13 @@ export default function Register({ navigation }) {
         func={(displayName) => setNewUser({ ...newUser, displayName })}
         value={newUser.displayName}
         label="Display Name"
+        style={{ width: '80%' }}
       />
       <TextInputComp
         func={(email) => setNewUser({ ...newUser, email })}
         value={newUser.email}
         label="Email"
+        style={{ width: '80%' }}
       />
       <PasswordInput
         func={(password) => setNewUser({ ...newUser, password })}

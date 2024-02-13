@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { TextInput } from 'react-native-paper'
 
-export function TextInputComp({ func, value, label }) {
+export function TextInputComp({ func, value, label, style }) {
   return (
     <TextInput
-      style={{ width: '80%' }}
+      style={style}
       onChangeText={func}
       value={value}
       mode="outlined"

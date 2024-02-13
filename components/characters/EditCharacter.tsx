@@ -52,11 +52,13 @@ export default function EditCharacter({ togglePage }) {
         func={(affiliation) => setNewAffiliation(affiliation)}
         value={newAffiliation}
         label="Affiliations"
+        style={{ width: '80%' }}
       />
       <TextInputComp
         func={(alias) => setNewAlias(alias)}
         value={newAlias}
         label="Alias"
+        style={{ width: '80%' }}
       />
       <TextInputComp
         func={(relation) =>
@@ -64,11 +66,13 @@ export default function EditCharacter({ togglePage }) {
         }
         value={newRelationship.relation}
         label="Type of Relationship"
+        style={{ width: '80%' }}
       />
       <TextInputComp
         func={(name) => setNewRelationship({ ...newRelationship, name })}
         value={newRelationship.name}
         label="Relations Name"
+        style={{ width: '80%' }}
       />
 
       <Pressable style={styles.submitButton} onPress={submitNewInformation}>

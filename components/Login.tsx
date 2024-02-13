@@ -34,6 +34,7 @@ export default function Login({ navigation }) {
           func={(email) => setEmail(email)}
           value={email}
           label={'Email'}
+          style={{ width: '80%' }}
         />
         <PasswordInput
           func={(password) => setPassword(password)}

@@ -73,11 +73,13 @@ export default function AddBook({ navigation }) {
             func={(title) => setNewBookInfo({ ...newBookInfo, title })}
             value={newBookInfo.title}
             label="Book Title"
+            style={{ width: '80%' }}
           />
           <TextInputComp
             func={(author) => setNewBookInfo({ ...newBookInfo, author })}
             value={newBookInfo.author}
             label="Author"
+            style={{ width: '80%' }}
           />
 
           <View style={styles.checkboxContainer}>

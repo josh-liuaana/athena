@@ -50,16 +50,19 @@ export default function AddCharacter({ navigation }) {
         func={(name) => setNewCharacter({ ...newCharacter, name })}
         value={newCharacter.name}
         label="Name"
+        style={{ width: '80%' }}
       />
       <TextInputComp
         func={(city) => setNewCharacter({ ...newCharacter, city })}
         value={newCharacter.city}
         label="Home"
+        style={{ width: '80%' }}
       />
       <TextInputComp
         func={(ethnicity) => setNewCharacter({ ...newCharacter, ethnicity })}
         value={newCharacter.ethnicity}
         label="Race"
+        style={{ width: '80%' }}
       />
       <Pressable style={styles.button}>
         <Text style={styles.buttonText} onPress={submitNewCharacter}>
