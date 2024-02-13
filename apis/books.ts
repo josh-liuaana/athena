@@ -8,10 +8,11 @@ import {
   orderBy,
   query,
   updateDoc,
+  where,
 } from 'firebase/firestore'
 import request from 'superagent'
 
-import { db } from '../firebase.config'
+import { auth, db } from '../firebase.config'
 
 import { Book, BookData, BookStore } from '../models/types'
 
@@ -24,7 +25,11 @@ export async function fetchBooks(): Promise<BookStore> {
     // Connect to firestore and receive an array of books in alphabetical order ascending
     const booksCol = collection(db, 'books')
     const booksSnapshot = await getDocs(
-      query(booksCol, orderBy('title', 'asc'))
+      query(
+        booksCol,
+        where('userId', '==', auth.currentUser.uid),
+        orderBy('title', 'asc')
+      )
     )
 
     const bookList = []
