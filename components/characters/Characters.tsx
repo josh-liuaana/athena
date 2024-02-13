@@ -1,23 +1,19 @@
 import { StyleSheet, View, Text, ScrollView, Image } from 'react-native'
 import { useEffect, useState } from 'react'
 
-import {
-  Modal,
-  Portal,
-  Button,
-  Checkbox,
-  TextInput,
-  IconButton,
-} from 'react-native-paper'
+import { Modal, Portal, Button, Checkbox, IconButton } from 'react-native-paper'
 import DropDownPicker from 'react-native-dropdown-picker'
 
 import appLogo from '../../assets/images/athena-favicon-color.png'
+
+import { TextInputComp } from '../@shared/TextInputComp'
 
 import CharacterCard from './CharacterCard'
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 
 import { fetchThunkCharacters } from '../../redux/characters/characterSlice'
+import { sortChar } from '../../models/utils'
 
 export default function Characters({ navigation, route }) {
   const dispatch = useAppDispatch()
@@ -85,49 +81,12 @@ export default function Characters({ navigation, route }) {
     setCurrentFilteredCharacters(filter)
   }
 
-  const sortByDate = (order: 'asc' | 'desc') => {
-    let sortedArray
-    if (order === 'asc') {
-      sortedArray = [...currentFilteredCharacters].sort(
-        (a, b) => b.dateAdded - a.dateAdded
-      )
-      setCurrentSortType('sort-calendar-ascending')
-    } else if (order === 'desc') {
-      sortedArray = [...currentFilteredCharacters].sort(
-        (a, b) => a.dateAdded - b.dateAdded
-      )
-      setCurrentSortType('sort-calendar-descending')
-    }
-    setCurrentFilteredCharacters(sortedArray)
-    hideSortModal()
-  }
-
-  const sortByName = (order: 'asc' | 'desc') => {
-    let sortedArray
-    if (order === 'asc') {
-      sortedArray = [...currentFilteredCharacters].sort((a, b) => {
-        if (a.name < b.name) {
-          return -1
-        }
-        if (a.name > b.name) {
-          return 1
-        }
-        return 0
-      })
-      setCurrentSortType('sort-alphabetical-ascending')
-    } else if (order === 'desc') {
-      sortedArray = [...currentFilteredCharacters].sort((a, b) => {
-        if (a.name < b.name) {
-          return 1
-        }
-        if (a.name > b.name) {
-          return -1
-        }
-        return 0
-      })
-      setCurrentSortType('sort-alphabetical-descending')
-    }
-    setCurrentFilteredCharacters(sortedArray)
+  const sort = (
+    sortTypeOrder: 'date-asc' | 'date-desc' | 'alpha-asc' | 'alpha-desc'
+  ) => {
+    const data = sortChar(sortTypeOrder, currentFilteredCharacters)
+    setCurrentFilteredCharacters(data.sortedArray)
+    setCurrentSortType(data.sortType)
     hideSortModal()
   }
 
@@ -168,17 +127,11 @@ export default function Characters({ navigation, route }) {
         position="leading"
       />
       <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
+        <TextInputComp
+          func={(text) => setSearch(text)}
           value={search}
-          mode="outlined"
-          label="Search for character"
-          autoCapitalize="none"
-          onChangeText={(text) => setSearch(text)}
-          selectionColor="#171D0B"
-          outlineColor="#DBE2CC"
-          activeOutlineColor="#5a712c"
-          textColor="#171D0B"
+          label="Character search"
+          style={{ flex: 1 }}
         />
         <IconButton
           icon={currentSortType}
@@ -246,10 +199,10 @@ export default function Characters({ navigation, route }) {
         >
           <View style={styles.modalContainer}>
             <Text style={styles.modalTitle}>Sort order</Text>
-            <Button onPress={() => sortByDate('asc')}>Newest first</Button>
-            <Button onPress={() => sortByDate('desc')}>Oldest first</Button>
-            <Button onPress={() => sortByName('asc')}>Alphabetical ↓</Button>
-            <Button onPress={() => sortByName('desc')}>Alphabetical ↑</Button>
+            <Button onPress={() => sort('date-asc')}>Newest first</Button>
+            <Button onPress={() => sort('date-desc')}>Oldest first</Button>
+            <Button onPress={() => sort('alpha-asc')}>Alphabetical ↓</Button>
+            <Button onPress={() => sort('alpha-desc')}>Alphabetical ↑</Button>
             <View style={styles.modalButtonContainer}>
               <Button onPress={hideSortModal}>Close</Button>
             </View>
