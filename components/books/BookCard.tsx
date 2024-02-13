@@ -1,20 +1,15 @@
 import { useState } from 'react'
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  Alert,
-  TextInput,
-  Image,
-} from 'react-native'
+import { View, Text, StyleSheet, Pressable, Alert, Image } from 'react-native'
+
 import Icon from 'react-native-vector-icons/AntDesign'
+
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+
 import {
   deleteThunkBook,
   updateCurrentThunkBook,
-  updateThunkBook,
 } from '../../redux/books/booksSlice'
+import EditBook from './EditBook'
 
 export default function BookCard({ book, navigation }) {
   const dispatch = useAppDispatch()
@@ -23,11 +18,6 @@ export default function BookCard({ book, navigation }) {
   const { author, title, isCurrent, id, cover } = book
   const [currentlyEditing, setCurrentlyEditing] = useState(false)
   const [showEditForm, setShowEditForm] = useState(false)
-  const [focus, setFocus] = useState(null)
-  const [bookUpdateData, setBookUpdateData] = useState({
-    title,
-    author,
-  })
 
   const handleCardPress = () => {
     setCurrentlyEditing(!currentlyEditing)
@@ -40,22 +30,9 @@ export default function BookCard({ book, navigation }) {
     navigation.navigate('Books', { paramPropKey: 'paramPropValue' })
   }
 
-  const handleUpdateDetails = () => {
-    dispatch(updateThunkBook(bookUpdateData, id))
-    setCurrentlyEditing(false)
-    Alert.alert('book updated')
-  }
-
   const handleUpdateCurrent = () => {
     dispatch(updateCurrentThunkBook({ isCurrent: true }, id, currentId))
     setCurrentlyEditing(false)
-  }
-
-  const customOnFocus = (focus) => {
-    setFocus(focus)
-  }
-  const customOnBlur = () => {
-    setFocus(null)
   }
 
   return (
@@ -101,7 +78,7 @@ export default function BookCard({ book, navigation }) {
           </Text>
         </View>
         {currentlyEditing && (
-          <View>
+          <View style={styles.editContainer}>
             <View style={styles.editButtonsContainer}>
               <Pressable
                 style={[styles.editButton, styles.deleteButton]}
@@ -143,53 +120,9 @@ export default function BookCard({ book, navigation }) {
                 </Text>
               </Pressable>
             </View>
+
             {showEditForm && (
-              <View style={styles.editFormContainer}>
-                <TextInput
-                  style={[
-                    {
-                      backgroundColor:
-                        focus === 'newTitle' ? '#DBE2CC' : 'white',
-                    },
-                    { borderColor: focus === 'newTitle' ? 'white' : '#DBE2CC' },
-                    styles.textInput,
-                  ]}
-                  autoCapitalize="words"
-                  onFocus={() => customOnFocus('newTitle')}
-                  onBlur={() => customOnBlur()}
-                  placeholder="New title..."
-                  value={bookUpdateData.title}
-                  onChangeText={(newTitle) =>
-                    setBookUpdateData({ ...bookUpdateData, title: newTitle })
-                  }
-                />
-                <TextInput
-                  style={[
-                    {
-                      backgroundColor:
-                        focus === 'newAuthor' ? '#DBE2CC' : 'white',
-                    },
-                    {
-                      borderColor: focus === 'newAuthor' ? 'white' : '#DBE2CC',
-                    },
-                    styles.textInput,
-                  ]}
-                  autoCapitalize="words"
-                  onFocus={() => customOnFocus('newAuthor')}
-                  onBlur={() => customOnBlur()}
-                  placeholder="New author..."
-                  value={bookUpdateData.author}
-                  onChangeText={(newAuthor) =>
-                    setBookUpdateData({ ...bookUpdateData, author: newAuthor })
-                  }
-                />
-                <Pressable
-                  style={styles.submitUpdateButton}
-                  onPress={handleUpdateDetails}
-                >
-                  <Text style={styles.submitButtonText}>Submit</Text>
-                </Pressable>
-              </View>
+              <EditBook book={book} setCurrentlyEditing={setCurrentlyEditing} />
             )}
           </View>
         )}
@@ -224,7 +157,10 @@ const styles = StyleSheet.create({
     right: 10,
   },
   infoContainerEditing: {
-    width: '75%',
+    width: '100%',
+  },
+  editContainer: {
+    width: '100%',
   },
   card: {
     width: '100%',
@@ -255,6 +191,7 @@ const styles = StyleSheet.create({
   editButtonsContainer: {
     flexDirection: 'row',
     gap: 10,
+    justifyContent: 'center',
   },
   editButton: {
     padding: 10,
@@ -283,34 +220,5 @@ const styles = StyleSheet.create({
   },
   currentlyReadingText: {
     fontSize: 15,
-  },
-  textInput: {
-    borderRadius: 7,
-    borderWidth: 2,
-    width: '100%',
-    height: 45,
-    paddingHorizontal: 20,
-    marginTop: 10,
-    fontSize: 25,
-    fontFamily: 'caveat',
-  },
-  editFormContainer: {
-    alignItems: 'center',
-  },
-  submitUpdateButton: {
-    textAlign: 'center',
-    padding: 10,
-    marginTop: 10,
-    backgroundColor: '#5a712c',
-    elevation: 4,
-    shadowColor: '#171D0B',
-    borderRadius: 7,
-    width: '70%',
-  },
-  submitButtonText: {
-    textAlign: 'center',
-    color: '#ffffff',
-    fontSize: 25,
-    fontFamily: 'caveat',
   },
 })
