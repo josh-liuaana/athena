@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { View, Text, StyleSheet, Alert, Pressable } from 'react-native'
+import { View, StyleSheet, Alert } from 'react-native'
 
 import { TextInputComp } from '../@shared/TextInputComp'
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 
 import { updateThunkCharacter } from '../../redux/characters/characterSlice'
+import SubmitButton from '../@shared/SubmitButton'
 
 interface Relationship {
   relation: string
@@ -75,9 +76,11 @@ export default function EditCharacter({ togglePage }) {
         style={{ width: '80%' }}
       />
 
-      <Pressable style={styles.submitButton} onPress={submitNewInformation}>
-        <Text style={styles.submitText}>Submit</Text>
-      </Pressable>
+      <SubmitButton
+        buttonText="Submit"
+        clickHandleFunction={submitNewInformation}
+        disabled={false}
+      />
     </View>
   )
 }
@@ -87,21 +90,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     gap: 5,
-  },
-  submitButton: {
-    textAlign: 'center',
-    padding: 15,
-    margin: 5,
-    backgroundColor: '#5a712c',
-    elevation: 4,
-    shadowColor: '#171D0B',
-    borderRadius: 10,
-    width: '40%',
-  },
-  submitText: {
-    textAlign: 'center',
-    color: '#ffffff',
-    fontFamily: 'caveat',
-    fontSize: 40,
   },
 })
