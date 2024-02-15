@@ -16,7 +16,7 @@ export default function Books({ navigation, route }) {
   const bookList = useAppSelector((state) => state.books.bookList)
   const currentBook = useAppSelector((state) => state.books.current)
 
-  const [filteredBooks, setFilteredBooks] = useState<Book[]>()
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>(bookList)
   const [bookSearch, setBookSearch] = useState('')
 
   useEffect(() => {
@@ -38,14 +38,20 @@ export default function Books({ navigation, route }) {
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Library</Text>
       </View>
-      {currentBook ? (
+      {bookList.length > 0 ? (
         <>
           <View style={styles.inputContainer}>
             <Text style={styles.currentText}>Currently Reading: </Text>
-            <Text style={styles.currentBookTitle}>
-              {currentBook && currentBook.title}
-            </Text>
-            <Text>{currentBook && currentBook.author}</Text>
+            {!currentBook ? (
+              <Text>You need to select a book as currently reading</Text>
+            ) : (
+              <>
+                <Text style={styles.currentBookTitle}>
+                  {currentBook && currentBook.title}
+                </Text>
+                <Text>{currentBook && currentBook.author}</Text>
+              </>
+            )}
             <TextInputComp
               func={(search) => setBookSearch(search)}
               value={bookSearch}
@@ -53,21 +59,12 @@ export default function Books({ navigation, route }) {
               style={{ width: '80%' }}
             />
           </View>
-          {filteredBooks ? (
-            <ScrollView style={styles.scrollContainer}>
-              {filteredBooks &&
-                filteredBooks.map((book) => (
-                  <BookCard key={book.id} book={book} navigation={navigation} />
-                ))}
-            </ScrollView>
-          ) : (
-            <ScrollView style={styles.scrollContainer}>
-              {bookList &&
-                bookList.map((book) => (
-                  <BookCard key={book.id} book={book} navigation={navigation} />
-                ))}
-            </ScrollView>
-          )}
+          <ScrollView style={styles.scrollContainer}>
+            {filteredBooks &&
+              filteredBooks.map((book) => (
+                <BookCard key={book.id} book={book} navigation={navigation} />
+              ))}
+          </ScrollView>
         </>
       ) : (
         <>

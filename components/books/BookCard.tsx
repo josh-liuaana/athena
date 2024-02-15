@@ -16,7 +16,7 @@ import { showError } from '../../redux/error/errorSlice'
 
 export default function BookCard({ book, navigation }) {
   const dispatch = useAppDispatch()
-  const currentId = useAppSelector((state) => state.books.current.id)
+  const currentId = useAppSelector((state) => state.books.current?.id)
   const error = useAppSelector((state) => state.error)
 
   const { author, title, isCurrent, id, cover } = book
