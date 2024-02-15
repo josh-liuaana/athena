@@ -74,7 +74,7 @@ export default function Characters({ navigation, route }) {
     }
   }, [search])
 
-  const filterByUniverse = (universe) => {
+  const filterByUniverse = (universe: string): void => {
     const filter = characters.characterList.filter(
       (character) => character.universe === universe
     )
@@ -83,30 +83,30 @@ export default function Characters({ navigation, route }) {
 
   const sort = (
     sortTypeOrder: 'date-asc' | 'date-desc' | 'alpha-asc' | 'alpha-desc'
-  ) => {
+  ): void => {
     const data = sortChar(sortTypeOrder, currentFilteredCharacters)
     setCurrentFilteredCharacters(data.sortedArray)
     setCurrentSortType(data.sortType)
     hideSortModal()
   }
 
-  const showFilterModal = () => setFilterVisible(true)
-  const hideFilterModal = () => setFilterVisible(false)
-  const showSortModal = () => setSortVisible(true)
-  const hideSortModal = () => setSortVisible(false)
+  const showFilterModal = (): void => setFilterVisible(true)
+  const hideFilterModal = (): void => setFilterVisible(false)
+  const showSortModal = (): void => setSortVisible(true)
+  const hideSortModal = (): void => setSortVisible(false)
 
-  const clearFilters = () => {
+  const clearFilters = (): void => {
     setChecked(false)
     setSearch('')
     setCurrentFilteredCharacters(characters.characterList)
   }
 
-  const handleCheck = () => {
+  const handleCheck = (): void => {
     setChecked(!checked)
     setSearch('')
   }
 
-  const handleFilterSubmit = () => {
+  const handleFilterSubmit = (): void => {
     filterByUniverse(value)
     hideFilterModal()
   }
@@ -299,10 +299,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '80%',
     flexDirection: 'row',
-  },
-  input: {
-    fontSize: 20,
-    flex: 1,
   },
   buttonCont: {
     alignItems: 'center',

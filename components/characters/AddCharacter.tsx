@@ -1,20 +1,24 @@
-import { StyleSheet, View, Text, Image, Alert } from 'react-native'
+import { StyleSheet, View, Text, Image, Alert, Keyboard } from 'react-native'
 import { useState } from 'react'
 
 import SubmitButton from '../@shared/SubmitButton'
+import { TextInputComp } from '../@shared/TextInputComp'
+
+import ErrorComp from '../Error'
 
 import appLogo from '../../assets/images/athena-favicon-color.png'
-
-import { TextInputComp } from '../@shared/TextInputComp'
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { postThunkCharacter } from '../../redux/characters/characterSlice'
 
 import { auth } from '../../firebase.config'
+import { showError } from '../../redux/error/errorSlice'
 
 export default function AddCharacter({ navigation }) {
   const dispatch = useAppDispatch()
   const currentBook = useAppSelector((state) => state.books.current)
+  const error = useAppSelector((state) => state.error)
+
   const [newCharacter, setNewCharacter] = useState({
     city: '',
     ethnicity: '',
@@ -23,28 +27,51 @@ export default function AddCharacter({ navigation }) {
     userId: auth.currentUser.uid,
   })
 
-  const submitNewCharacter = async () => {
-    if (currentBook.universe) {
-      await dispatch(
-        postThunkCharacter({ ...newCharacter, universe: currentBook.universe })
+  const submitNewCharacter = async (): Promise<void> => {
+    Keyboard.dismiss()
+    if (newCharacter.name === '') {
+      dispatch(
+        showError({
+          errorTechnical: null,
+          errorMessage: `Can't submit a character without a name`,
+        })
       )
     } else {
-      await dispatch(postThunkCharacter(newCharacter))
+      try {
+        if (currentBook.universe) {
+          await dispatch(
+            postThunkCharacter({
+              ...newCharacter,
+              universe: currentBook.universe,
+            })
+          )
+        } else {
+          await dispatch(postThunkCharacter(newCharacter))
+        }
+        setNewCharacter({
+          ...newCharacter,
+          city: '',
+          ethnicity: '',
+          name: '',
+        })
+        Alert.alert('Thanks for adding a new character')
+        navigation.navigate('Tomes', {
+          screen: 'Characters',
+        })
+      } catch (err) {
+        dispatch(
+          showError({
+            errorTechnical: err.message,
+            errorMessage: `Unable to add new character, try again later`,
+          })
+        )
+      }
     }
-    setNewCharacter({
-      ...newCharacter,
-      city: '',
-      ethnicity: '',
-      name: '',
-    })
-    Alert.alert('Thanks for adding a new character')
-    navigation.navigate('Tomes', {
-      screen: 'Characters',
-    })
   }
 
   return (
     <View style={styles.container}>
+      {error && <ErrorComp />}
       <Image style={styles.logo} source={appLogo} />
       <Text style={styles.title}>Add Character</Text>
       {currentBook ? (
