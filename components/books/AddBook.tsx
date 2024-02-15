@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, Keyboard } from 'react-native'
 import { useEffect, useState } from 'react'
 
 import DropDownPicker from 'react-native-dropdown-picker'
@@ -9,6 +9,8 @@ import appLogo from '../../assets/images/athena-favicon-color.png'
 import SubmitButton from '../@shared/SubmitButton'
 import { TextInputComp } from '../@shared/TextInputComp'
 
+import ErrorComp from '../Error'
+
 import { auth } from '../../firebase.config'
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
@@ -16,11 +18,13 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { postThunkBook, updateThunkBook } from '../../redux/books/booksSlice'
 
 import type { Book } from '../../models/types'
+import { showError } from '../../redux/error/errorSlice'
 
 export default function AddBook({ navigation }) {
   const dispatch = useAppDispatch()
   const books = useAppSelector((state) => state.books.bookList)
   const currentBook = useAppSelector((state) => state.books.current)
+  const error = useAppSelector((state) => state.error)
 
   const [newBookInfo, setNewBookInfo] = useState<Partial<Book>>({
     title: '',
@@ -50,21 +54,69 @@ export default function AddBook({ navigation }) {
     setNewBookInfo({ ...newBookInfo, universe: value })
   }, [value])
 
-  const submitNewBook = async (current) => {
+  const handleSubmitClick = (): void => {
+    Keyboard.dismiss()
+    if (
+      newBookInfo.title !== '' &&
+      newBookInfo.author !== '' &&
+      checked === true &&
+      value === null
+    ) {
+      dispatch(
+        showError({
+          errorTechnical: null,
+          errorMessage: `Did you mean to tick series?\nIf so, make sure you've selected a universe`,
+        })
+      )
+      setChecked(false)
+    } else if (newBookInfo.title !== '' && newBookInfo.author !== '') {
+      try {
+        setDialogVisible(true)
+      } catch (err) {
+        dispatch(
+          showError({
+            errorTechnical: err.message,
+            errorMessage: 'Something has gone wrong, please try again later',
+          })
+        )
+      }
+    } else {
+      dispatch(
+        showError({
+          errorTechnical: null,
+          errorMessage:
+            'Make sure you fill out the Title and Author fields correctly',
+        })
+      )
+    }
+  }
+
+  const submitNewBook = async (current: boolean): Promise<void> => {
     if (currentBook && current === true) {
       dispatch(updateThunkBook({ isCurrent: false }, currentBook.id))
     }
-    await dispatch(
-      postThunkBook({ ...newBookInfo, userId: user.uid, isCurrent: current })
-    )
-    setNewBookInfo({ title: '', author: '' })
-    setChecked(false)
-    setDialogVisible(false)
-    navigation.navigate('Tomes', { screen: 'Books' })
+    try {
+      await dispatch(
+        postThunkBook({ ...newBookInfo, userId: user.uid, isCurrent: current })
+      )
+      setNewBookInfo({ title: '', author: '' })
+      navigation.navigate('Tomes', { screen: 'Books' })
+    } catch (err) {
+      dispatch(
+        showError({
+          errorTechnical: err.message,
+          errorMessage: 'Something has gone wrong, please try again later',
+        })
+      )
+    } finally {
+      setChecked(false)
+      setDialogVisible(false)
+    }
   }
 
   return (
     <Portal.Host>
+      {error && <ErrorComp />}
       <View style={styles.container}>
         <View style={styles.formContainer}>
           <Image style={styles.logo} source={appLogo} />
@@ -120,7 +172,7 @@ export default function AddBook({ navigation }) {
           <SubmitButton
             disabled={false} // change to true when fields are filled in correctly
             buttonText="Submit"
-            clickHandleFunction={() => setDialogVisible(true)}
+            clickHandleFunction={() => handleSubmitClick()}
           />
         </View>
       </View>
@@ -166,8 +218,5 @@ const styles = StyleSheet.create({
     fontSize: 70,
     width: '100%',
     textAlign: 'center',
-  },
-  textInput: {
-    width: '100%',
   },
 })

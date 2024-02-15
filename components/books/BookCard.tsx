@@ -3,36 +3,60 @@ import { View, Text, StyleSheet, Pressable, Alert, Image } from 'react-native'
 
 import Icon from 'react-native-vector-icons/AntDesign'
 
+import EditBook from './EditBook'
+import ErrorComp from '../Error'
+
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 
 import {
   deleteThunkBook,
   updateCurrentThunkBook,
 } from '../../redux/books/booksSlice'
-import EditBook from './EditBook'
+import { showError } from '../../redux/error/errorSlice'
 
 export default function BookCard({ book, navigation }) {
   const dispatch = useAppDispatch()
   const currentId = useAppSelector((state) => state.books.current.id)
+  const error = useAppSelector((state) => state.error)
 
   const { author, title, isCurrent, id, cover } = book
   const [currentlyEditing, setCurrentlyEditing] = useState(false)
   const [showEditForm, setShowEditForm] = useState(false)
 
-  const handleCardPress = () => {
+  const handleCardPress = (): void => {
     setCurrentlyEditing(!currentlyEditing)
     setShowEditForm(false)
   }
 
-  const handleDelete = () => {
-    dispatch(deleteThunkBook(id))
-    Alert.alert('book deleted')
-    navigation.navigate('Books', { paramPropKey: 'paramPropValue' })
+  const handleDelete = (): void => {
+    try {
+      dispatch(deleteThunkBook(id))
+      Alert.alert('book deleted')
+      navigation.navigate('Books', { paramPropKey: 'paramPropValue' })
+    } catch (err) {
+      dispatch(
+        showError({
+          errorTechnical: err.message,
+          errorMessage: 'Error with book deletion, please try again later',
+        })
+      )
+      setCurrentlyEditing(false)
+    }
   }
 
-  const handleUpdateCurrent = () => {
-    dispatch(updateCurrentThunkBook({ isCurrent: true }, id, currentId))
-    setCurrentlyEditing(false)
+  const handleUpdateCurrent = (): void => {
+    try {
+      dispatch(updateCurrentThunkBook({ isCurrent: true }, id, currentId))
+    } catch (err) {
+      dispatch(
+        showError({
+          errorTechnical: err.message,
+          errorMessage: 'Error with book update, please try again later',
+        })
+      )
+    } finally {
+      setCurrentlyEditing(false)
+    }
   }
 
   return (
@@ -46,6 +70,7 @@ export default function BookCard({ book, navigation }) {
           : styles.inactiveContainer,
       ]}
     >
+      {error && <ErrorComp />}
       <Pressable
         style={currentlyEditing ? styles.cardEditing : styles.card}
         onPress={handleCardPress}
