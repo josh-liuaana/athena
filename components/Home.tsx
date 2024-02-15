@@ -17,7 +17,7 @@ export default function Home({ navigation }) {
     dispatch(fetchThunkBooks())
   })
 
-  const handleNavigate = (page) => {
+  const handleNavigate = (page: 'Tomes' | 'Information' | 'User'): void => {
     navigation.navigate(page)
   }
 

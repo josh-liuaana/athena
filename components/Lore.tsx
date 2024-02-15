@@ -4,6 +4,10 @@ import appLogo from '../assets/images/athena-favicon-color.png'
 import Icon from 'react-native-vector-icons/Octicons'
 
 export default function Lore({ navigation }) {
+  const handleNavigate = (page: 'AddCharacter' | 'AddBook'): void => {
+    navigation.navigate(page)
+  }
+
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={appLogo} />
@@ -13,7 +17,7 @@ export default function Lore({ navigation }) {
         <View style={styles.topButtonContainer}>
           <Pressable
             style={[styles.button, styles.buttonTop]}
-            onPress={() => navigation.navigate('AddCharacter')}
+            onPress={() => handleNavigate('AddCharacter')}
           >
             <Icon style={styles.icon} name="person" size={47} />
           </Pressable>
@@ -22,7 +26,7 @@ export default function Lore({ navigation }) {
         <View style={styles.bottomButtonsContainer}>
           <Pressable
             style={[styles.button, styles.buttonLeft]}
-            onPress={() => navigation.navigate('AddBook')}
+            onPress={() => handleNavigate('AddBook')}
           >
             <Icon style={styles.icon} name="book" size={47} />
           </Pressable>
@@ -91,12 +95,6 @@ const styles = StyleSheet.create({
   buttonRight: {
     borderBottomRightRadius: 10,
     backgroundColor: 'grey',
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: '#ffffff',
-    fontSize: 40,
-    fontFamily: 'caveat',
   },
   icon: {
     color: '#DBE2CC',
