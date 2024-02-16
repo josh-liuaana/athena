@@ -27,6 +27,7 @@ import { auth } from './firebase.config'
 
 import { store } from './redux/store'
 import { PaperProvider } from 'react-native-paper'
+import EditProfile from './components/user/EditProfile'
 
 const TomesStack = createNativeStackNavigator()
 
@@ -87,6 +88,31 @@ function LoreStackScreen() {
   )
 }
 
+const ProfileStack = createNativeStackNavigator()
+
+function ProfileStackScreen() {
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen
+        name="User"
+        component={UserProfile}
+        options={{
+          title: 'User',
+          headerShown: false,
+        }}
+      />
+      <ProfileStack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{
+          title: 'EditProfile',
+          headerShown: false,
+        }}
+      />
+    </ProfileStack.Navigator>
+  )
+}
+
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
 
@@ -133,7 +159,7 @@ export default function App() {
                     iconName = focused ? 'home' : 'home-outline'
                   } else if (route.name === 'Tomes') {
                     iconName = focused ? 'book' : 'book-outline'
-                  } else if (route.name === 'User') {
+                  } else if (route.name === 'Profile') {
                     iconName = focused ? 'person' : 'person-outline'
                   } else if (route.name === 'Information') {
                     iconName = focused
@@ -178,10 +204,10 @@ export default function App() {
                 }}
               />
               <Tab.Screen
-                name="User"
-                component={UserProfile}
+                name="Profile"
+                component={ProfileStackScreen}
                 options={{
-                  title: 'User',
+                  title: 'Profile',
                   headerShown: false,
                 }}
               />
