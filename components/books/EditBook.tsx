@@ -4,11 +4,15 @@ import { View, StyleSheet, Alert } from 'react-native'
 import { TextInputComp } from '../@shared/TextInputComp'
 import SubmitButton from '../@shared/SubmitButton'
 
-import { useAppDispatch } from '../../hooks/redux'
+import ErrorComp from '../Error'
+
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 
 import { updateThunkBook } from '../../redux/books/booksSlice'
+import { showError } from '../../redux/error/errorSlice'
 
 export default function EditBook({ book, setCurrentlyEditing }) {
+  const error = useAppSelector((state) => state.error)
   const dispatch = useAppDispatch()
 
   const { author, title, id } = book
@@ -17,14 +21,25 @@ export default function EditBook({ book, setCurrentlyEditing }) {
     author,
   })
 
-  const handleUpdateDetails = () => {
-    dispatch(updateThunkBook(bookUpdateData, id))
-    setCurrentlyEditing(false)
-    Alert.alert('book updated')
+  const handleUpdateDetails = (): void => {
+    try {
+      dispatch(updateThunkBook(bookUpdateData, id))
+      Alert.alert('book updated')
+    } catch (err) {
+      dispatch(
+        showError({
+          errorTechnical: err.message,
+          errorMessage: `Can't update book details right now, try again later`,
+        })
+      )
+    } finally {
+      setCurrentlyEditing(false)
+    }
   }
 
   return (
     <View style={styles.editFormContainer}>
+      {error && <ErrorComp />}
       <TextInputComp
         func={(newTitle) =>
           setBookUpdateData({ ...bookUpdateData, title: newTitle })

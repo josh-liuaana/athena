@@ -3,9 +3,10 @@ import { View, Text, StyleSheet, Pressable, Image } from 'react-native'
 import appLogo from '../assets/images/athena-favicon-color.png'
 
 export default function Tomes({ navigation }) {
-  const handleNavigate = (page) => {
+  const handleNavigate = (page: 'Characters' | 'Books' | 'Places'): void => {
     navigation.navigate(page)
   }
+
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={appLogo} />
