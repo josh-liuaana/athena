@@ -65,66 +65,70 @@ export default function Login({ navigation }) {
     setShowResetPassword(false)
   }
 
+  const handleNavigate = (page) => {
+    navigation.navigate(page)
+  }
+
   return (
-    <Portal>
-      <View style={styles.container}>
-        {error && <Error />}
-        <Image style={homeStyles.logo} source={appLogo} />
-        <Text style={styles.title}>Login</Text>
-        <View style={styles.inputContainer}>
-          <TextInputComp
-            func={(email) => setEmail(email)}
-            value={email}
-            label={'Email'}
-            style={{ width: '80%' }}
-          />
-          <PasswordInput
-            func={(password) => setPassword(password)}
-            value={password}
-            label="Password"
-          />
-          {incorrectCount >= 4 && (
-            <SubmitButton
-              disabled={false}
-              buttonText="Send password reset email"
-              clickHandleFunction={() => setShowResetPassword(true)}
-            />
-          )}
-          <SubmitButton
-            disabled={incorrectCount >= 3}
-            buttonText="Sign in"
-            clickHandleFunction={handleSignIn}
-          />
-        </View>
-        <View style={styles.registerContainer}>
-          <Text>Not registered yet?</Text>
-          <Text
-            style={styles.registerText}
-            onPress={() => navigation.navigate('Register')}
-          >
-            Register
-          </Text>
-        </View>
-      </View>
-      <Modal
-        visible={showResetPassword}
-        onDismiss={() => setShowResetPassword(false)}
-        contentContainerStyle={styles.containerStyle}
-      >
-        <Text>Enter email to reset</Text>
+    <View style={styles.container}>
+      {error && <Error />}
+      <Image style={homeStyles.logo} source={appLogo} />
+      <Text style={styles.title}>Login</Text>
+      <View style={styles.inputContainer}>
         <TextInputComp
-          func={(email) => setResetEmail(email)}
-          value={resetEmail}
-          label="Email"
+          func={(email) => setEmail(email)}
+          value={email}
+          label={'Email'}
           style={{ width: '80%' }}
         />
+        <PasswordInput
+          func={(password) => setPassword(password)}
+          value={password}
+          label="Password"
+        />
+        {incorrectCount >= 4 && (
+          <SubmitButton
+            disabled={false}
+            buttonText="Send password reset email"
+            clickHandleFunction={() => setShowResetPassword(true)}
+          />
+        )}
+        <SubmitButton
+          disabled={incorrectCount >= 3}
+          buttonText="Sign in"
+          clickHandleFunction={handleSignIn}
+        />
+      </View>
+      <View style={styles.registerContainer}>
+        <Text>Not registered yet?</Text>
+        <Text
+          style={styles.registerText}
+          onPress={() => handleNavigate('Register')}
+        >
+          Register
+        </Text>
+      </View>
+      <Portal>
+        <Modal
+          visible={showResetPassword}
+          onDismiss={() => setShowResetPassword(false)}
+          contentContainerStyle={styles.containerStyle}
+        >
+          <Text>Enter email to reset</Text>
+          <TextInputComp
+            func={(email) => setResetEmail(email)}
+            value={resetEmail}
+            label="Email"
+            style={{ width: '80%' }}
+          />
 
-        <View style={styles.resetModal}>
-          <Button onPress={() => resetPassword()}>Send</Button>
-          <Button onPress={() => setShowResetPassword(false)}>Cancel</Button>
-        </View>
-      </Modal>
-    </Portal>
+          <View style={styles.resetModal}>
+            <Button onPress={() => resetPassword()}>Send</Button>
+            <Button onPress={() => setShowResetPassword(false)}>Cancel</Button>
+          </View>
+        </Modal>
+      </Portal>
+    </View>
   )
 }
 
