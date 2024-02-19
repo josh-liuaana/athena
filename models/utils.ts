@@ -50,3 +50,33 @@ export function sortChar(sortTypeOrder, currentFilteredCharacters) {
     return { sortedArray, sortType: 'sort-alphabetical-descending' }
   }
 }
+
+export function createBookArray(chars) {
+  let bookFeatureCount = []
+  chars.forEach((character) => {
+    character.books.forEach((book) => {
+      bookFeatureCount.push(book)
+    })
+  })
+  return bookFeatureCount
+}
+
+export function mostCommonElement(bookArray) {
+  bookArray.sort((a, b) => a - b)
+  let count = 1,
+    max = 0,
+    highestBookCount
+
+  for (let i = 1; i < bookArray.length; ++i) {
+    if (bookArray[i] === bookArray[i - 1]) {
+      count++
+    } else {
+      count = 1
+    }
+    if (count > max) {
+      max = count
+      highestBookCount = bookArray[i]
+    }
+  }
+  return { highestBookCount, max }
+}
