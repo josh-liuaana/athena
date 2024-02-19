@@ -26,7 +26,7 @@ export async function fetchCharacters(): Promise<Character[]> {
       query(
         characterCollection,
         where('userId', '==', auth.currentUser.uid),
-        orderBy('name', 'asc')
+        orderBy('dateAdded', 'desc')
       )
     )
     const characterList = []
