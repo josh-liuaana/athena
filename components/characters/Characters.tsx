@@ -30,7 +30,7 @@ export default function Characters({ navigation, route }) {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState(null)
   const [currentSortType, setCurrentSortType] = useState(
-    'sort-alphabetical-ascending'
+    'sort-calendar-ascending'
   )
 
   const dropdownArray = []
