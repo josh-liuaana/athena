@@ -22,12 +22,12 @@ import Login from './components/Login'
 import Register from './components/Register'
 import UserProfile from './components/user/UserProfile'
 import Information from './components/Information'
+import EditProfile from './components/user/EditProfile'
 
 import { auth } from './firebase.config'
 
 import { store } from './redux/store'
 import { PaperProvider } from 'react-native-paper'
-import EditProfile from './components/user/EditProfile'
 
 const TomesStack = createNativeStackNavigator()
 

@@ -17,7 +17,7 @@ export default function Home({ navigation }) {
     dispatch(fetchThunkBooks())
   })
 
-  const handleNavigate = (page: 'Tomes' | 'Information' | 'User'): void => {
+  const handleNavigate = (page: 'Tomes' | 'Information' | 'Profile'): void => {
     navigation.navigate(page)
   }
 
@@ -46,7 +46,7 @@ export default function Home({ navigation }) {
 
           <Pressable
             style={[homeStyles.button, homeStyles.buttonRight]}
-            onPress={() => handleNavigate('User')}
+            onPress={() => handleNavigate('Profile')}
           >
             <Text style={homeStyles.buttonText}>User</Text>
           </Pressable>
