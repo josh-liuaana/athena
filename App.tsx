@@ -177,10 +177,15 @@ export default function App() {
                 tabBarBadgeStyle: { backgroundColor: 'red' },
               })}
             >
-              <Tab.Screen
+              {/* <Tab.Screen
                 name="Information"
                 component={Information}
                 options={{ title: 'Information', headerShown: false }}
+              /> */}
+              <Tab.Screen
+                name="Home"
+                component={Home}
+                options={{ title: 'Home', headerShown: false }}
               />
               <Tab.Screen
                 name="Tomes"
@@ -189,11 +194,6 @@ export default function App() {
                 listeners={{
                   tabLongPress: () => handleLongPress('tomes'),
                 }}
-              />
-              <Tab.Screen
-                name="Home"
-                component={Home}
-                options={{ title: 'Home', headerShown: false }}
               />
               <Tab.Screen
                 name="Lore"
