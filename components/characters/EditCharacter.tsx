@@ -66,32 +66,32 @@ export default function EditCharacter({ togglePage }) {
         func={(name) => setNewName(name)}
         value={newName}
         label="Name"
-        style={{ width: '80%' }}
+        style={{ width: '80%', backgroundColor: 'white' }}
       />
       <TextInputComp
         func={(race) => setNewEthnicity(race)}
         value={newEthnicity}
         label="Race"
-        style={{ width: '80%' }}
+        style={{ width: '80%', backgroundColor: 'white' }}
       />
       <TextInputComp
         func={(city) => setNewCity(city)}
         value={newCity}
         label="City"
-        style={{ width: '80%' }}
+        style={{ width: '80%', backgroundColor: 'white' }}
       />
       {/* Below here is safe */}
       <TextInputComp
         func={(affiliation) => setNewAffiliation(affiliation)}
         value={newAffiliation}
         label="Affiliations"
-        style={{ width: '80%' }}
+        style={{ width: '80%', backgroundColor: 'white' }}
       />
       <TextInputComp
         func={(alias) => setNewAlias(alias)}
         value={newAlias}
         label="Alias"
-        style={{ width: '80%' }}
+        style={{ width: '80%', backgroundColor: 'white' }}
       />
       <TextInputComp
         func={(relation) =>
@@ -99,13 +99,13 @@ export default function EditCharacter({ togglePage }) {
         }
         value={newRelationship.relation}
         label="Type of Relationship"
-        style={{ width: '80%' }}
+        style={{ width: '80%', backgroundColor: 'white' }}
       />
       <TextInputComp
         func={(name) => setNewRelationship({ ...newRelationship, name })}
         value={newRelationship.name}
         label="Relations Name"
-        style={{ width: '80%' }}
+        style={{ width: '80%', backgroundColor: 'white' }}
       />
 
       <SubmitButton

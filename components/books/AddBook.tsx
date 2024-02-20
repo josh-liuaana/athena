@@ -125,13 +125,13 @@ export default function AddBook({ navigation }) {
             func={(title) => setNewBookInfo({ ...newBookInfo, title })}
             value={newBookInfo.title}
             label="Book Title"
-            style={{ width: '80%' }}
+            style={{ width: '80%', backgroundColor: 'white' }}
           />
           <TextInputComp
             func={(author) => setNewBookInfo({ ...newBookInfo, author })}
             value={newBookInfo.author}
             label="Author"
-            style={{ width: '80%' }}
+            style={{ width: '80%', backgroundColor: 'white' }}
           />
 
           <View style={styles.checkboxContainer}>
@@ -145,6 +145,7 @@ export default function AddBook({ navigation }) {
               label="Part of a series?"
               rippleColor="#5a712c"
               position="leading"
+              labelStyle={{ color: 'black' }}
             />
           </View>
           <View style={{ width: '80%' }}>

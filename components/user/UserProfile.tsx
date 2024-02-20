@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Image, Alert } from 'react-native'
+import { View, Text, StyleSheet, Image, Alert, ScrollView } from 'react-native'
 
 import { Banner, Portal, FAB, Icon, Avatar } from 'react-native-paper'
 import IconAwesome from 'react-native-vector-icons/FontAwesome'
@@ -118,26 +118,36 @@ export default function UserProfile() {
             </View>
           </View>
 
-          <Text style={styles.category}>Current book:</Text>
-          <Image style={styles.image} source={{ uri: books.current.cover }} />
-          <Text style={styles.information}>
-            {' '}
-            {books.current.title} - {books.current.author}
-          </Text>
-          <Text style={styles.category}>Latest character:</Text>
-          <Text style={styles.information}>
-            {characters.characterList[0].name} -{' '}
-            {characters.characterList[0].books[0]}
-          </Text>
-          <Text style={styles.category}>Book with the most characters: </Text>
-          <Text style={styles.information}>
-            {bookCount.highestBookCount} - {bookCount.max}
-          </Text>
-          {!user?.emailVerified && verificationPending && (
-            <View>
-              <Text> Verification pending </Text>
-            </View>
-          )}
+          <ScrollView
+            style={styles.scrollContainer}
+            contentContainerStyle={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#dbe2cc',
+              gap: 15,
+            }}
+          >
+            <Text style={styles.category}>Current book:</Text>
+            <Image style={styles.image} source={{ uri: books.current.cover }} />
+            <Text style={styles.information}>
+              {' '}
+              {books.current.title} - {books.current.author}
+            </Text>
+            <Text style={styles.category}>Latest character:</Text>
+            <Text style={styles.information}>
+              {characters.characterList[0].name} -{' '}
+              {characters.characterList[0].books[0]}
+            </Text>
+            <Text style={styles.category}>Book with the most characters: </Text>
+            <Text style={styles.information}>
+              {bookCount.highestBookCount} - {bookCount.max}
+            </Text>
+            {!user?.emailVerified && verificationPending && (
+              <View>
+                <Text> Verification pending </Text>
+              </View>
+            )}
+          </ScrollView>
         </>
       )}
 
@@ -181,7 +191,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#dbe2cc',
     gap: 15,
+    paddingTop: 40,
   },
+  scrollContainer: {},
   logo: {
     height: 100,
     width: 101,

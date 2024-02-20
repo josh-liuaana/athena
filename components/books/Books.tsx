@@ -56,7 +56,7 @@ export default function Books({ navigation, route }) {
               func={(search) => setBookSearch(search)}
               value={bookSearch}
               label="Search"
-              style={{ width: '80%' }}
+              style={{ width: '80%', backgroundColor: 'white' }}
             />
           </View>
           <ScrollView style={styles.scrollContainer}>

@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: 'center',
     color: '#ffffff',
-    fontSize: 40,
+    fontSize: 30,
     fontFamily: 'caveat',
   },
 })

@@ -6,6 +6,8 @@ export const homeStyles = StyleSheet.create({
     backgroundColor: '#DBE2CC',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
   },
 
   logo: {
@@ -19,14 +21,14 @@ export const homeStyles = StyleSheet.create({
     width: '100%',
     marginTop: 15,
     marginBottom: 15,
-    fontSize: 60,
+    fontSize: 40,
     fontFamily: 'vibes',
     letterSpacing: 3,
     color: '#5a712c',
   },
 
   buttonContainer: {
-    flex: 0.35,
+    flex: 0.45,
     width: '80%',
   },
   topButtonContainer: {
@@ -60,7 +62,7 @@ export const homeStyles = StyleSheet.create({
   buttonText: {
     textAlign: 'center',
     color: '#ffffff',
-    fontSize: 40,
+    fontSize: 30,
     fontFamily: 'caveat',
   },
 

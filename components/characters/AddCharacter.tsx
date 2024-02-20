@@ -81,13 +81,13 @@ export default function AddCharacter({ navigation }) {
             func={(name) => setNewCharacter({ ...newCharacter, name })}
             value={newCharacter.name}
             label="Name"
-            style={{ width: '80%' }}
+            style={{ width: '80%', backgroundColor: 'white' }}
           />
           <TextInputComp
             func={(city) => setNewCharacter({ ...newCharacter, city })}
             value={newCharacter.city}
             label="Home"
-            style={{ width: '80%' }}
+            style={{ width: '80%', backgroundColor: 'white' }}
           />
           <TextInputComp
             func={(ethnicity) =>
@@ -95,7 +95,7 @@ export default function AddCharacter({ navigation }) {
             }
             value={newCharacter.ethnicity}
             label="Race"
-            style={{ width: '80%' }}
+            style={{ width: '80%', backgroundColor: 'white' }}
           />
           <SubmitButton
             buttonText="Submit"

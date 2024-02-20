@@ -46,7 +46,7 @@ export default function EditBook({ book, setCurrentlyEditing }) {
         }
         value={bookUpdateData.title}
         label="New Title"
-        style={{ width: '80%' }}
+        style={{ width: '80%', backgroundColor: 'white' }}
       />
       <TextInputComp
         func={(newAuthor) =>
@@ -54,7 +54,7 @@ export default function EditBook({ book, setCurrentlyEditing }) {
         }
         value={bookUpdateData.author}
         label="New Author"
-        style={{ width: '80%' }}
+        style={{ width: '80%', backgroundColor: 'white' }}
       />
       <SubmitButton
         buttonText="Submit"

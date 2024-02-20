@@ -24,7 +24,7 @@ export function PasswordInput({ func, value, label }) {
   return (
     <TextInput
       autoCorrect={false}
-      style={{ width: '80%' }}
+      style={{ width: '80%', backgroundColor: 'white' }}
       mode="outlined"
       label={label}
       secureTextEntry={hidePassword}

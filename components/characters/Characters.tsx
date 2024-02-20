@@ -143,6 +143,7 @@ export default function Characters({ navigation, route }) {
               label={`${current.title} Characters`}
               rippleColor="#5a712c"
               position="leading"
+              labelStyle={{ color: 'black' }}
             />
           )}
           <View style={styles.inputContainer}>
@@ -150,7 +151,7 @@ export default function Characters({ navigation, route }) {
               func={(text) => setSearch(text)}
               value={search}
               label="Character search"
-              style={{ flex: 1 }}
+              style={{ flex: 1, backgroundColor: 'white' }}
             />
             <IconButton
               icon={currentSortType}

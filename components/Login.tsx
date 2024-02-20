@@ -79,7 +79,7 @@ export default function Login({ navigation }) {
           func={(email) => setEmail(email)}
           value={email}
           label={'Email'}
-          style={{ width: '80%' }}
+          style={{ width: '80%', backgroundColor: 'white' }}
         />
         <PasswordInput
           func={(password) => setPassword(password)}
@@ -119,7 +119,7 @@ export default function Login({ navigation }) {
             func={(email) => setResetEmail(email)}
             value={resetEmail}
             label="Email"
-            style={{ width: '80%' }}
+            style={{ width: '80%', backgroundColor: 'white' }}
           />
 
           <View style={styles.resetModal}>
