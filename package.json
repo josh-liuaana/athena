@@ -38,5 +38,6 @@
   },
   "version": "1.0.0",
   "private": true,
-  "name": "lore"
+  "name": "lore",
+  "homepage": "https://www.athenalore.online/"
 }
